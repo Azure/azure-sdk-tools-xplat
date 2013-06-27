@@ -14,4 +14,3 @@ commands/cli.mobile-tests.js
 commands/cli.vm-tests.js
 commands/cli.sql-tests.js
 commands/cli.site-log-tests.js
-commands/cli.storage.blob-tests.js
