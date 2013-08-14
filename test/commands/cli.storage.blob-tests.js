@@ -14,13 +14,15 @@
 */
 
 var should = require('should');
+var util = require('util');
+
 var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
 
 var suite;
 var testPrefix = 'cli.storage.blob-tests';
-var fakeConnectionString = 'DefaultEndpointsProtocol=https;AccountName=yaotest;AccountKey=null';
+var fakeConnectionString = 'DefaultEndpointsProtocol=https;AccountName=ciserversdk;AccountKey=null';
 
 /**
 * Convert a cmd to azure storge cli
@@ -74,6 +76,29 @@ describe('cli', function () {
       });
 
       describe('list', function() {
+        it('should list the containers if no account key is provided', function (done) {
+          var originalKey = process.env.AZURE_STORAGE_ACCESS_KEY;
+          delete process.env.AZURE_STORAGE_ACCESS_KEY;
+
+          suite.execute(util.format('storage container list -a %s --json', process.env.AZURE_STORAGE_ACCOUNT), function(result) {
+            result.exitStatus.should.equal(0);
+
+            var containers = JSON.parse(result.text);
+            containers.length.should.greaterThan(0);
+            containers.forEach(function(container) {
+              container.name.length.should.greaterThan(0);
+            });
+            containers.some(function(container) {
+              return container.publicAccessLevel == 'Container'
+                || container.publicAccessLevel == 'Blob'
+                || container.publicAccessLevel == 'Off';
+            }).should.be.true;
+
+            process.env.AZURE_STORAGE_ACCESS_KEY = originalKey;
+            done();
+          });
+        });
+
         it('should list all storage containers', function(done) {
           suite.execute('storage container list --json', function(result) {
             var containers = JSON.parse(result.text);
