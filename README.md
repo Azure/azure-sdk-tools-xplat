@@ -6,19 +6,28 @@ This project provides a cross platform command line tool for developers and admi
 
 * Accounts
     * Download and import Azure publish settings
-    * Create and manage Storage Accounts
+    * List imported Azure subscriptions
+    * Select current subscription
+    * Manage Azure environments
+    * Create and manage affinity groups
+    * Export management certificate
 * Storage
-    * Create and manage blob container and ACL
+    * Create and manage Storage Accounts
+    * Create and manage container, blob and ACL
 * Websites
     * Create and manage Windows Azure websites
     * Download site log files and get real time log streaming
     * Manage Deployments
-    * Configure Github integration
+    * Configure GitHub integration
 * Virtual machines
     * Create and manage Windows and Linux Virtual machines
     * Create and manage VM endpoints
     * Create and manage Virtual Machine Images
     * Create and manage certificates
+* Network
+    * Import and export network configuration
+    * Create and manage virtual network
+    * Create and manage DNS server
 * Mobile Services
     * Create and manage Mobile Services
     * Manage tables, scripts, and configuration
@@ -325,9 +334,9 @@ Show the scalability settings of a mobile sservice
     azure mobile scale change [options] [servicename]
 Change the scalability settings of a mobile service
 
-**--computeMode [mode]** - 'Free' or 'Reserved'
+**--tier [tier]** - 'Free', 'Standard' or 'Premium'
 
-**--numberOfInstances [count]** - number of instances in reserved mode.
+**--numberOfInstances [count]** - number of instances in standard or premium mode.
 
     azure mobile log [servicename]
 Retrieves mobile logs 
@@ -353,7 +362,7 @@ List the tables for a specific service
     azure mobile table create [servicename] [tablename]
 Creates a new table for your mobile service
 
-**--permissions [permissions]** - comma delimited list of <operation>=<permission> pairs
+**--permissions [permissions]** - comma delimited list of &lt;operation&gt;=&lt;permission&gt; pairs
 
     azure mobile table show [servicename] [tablename]
 Display table details such as the number of records, the list of columns and which scripts are defined.
@@ -361,7 +370,7 @@ Display table details such as the number of records, the list of columns and whi
     azure mobile table update [options] [servicename] [tablename] 
 Updates mobile table schema, permissions and indexes
 
-**--permissions [permissions]** - comma delimited list of <operation>=<permission> pairs
+**--permissions [permissions]** - comma delimited list of &lt;operation&gt;=&lt;permission&gt; pairs
 
 **--deleteColumn [columns]** - comma delimited list of columns to delete
 
@@ -420,6 +429,24 @@ Update job settings
 
     azure mobile job delete [servicename] [jobname]
 Delete a scheduled job
+
+### azure mobile api - Manage custom APIs
+
+    azure mobile api list [servicename]
+List custom APIs
+
+    azure mobile api create [servicename] [apiname]
+Create a new custom API
+
+**--permissions [permissions]** - comma delimited list of &lt;method&gt;=&lt;permission&gt; pairs
+
+    azure mobile api update [servicename] [apiname]
+Update a custom API
+
+**--permissions [permissions]** - comma delimited list of &lt;method&gt;=&lt;permission&gt; pairs
+
+    azure mobile api delete [servicename] [apiname]
+Delete a custom API
 
 ## azure sb - Manage your Service Bus configuration
 
