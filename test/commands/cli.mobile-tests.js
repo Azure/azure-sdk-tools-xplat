@@ -47,7 +47,7 @@
 */
 
 var nockedSubscriptionId = 'db1ab6f0-4769-4b27-930e-01e2ef9c123c';
-var nockedServiceName = 'clitest08d6bc04-127d-4e94-a91c-7e9553fac68d';
+var nockedServiceName = 'clitestb92fc3ad-ee22-4efc-987a-780f661ac482';
 
 var nockhelper = require('../framework/nock-helper.js');
 var nocked = process.env.NOCK_OFF ? null : require('../recordings/cli.mobile-tests.nock.js');
@@ -1296,6 +1296,31 @@ describe('cli', function () {
         });
     });
 
+    /* The required upstream support for string id is not yet in place
+    it('data delete ' + servicename + ' table1 <recordid> -q --json (delete all data from table)', function(done) {
+      var cmd = ('node cli.js mobile data delete ' + servicename + ' table1 ' + knownRecords[0].id + ' -q --json').split(' ');
+      var scopes = setupNock(cmd);
+      executeCmd(cmd, function (result) {
+        result.exitStatus.should.equal(0);
+        checkScopes(scopes);
+        done();
+      });
+    });
+
+    it('data read ' + servicename + ' table1 --json (show 4 rows of data)', function(done) {
+      var cmd = ('node cli.js mobile data read ' + servicename + ' table1 --json').split(' ');
+      var scopes = setupNock(cmd);
+      executeCmd(cmd, function (result) {
+        result.exitStatus.should.equal(0);
+        knownRecords = JSON.parse(result.text);
+        Array.isArray(knownRecords).should.be.ok;
+        knownRecords.length.should.equal(4);
+        checkScopes(scopes);
+        done();
+      });
+    });
+    */
+
     it('data truncate ' + servicename + ' table1 -q --json (delete all data from table)', function(done) {
       var cmd = ('node cli.js mobile data truncate ' + servicename + ' table1 -q --json').split(' ');
       var scopes = setupNock(cmd);
@@ -1303,7 +1328,7 @@ describe('cli', function () {
         result.exitStatus.should.equal(0);
         var response = JSON.parse(result.text);
         response.didTruncate.should.equal(true);
-        response.rowCount.should.equal(5);
+        response.rowCount.should.equal(5);  // Revert to 4 when delete data changes are in prod for recording
         checkScopes(scopes);
         done();
       });
