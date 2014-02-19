@@ -136,22 +136,26 @@ Renews storage account keys for the specified account
 
 ## azure storage - Managing Windows Azure Storage
 
-You can list storage container
+List all storage containers for the account
 
     azure storage container list -a <account name> -k <access key>
-Lists all the containers in the storage account.
+
+Show the details for the specified container
 
     azure storage container show -a <account name> -k <access key> [container]
-Show the details for a specific container.
+
+Create a new container
 
     azure storage container create -a <account name> -k <access key> [container]
-Create a container
 
-    azure storage container delete -a <account name> -k <access key> [container]
 Delete a container
 
+    azure storage container delete -a <account name> -k <access key> [container]
+
+Set the ACL of the specified container
+
     azure storage container set -a <account name> -k <access key> -p <permission> [container]
-Set the ACL of a specific container
+
 
 ## azure site - Managing Windows Azure Websites
 
