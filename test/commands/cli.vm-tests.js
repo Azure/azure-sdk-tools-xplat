@@ -55,8 +55,9 @@ describe('cli', function () {
 		location;
 
 		before(function (done) {
-			suite = new CLITest(testPrefix, true);
-
+			//suite = new CLITest(testPrefix, true);
+			suite = new CLITest();
+              
 			if (suite.isMocked) {
 				sinon.stub(crypto, 'randomBytes', function () {
 					return (++currentRandom).toString();
@@ -173,7 +174,7 @@ describe('cli', function () {
 			});
 		});
 
-		// Create a VM
+		/* // Create a VM
 		it('Create and List VM', function (done) {
 			// get list of all vms
 			// create a vm with dnsname(vmName) and imagename(vmImgName)
@@ -656,7 +657,34 @@ describe('cli', function () {
 				});
 			});
 		});
-
+ */
+		// Create VM with custom data
+		it('Create vm with custom data', function (done) {
+			var customVmName = vmName + 'customdata';
+			suite.execute('vm create %s %s testuser Collabera@01 -l %s -d %s --json --verbose',
+				    customVmName, vmImgName,"West US", 'test/data/customdata.txt', function (result) {
+					result.exitStatus.should.equal(0);
+					var verboseString = result.text;
+					var iPosCustom = verboseString.indexOf('CustomData:');
+					iPosCustom.should.equal(-1);
+					vmToUse.Name = customVmName;
+					vmToUse.Created = true;
+					vmToUse.Delete = true;
+					return done();
+			});
+		});
+		
+		// Create VM with custom data with large file as customdata file
+		it('negetive testcase for custom data - Large File', function (done) {
+			var customVmName = vmName + 'customdatalargefile';
+			suite.execute('vm create %s %s testuser Collabera@01 -l %s -d %s --json',
+				customVmName, vmImgName,"West US", 'test/data/customdatalargefile.txt', function (result) {
+					result.exitStatus.should.equal(1);
+					result.errorText.should.include('Input custom data file exceeded the maximum length of 65535 bytes');
+					return done();
+			});
+		});
+		
 		// Get name of an image of the given category
 		function getImageName(category, callBack) {
 			if (getImageName.imageName) {
@@ -700,5 +728,6 @@ describe('cli', function () {
 				});
 			}
 		}
+		
 	});
 });
