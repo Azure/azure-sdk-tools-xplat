@@ -163,7 +163,7 @@ Lists all your websites
     azure site create [site]
 Creates a new Windows Azure website. If run in a folder that has an app.js or a server.js, we will assume this is a node.js application and create an iisnode.yml file for configuring the node hosted environment.
 
-**--git** - create a git repo for deploying the application. Will call "git init" to initialize the local folder as repo and will add an "azure" remote for the remote repository. --publishingUsername can be used for scripting scenarios. If publishing user is not provider, you will be prompted. ex. "azure site create foo --git".
+**--git** - create a git repo for deploying the application. Will call "git init" to initialize the local folder as repo and will add an "azure" remote for the remote repository. --gitusername <gitusername> can be used for scripting scenarios. If git user is not provider, you will be prompted. ex. "azure site create foo --git".
 
 **--github** - connect this website to a github repo. If run in a local repo, will use the remotes present. --githubusername / --githubpassword / -- githubrepository can be used for scripting scenarios. If these are not provided, you will be prompted. ex. "azure site create foo --github"
 
