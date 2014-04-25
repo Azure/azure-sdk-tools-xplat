@@ -37,7 +37,7 @@ var vmToUse = {
 
 var vmPrefix = 'clitestvm';
 var vmNames = [];
-var timeout = isForceMocked ? 0 : 10000;
+var timeout = isForceMocked ? 0 : 30000;
 
 var suite;
 var testPrefix = 'cli.vm-tests';
@@ -83,7 +83,7 @@ describe('cli', function () {
               suite.execute('vm disk delete -b %s --json', diskName, function (result) {
             	deleteUsedDisk();
               });
-            }, 20000);
+            }, timeout);
           } else {
             suite.teardownSuite(done);
           }
@@ -104,7 +104,7 @@ describe('cli', function () {
 			  vm.Created = vm.Delete = false;
 			  return callback();
 			});
-          }, 20000);
+          }, timeout);
         } else {
           return callback();
         }
@@ -283,7 +283,7 @@ describe('cli', function () {
           return done();
         });
       });
-    });
+    }); 
 
     // VM Restart
     it('VM Restart', function (done) {
@@ -308,7 +308,7 @@ describe('cli', function () {
         });
       });
     });
-
+ 
     // Create VM using availability set
     it('Availability set', function (done) {
       suite.execute('vm create -A %s -n %s -l %s %s %s "azureuser" "Pa$$word@123" --json',
@@ -358,11 +358,11 @@ describe('cli', function () {
     });
 
     // Create VM with rdp port enabled
-    it('Create vm with ssh port', function (done) {
+	it('Create vm with ssh port', function (done) {
       var rdpVmName = vmName + 'rdp';
       var certFile = process.env['SSHCERT'] || 'test/data/fakeSshcert.pem';
       suite.execute('vm create -e %s -z %s --ssh-cert %s --no-ssh-password %s %s "azureuser" "Pa$$word@123"  --json --location %s',
-        '223', 'Small', certFile, rdpVmName, vmImgName, location, function (result) {
+        '223', 'small', certFile, rdpVmName, vmImgName, location, function (result) {
           result.exitStatus.should.equal(0);
           suite.execute('vm show %s --json', rdpVmName, function (result) {
             var vmRDP = JSON.parse(result.text);
@@ -653,7 +653,7 @@ describe('cli', function () {
           });
         });
     });
-
+	
     // Delete a Vnet
     it('Delete Vnet', function (done) {
       suite.execute('network vnet delete %s --quiet --json', vnetName, function (result) {
@@ -724,7 +724,7 @@ describe('cli', function () {
           });
         });
     });
-
+ 
     // Get name of an image of the given category
     function getImageName(category, callBack) {
       if (getImageName.imageName) {
