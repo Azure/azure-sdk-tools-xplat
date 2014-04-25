@@ -3467,7 +3467,7 @@ exports.scopes = [
     function (nock) {
       var result =
         nock('http://acsforsdk2.blob.core.windows.net:80/')
-        .put('/vhds/disknewupload.vhd')
+        .put('/vhds/clitestvm1.vhd')
         .reply(200, "", {
           'content-length': '10737418752',
           'content-type': 'application/octet-stream',
