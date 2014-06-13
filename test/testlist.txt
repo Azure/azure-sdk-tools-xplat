@@ -18,7 +18,6 @@ commands/cli.site.handler-tests.js
 commands/cli.network-tests.js
 commands/cli.sb-tests.js
 commands/cli.service-tests.js
-commands/cli.vm.create_custom_comm-tests.js
 commands/cli.vm.create_affin_vnet_vm-tests.js
 commands/cli.vm.create_win_rdp-tests.js
 commands/cli.vm.disk.show-tests.js
@@ -35,6 +34,7 @@ commands/cli.vm.image.create_show_list-tests.js
 commands/cli.vm.image.delete-tests.js
 commands/cli.vm.create_from-tests.js
 commands/cli.vm.negative-tests.js
+commands/cli.vm.create_custom_comm-tests.js
 commands/cli.site-tests.js
 commands/cli.site.appsetting-tests.js
 commands/cli.site.connectionstring-tests.js

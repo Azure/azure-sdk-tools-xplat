@@ -103,9 +103,9 @@ describe('cli', function () {
     describe('Create:', function () {
       it('with custom data and community image', function (done) {
         generateFile(fileName, null, 'nodejs,python,wordpress');
-        var cmd = util.format('vm create -o -e %s -z %s --ssh-cert %s --no-ssh-password %s %s testuser Collabera@01 -l %s -d %s --json --verbose',
+        var cmd = util.format('vm create -o -e %s -z %s --ssh-cert %s --no-ssh-password %s %s testuser -l %s -d %s --json --verbose',
             sshPort, vmsize, certFile, customVmName, communityImageId, "some_loc", fileName).split(' ');
-        cmd[15] = location;
+        cmd[14] = location;
         suite.execute(cmd, function (result) {
           var verboseString = result.text;
           var iPosCustom = verboseString.indexOf('CustomData:');
