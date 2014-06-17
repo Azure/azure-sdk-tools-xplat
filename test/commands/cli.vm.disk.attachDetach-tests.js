@@ -27,13 +27,14 @@ var CLITest = require('../framework/cli-test');
 var vmPrefix = 'clitestvm';
 
 var suite;
-var testPrefix = 'cli.vm.read_export-tests';
+var testPrefix = 'cli.vm.disk.attachDetach-tests';
 
 var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
-    var vmName = 'xplattestvm';
+    var vmName = 'xplattestvm',
+    diskName = 'xplattestdisk';
 
     before(function (done) {
       suite = new CLITest(testPrefix, isForceMocked);
@@ -64,56 +65,24 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Vm', function () {
-
-      //location list
-      it('Location List', function (done) {
-        suite.execute('vm location list --json', function (result) {
-          result.exitStatus.should.equal(0);
-          result.text.should.not.empty;
-          done();
-        });
-      });
-
-      it('List', function (done) {
-        suite.execute('vm list --json', function (result) {
-          var vmList = JSON.parse(result.text);
-
-          // Look for created VM
-          var vmExists = vmList.some(function (vm) {
-              return vm.VMName.toLowerCase() === vmName.toLowerCase();
-            });
-          vmExists.should.be.ok;
-          done();
-        });
-      });
-
-      it('Show', function (done) {
-        suite.execute('vm show %s --json', vmName, function (result) {
-          var vmObj = JSON.parse(result.text);
-          vmObj.VMName.should.equal(vmName);
-          done();
-        });
-      });
-
-      // Export a VM
-      it('Export', function (done) {
-        var file = 'vminfo.json';
-        suite.execute('vm export %s %s  --json', vmName, file, function (result) {
-          result.exitStatus.should.equal(0);
-          if (fs.exists) {
-            fs.exists(file, function (result) {
-              result.should.be.true;
-              // this file will be deleted in 'create-from a VM' method
+	//attach and disk and then de attach
+    describe('Disk:', function () {
+      it('Attach & Detach', function (done) {
+        var cmd = util.format('vm disk attach %s %s --json', vmName, diskName).split(' ');
+        suite.execute(cmd, function (result) {
+          cmd = util.format('vm show %s --json', vmName).split(' ');
+          suite.execute(cmd, function (result) {
+            var vmObj = JSON.parse(result.text);
+            if (vmObj.DataDisks[0]) {
+              vmObj.DataDisks[0].DiskName.should.equal(diskName);
+              cmd = util.format('vm disk detach %s 0 --json', vmName).split(' ');
+              suite.execute(cmd, function (result) {
+                result.exitStatus.should.equal(0);
+                done();
+              });
+            } else
               done();
-            });
-          } else {
-            path.exists(file, function (result) {
-              result.should.be.true;
-              // this file will be deleted in 'create-from a VM' method
-              done();
-            });
-          }
+          });
         });
       });
     });

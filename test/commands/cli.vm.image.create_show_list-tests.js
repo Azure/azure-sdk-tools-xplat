@@ -25,16 +25,16 @@ var utils = require('../../lib/util/utils');
 var CLITest = require('../framework/cli-test');
 
 var vmPrefix = 'clitestvm';
-var timeout = isForceMocked ? 0 : 12000;
 
 var suite;
-var testPrefix = 'cli.vm.capture_deldisk-tests';
+var testPrefix = 'cli.vm.image.create_show_list-tests';
 
 var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
-    var vmName = 'xplattestvm', caputureImg = 'xplattestcapimg', diskName = 'xplattestdisk';
+    var vmImgName = 'xplattestimg',
+    location = process.env.AZURE_VM_TEST_LOCATION || 'West US';
 
     before(function (done) {
       suite = new CLITest(testPrefix, isForceMocked);
@@ -53,8 +53,8 @@ describe('cli', function () {
     after(function (done) {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
-      } 
-	  suite.teardownSuite(done);
+      }
+      suite.teardownSuite(done);
     });
 
     beforeEach(function (done) {
@@ -65,30 +65,55 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Vm capture: ', function () {
-      // VM Capture
-      it('VM shutdown and capture', function (done) {
-        suite.execute('vm shutdown %s --json', vmName, function (result) {
-          suite.execute('vm capture %s %s %s --json --delete', vmName, caputureImg, function (result) {
+    //create image
+    describe('Image:', function () {
+      it('Create', function (done) {
+        getDiskName('Linux', function (diskObj) {
+          var imageSourcePath = diskObj.MediaLink;
+          var domainUrl = 'http://' + imageSourcePath.split('/')[2];
+          var blobUrl = domainUrl + '/vm-images/' + vmImgName;
+
+          suite.execute('vm image create -u %s %s %s --os %s -l %s --json', blobUrl, vmImgName, imageSourcePath, 'Linux', location, function (result) {
             result.exitStatus.should.equal(0);
-            suite.execute('vm image delete -b %s --json', caputureImg, function (result) {
-              setTimeout(done, timeout);
-            });
+            done();
           });
         });
       });
     });
-	
-	describe('Delete: ', function(){
-		// Delete Disk
-      it('Disk', function (done) {
-        suite.execute('vm disk delete -b %s --json', diskName, function (result) {
-          if (result.exitStatus == 1)
-            done(result.errorText, null);
-          result.exitStatus.should.equal(0);
-          setTimeout(done, timeout);
+
+    //show image
+    describe('Image:', function () {
+      it('Show', function (done) {
+        suite.execute('vm image show %s --json', vmImgName, function (result) {
+          var vmImageObj = JSON.parse(result.text);
+          vmImageObj.Name.should.equal(vmImgName);
+          vmImageObj.OS.should.equal('Linux');
+          done();
         });
       });
-	});
+
+      //list image
+      it('List', function (done) {
+        suite.execute('vm image list --json', function (result) {
+          result.exitStatus.should.equal(0);
+          var imageList = JSON.parse(result.text);
+          imageList.length.should.be.above(0);
+          done();
+        });
+      });
+    });
+
+    // Get name of an disk of the given category
+    function getDiskName(OS, callBack) {
+      suite.execute('vm disk list --json', function (result) {
+        var diskList = JSON.parse(result.text);
+        diskList.some(function (disk) {
+          if (disk.OS.toLowerCase() == OS.toLowerCase())
+            diskObj = disk;
+          return diskObj;
+        });
+        callBack(diskObj);
+      });
+    }
   });
 });

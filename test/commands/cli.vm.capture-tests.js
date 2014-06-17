@@ -27,13 +27,14 @@ var CLITest = require('../framework/cli-test');
 var vmPrefix = 'clitestvm';
 
 var suite;
-var testPrefix = 'cli.vm.read_export-tests';
+var testPrefix = 'cli.vm.capture-tests';
 
 var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
-    var vmName = 'xplattestvm';
+    var vmName = 'xplattestvm',
+    captureImg = 'xplattestcapimg';
 
     before(function (done) {
       suite = new CLITest(testPrefix, isForceMocked);
@@ -53,7 +54,14 @@ describe('cli', function () {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
       }
-      suite.teardownSuite(done);
+      if (suite.isMocked)
+        suite.teardownSuite(done);
+      else {
+        suite.execute('service delete %s --quiet --json', vmName, function (result) {
+          suite.teardownSuite(done);
+        });
+      }
+
     });
 
     beforeEach(function (done) {
@@ -64,56 +72,25 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Vm', function () {
-
-      //location list
-      it('Location List', function (done) {
-        suite.execute('vm location list --json', function (result) {
+    //shutdown vm
+    describe('Vm:', function () {
+      it('shutdown', function (done) {
+        suite.execute('vm shutdown %s --json', vmName, function (result) {
           result.exitStatus.should.equal(0);
-          result.text.should.not.empty;
           done();
         });
       });
+    });
 
-      it('List', function (done) {
-        suite.execute('vm list --json', function (result) {
-          var vmList = JSON.parse(result.text);
-
-          // Look for created VM
-          var vmExists = vmList.some(function (vm) {
-              return vm.VMName.toLowerCase() === vmName.toLowerCase();
-            });
-          vmExists.should.be.ok;
-          done();
-        });
-      });
-
-      it('Show', function (done) {
-        suite.execute('vm show %s --json', vmName, function (result) {
-          var vmObj = JSON.parse(result.text);
-          vmObj.VMName.should.equal(vmName);
-          done();
-        });
-      });
-
-      // Export a VM
-      it('Export', function (done) {
-        var file = 'vminfo.json';
-        suite.execute('vm export %s %s  --json', vmName, file, function (result) {
+    //  Capture vm in a image
+    describe('Vm:', function () {
+      it('capture', function (done) {
+        suite.execute('vm capture %s %s %s --json --delete', vmName, captureImg, function (result) {
           result.exitStatus.should.equal(0);
-          if (fs.exists) {
-            fs.exists(file, function (result) {
-              result.should.be.true;
-              // this file will be deleted in 'create-from a VM' method
-              done();
-            });
-          } else {
-            path.exists(file, function (result) {
-              result.should.be.true;
-              // this file will be deleted in 'create-from a VM' method
-              done();
-            });
-          }
+          suite.execute('vm image delete -b %s --json', captureImg, function (result) {
+            result.exitStatus.should.equal(0);
+            done();
+          });
         });
       });
     });

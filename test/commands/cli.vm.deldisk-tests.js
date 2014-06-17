@@ -24,28 +24,16 @@ var isForceMocked = !process.env.NOCK_OFF;
 var utils = require('../../lib/util/utils');
 var CLITest = require('../framework/cli-test');
 
-var communityImageId = isForceMocked ? 'vmdepot-1-1-1' : process.env['AZURE_COMMUNITY_IMAGE_ID'];
-var createdDisks = [];
-
-// A common VM used by multiple tests
-var vmToUse = {
-  Name: null,
-  Created: false,
-  Delete: false
-};
-
 var vmPrefix = 'clitestvm';
-var vmNames = [];
-var timeout = isForceMocked ? 0 : 120000;
 
 var suite;
-var testPrefix = 'cli.vm.create_commImg-tests';
+var testPrefix = 'cli.vm.deldisk-tests';
 
 var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
-    var location = process.env.AZURE_VM_TEST_LOCATION || 'West US', vmComName;
+    var diskName = 'xplattestdisk';
 
     before(function (done) {
       suite = new CLITest(testPrefix, isForceMocked);
@@ -64,8 +52,8 @@ describe('cli', function () {
     after(function (done) {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
-      } 
-	  suite.teardownSuite(done);
+      }
+      suite.teardownSuite(done);
     });
 
     beforeEach(function (done) {
@@ -73,40 +61,16 @@ describe('cli', function () {
     });
 
     afterEach(function (done) {
-      function deleteUsedVM(vm, callback) {
-        if (vm.Created && vm.Delete) {
-          setTimeout(function () {
-            suite.execute('vm delete %s -b --quiet --json', vm.Name, function (result) {
-              vm.Name = null;
-              vm.Created = vm.Delete = false;
-              return callback();
-            });
-          }, timeout);
-        } else {
-          return callback();
-        }
-      }
-
-      deleteUsedVM(vmToUse, function () {
-        suite.teardownTest(done);
-      });
+      suite.teardownTest(done);
     });
 
-    describe('Vm Create: ', function () {
-      // create vm from a community image
-      it('From community image', function (done) {
-        vmComName = suite.generateId(vmPrefix, vmNames);
-
-        // Create a VM using community image (-o option)
-        suite.execute('vm create -o %s %s communityUser PassW0rd$ -o --json --location %s',
-          vmComName, communityImageId, location,
-          function (result) {
-            result.exitStatus.should.equal(0);
-			vmToUse.Name = vmComName;
-			vmToUse.Created = true;
-			vmToUse.Delete = true;
-            done();
-          });
+    //delete disk
+    describe('Delete:', function () {
+      it('Disk', function (done) {
+        suite.execute('vm disk delete -b %s --json', diskName, function (result) {
+          result.exitStatus.should.equal(0);
+          done()
+        });
       });
     });
   });

@@ -24,25 +24,18 @@ var isForceMocked = !process.env.NOCK_OFF;
 var utils = require('../../lib/util/utils');
 var CLITest = require('../framework/cli-test');
 
-// A common VM used by multiple tests
-var vmToUse = {
-  Name: null,
-  Created: false,
-  Delete: false
-};
-
 var vmPrefix = 'clitestvm';
-var vmNames = [];
-var timeout = isForceMocked ? 0 : 120000;
+var timeout = isForceMocked ? 0 : 10000;
 
 var suite;
-var testPrefix = 'cli.vm.vnet_affin_del-tests';
+var testPrefix = 'cli.vm.disk.attachnew-tests';
 
 var currentRandom = 0;
 
 describe('cli', function () {
   describe('vm', function () {
-    var affinityName = 'xplattestaffingrp', vnetName = 'xplattestvmVnet';
+    var vmName = 'xplattestvm',
+    diskName = 'xplattestdisk';
 
     before(function (done) {
       suite = new CLITest(testPrefix, isForceMocked);
@@ -61,8 +54,8 @@ describe('cli', function () {
     after(function (done) {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
-      } 
-	  suite.teardownSuite(done);
+      }
+      suite.teardownSuite(done);
     });
 
     beforeEach(function (done) {
@@ -73,19 +66,23 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Delete: ', function () {
-      it('Virtual network', function (done) {
-        suite.execute('network vnet delete %s --quiet --json', vnetName, function (result) {
-          result.exitStatus.should.equal(0);
-          setTimeout(done, timeout);
-        });
-      });
-
-      // Delete a AffinityGroup
-      it('Affinity Group', function (done) {
-        suite.execute('account affinity-group delete %s --quiet --json', affinityName, function (result) {
-          result.exitStatus.should.equal(0);
-          setTimeout(done, timeout);
+	//attach new disk and then de attach
+    describe('Disk:', function () {
+      it('Attach-New', function (done) {
+        var cmd = util.format('vm disk show %s --json', diskName).split(' ');
+        suite.execute(cmd, function (result) {
+          var diskDetails = JSON.parse(result.text);
+          var domainUrl = 'http://' + diskDetails.MediaLink.split('/')[2];
+          var blobUrl = domainUrl + '/disks/' + suite.generateId(vmPrefix, null) + '.vhd';
+          cmd = util.format('vm disk attach-new %s %s %s --json', vmName, 1, blobUrl).split(' ');
+          suite.execute(cmd, function (result) {
+            result.exitStatus.should.equal(0);
+            cmd = util.format('vm disk detach %s 0 --json', vmName).split(' ');
+            suite.execute(cmd, function (result) {
+              result.exitStatus.should.equal(0);
+              setTimeout(done, timeout);
+            });
+          });
         });
       });
     });

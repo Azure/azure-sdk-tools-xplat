@@ -25,7 +25,6 @@ var utils = require('../../lib/util/utils');
 var CLITest = require('../framework/cli-test');
 
 var vmPrefix = 'clitestvm';
-var timeout = isForceMocked ? 0 : 12000;
 
 var suite;
 var testPrefix = 'cli.vm.shutdown_start-tests';
@@ -53,8 +52,8 @@ describe('cli', function () {
     after(function (done) {
       if (suite.isMocked) {
         crypto.randomBytes.restore();
-      } 
-	  suite.teardownSuite(done);
+      }
+      suite.teardownSuite(done);
     });
 
     beforeEach(function (done) {
@@ -65,12 +64,14 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    describe('Vm Shutdown and Restart: ', function () {
-      // VM shutdown
-      it('VM Shutdown and start', function (done) {
-        suite.execute('vm shutdown %s --json', vmName, function (result) {
+    // VM shutdown and start
+    describe('Vm:', function () {
+      it('Shutdown and start', function (done) {
+        var cmd = util.format('vm shutdown %s --json', vmName).split(' ');
+        suite.execute(cmd, function (result) {
           result.exitStatus.should.equal(0);
-          suite.execute('vm start %s --json', vmName, function (result) {
+          cmd = util.format('vm start %s --json', vmName);
+          suite.execute(cmd, function (result) {
             result.exitStatus.should.equal(0);
             done();
           });
@@ -78,10 +79,11 @@ describe('cli', function () {
       });
 
       // VM Restart
-      it('VM Restart', function (done) {
-        suite.execute('vm restart  %s --json', vmName, function (result) {
+      it('Restart', function (done) {
+        var cmd = util.format('vm restart  %s --json', vmName).split(' ');
+        suite.execute(cmd, function (result) {
           result.exitStatus.should.equal(0);
-          setTimeout(done, timeout);
+          done();
         });
       });
     });
