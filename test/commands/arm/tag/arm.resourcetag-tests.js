@@ -170,6 +170,7 @@ describe('arm', function () {
 
 function listPoll(suite, groupName, tagName, attemptsLeft, responseIsEmpty, callback) {
   if(attemptsLeft === 0) {
+    // throw exception if all attmemts were done
     assert.throws( function() {
       throw new Error('resource list did not receive expected response');
     });
