@@ -568,3 +568,4 @@ nock('https://management.azure.com:443')
   date: 'Tue, 29 Jul 2014 21:50:32 GMT',
   'content-length': '0' });
  return result; }]];
+
