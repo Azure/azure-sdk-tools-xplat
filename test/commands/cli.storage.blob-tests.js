@@ -1,18 +1,18 @@
-// 
+//
 // Copyright (c) Microsoft and contributors.  All rights reserved.
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //   http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// 
+//
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 
 var azure = require('azure');
 var should = require('should');
@@ -23,23 +23,24 @@ var CLITest = require('../framework/cli-test');
 
 var suite;
 var testPrefix = 'cli.storage.blob-tests';
-var fakeConnectionString = 'DefaultEndpointsProtocol=https;AccountName=ciserversdk;AccountKey=null';
 var crypto = require('crypto');
+
+function stripAccessKey(connectionString) {
+  return connectionString.replace(/AccountKey=[^;]+/, 'AccountKey=null');
+}
+
+var requiredEnvironment = [
+  { name: 'AZURE_STORAGE_CONNECTION_STRING', secure: stripAccessKey }
+];
 
 /**
 * Convert a cmd to azure storge cli
 */
 describe('cli', function () {
   describe('storage', function() {
-    var savedConnectionString = '';
 
     before(function (done) {
-      if (!process.env.AZURE_NOCK_RECORD) {
-        savedConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
-        process.env.AZURE_STORAGE_CONNECTION_STRING = fakeConnectionString;
-      }
-
-      suite = new CLITest(testPrefix);
+      suite = new CLITest(testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
 
       if (suite.isMocked) {
@@ -50,9 +51,6 @@ describe('cli', function () {
     });
 
     after(function (done) {
-      if (!process.env.AZURE_NOCK_RECORD) {
-        process.env.AZURE_STORAGE_CONNECTION_STRING = savedConnectionString;
-      }
       suite.teardownSuite(done);
     });
 
@@ -198,6 +196,47 @@ describe('cli', function () {
 
       it('should delete the specified blob', function(done) {
         suite.execute('storage blob delete %s %s --json', containerName, blobName, function(result) {
+          result.errorText.should.be.empty;
+          done();
+        });
+      });
+      
+      var destContainer = 'test';
+      it('should start to copy the blob specified by URI asynchronously', function (done) {
+        var sourceUri = 'https://cliportalvhdsglh0yqqb13w7g.blob.core.windows.net/vhds/clitest-2014-07-21.vhd?se=2014-08-05T09%3A35%3A10Z&sp=r&sv=2014-02-14&sr=b&sig=%2Btmf9%2F2ka6X9IKgD%2FiM4oGH7x6Qr0TBd8ywq2LyDaEY%3D';
+        suite.execute('storage blob copy start %s --dest-container %s --json', sourceUri, destContainer, function (result) {
+          var copy = JSON.parse(result.text);
+          copy.copyId.length.should.greaterThan(0);
+          result.errorText.should.be.empty;
+          done();
+        });
+      });
+
+      it('should start to copy the blob specified by container and blob name asynchronously', function (done) {
+        var sourceContainer = 'vhds';
+        var sourceBlob = 'clitest-2014-07-21.vhd';
+        suite.execute('storage blob copy start --source-container %s --source-blob %s --dest-container %s -q --json', sourceContainer, sourceBlob, destContainer, function (result) {
+          var copy = JSON.parse(result.text);
+          copy.copyId.length.should.greaterThan(0);
+          result.errorText.should.be.empty;
+          done();
+        });
+      });
+
+      var copyid;
+      var destBlob = 'clitest-2014-07-21.vhd';
+      it('should show the copy status of the specified blob', function (done) {
+        suite.execute('storage blob copy show --container %s --blob %s --json', destContainer, destBlob, function (result) {
+          var copy = JSON.parse(result.text);
+          copyid = copy.copyId;
+          copy.copyId.length.should.greaterThan(0);
+          result.errorText.should.be.empty;
+          done();
+        });
+      });
+
+      it('should stop the copy of the specified blob', function (done) {
+        suite.execute('storage blob copy stop --container %s --blob %s --copyid %s --json', destContainer, destBlob, copyid, function (result) {
           result.errorText.should.be.empty;
           done();
         });
