@@ -35,7 +35,7 @@
     }
   ],
   "dependencies": {
-    "adal-node": "0.1.7",
+    "adal-node": "~0.1.7",
     "async": "0.2.7",
     "azure": "0.10.1",
     "azure-common": "0.9.9",
