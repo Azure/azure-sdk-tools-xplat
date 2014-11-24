@@ -56,7 +56,7 @@
     "moment": "2.6.0",
     "node-uuid": "1.2.0",
     "omelette": "0.1.0",
-    "request": "2.27.0",
+    "request": "~2",
     "streamline": "0.4.5",
     "through": "2.3.4",
     "tunnel": "0.0.2",
