@@ -51,7 +51,7 @@
     "easy-table": "0.0.1",
     "event-stream": "3.1.5",
     "eyes": "0.x.x",
-    "github": "0.1.6",
+    "github": "~0",
     "kuduscript": "0.1.11",
     "moment": "2.6.0",
     "node-uuid": "1.2.0",
