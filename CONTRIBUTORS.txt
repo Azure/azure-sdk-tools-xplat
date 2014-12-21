@@ -2,6 +2,7 @@ Contributors should submit an update to this file with a commit in order to rece
 
 List of Contributors
 ====================
+Geoffrey Huntley <ghuntley@ghuntley.com>
 
 Microsoft Corporation
 Microsoft Open Technologies, Inc
