@@ -203,262 +203,52 @@ If you would like to become an active contributor to this project please follow 
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-xplat-cli/issues) section of the project.
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
+# PR Test 24-Feb-2015
 
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 01
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
-
-# PR TEST 15th Jan, 2015 - 02
+# PR Test 24-Feb-2015
