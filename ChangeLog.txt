@@ -10,8 +10,8 @@
   	* Can not copy a image blob between storage accounts #1565
   	* -u is used for username as well as blob-url in the vm create command #1566 
   	* error: undefined is not a function #1575
-  	* Add support for changing cache policy of attached disk #1583 
-  	* azure vm endpoint create fails with lb-set option #1594 
+  	* Add support for changing cache policy of attached disk #1583
+  	* azure vm endpoint create fails with lb-set option #1594
 * NETWORK
   * Issue fixes to address the following IAAS related issues
   	* network import doesn't pass LocalNetworkSites #1416
