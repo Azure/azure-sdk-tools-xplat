@@ -26,9 +26,6 @@ var testPrefix = 'cli.vm.create_docker-tests';
 var requiredEnvironment = [{
   name: 'AZURE_VM_TEST_LOCATION',
   defaultValue: 'West US'
-}, {
-  name: 'SSHCERT',
-  defaultValue: null
 }];
 
 describe('cli', function() {
@@ -41,8 +38,7 @@ describe('cli', function() {
       username = 'azureuser',
       password = 'Pa$$word@123',
       ripName = 'clitestrip',
-      ripCreate = false,
-      certFile;
+      ripCreate = false;
     testUtils.TIMEOUT_INTERVAL = 12000;
 
     // A common VM used by multiple tests
@@ -73,7 +69,6 @@ describe('cli', function() {
         vmName = suite.generateId(vmPrefix, createdVMs);
         timeout = suite.isPlayback() ? 0 : testUtils.TIMEOUT_INTERVAL;
         homePath = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-        certFile = process.env.SSHCERT;
         done();
       });
     });
@@ -184,50 +179,6 @@ describe('cli', function() {
           });
         });
       });
-      
-      it('Create Docker VM with ssh cert, no ssh endpoint and no ssh password should pass', function(done) {
-        dockerCertDir = path.join(homePath, '.docker');
-        var dockerPort = 4243;
-
-        getImageName('Linux', function(ImageName) {
-          var cmd = util.format('vm docker create %s %s %s --ssh-cert %s --no-ssh-password --no-ssh-endpoint --json',
-            vmName, ImageName, username, certFile).split(' ');
-          cmd.push('--location');
-          cmd.push(location);
-          testUtils.executeCommand(suite, retry, cmd, function(result) {
-            result.exitStatus.should.equal(0);
-            cmd = util.format('vm show %s --json', vmName).split(' ');
-            testUtils.executeCommand(suite, retry, cmd, function(result) {
-              result.exitStatus.should.equal(0);
-              var certificatesExist = checkForDockerCertificates(dockerCertDir);
-              certificatesExist.should.be.true;
-              var createdVM = JSON.parse(result.text);
-              var dockerPortExists = checkForDockerPort(createdVM, dockerPort);
-              dockerPortExists.should.be.true;
-              createdVM.VMName.should.equal(vmName);
-              vmToUse.Name = vmName;
-              vmToUse.Created = true;
-              vmToUse.Delete = true;
-              setTimeout(done, timeout);
-            });
-          });
-        });
-      });
-      
-      it('Create Docker VM with ssh cert and no ssh password, but no ssh endpoint or explicit disabled ssh endpoint should throw error', function(done) {
-        getImageName('Linux', function(ImageName) {
-          var cmd = util.format('vm docker create %s %s %s --ssh-cert %s --no-ssh-password --json',
-            vmName, ImageName, username, certFile).split(' ');
-          cmd.push('--location');
-          cmd.push(location);
-          testUtils.executeCommand(suite, retry, cmd, function(result) {
-            result.exitStatus.should.not.equal(0);
-            result.errorText.should.include('--no-ssh-password and --ssh-cert can only be used with --ssh or --no-ssh-endpoint parameter');
-            setTimeout(done, timeout);
-          });
-        });
-      });
-      
 
       it('Create Docker VM with duplicate docker port should throw error', function(done) {
         getImageName('Linux', function(ImageName) {
