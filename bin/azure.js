@@ -14,9 +14,14 @@
 // limitations under the License.
 // 
 
-var AzureCli = require('../lib/cli');
 
-var cli = new AzureCli();
+var AutoComplete = require('../lib/autocomplete');
+var cli;
+var generateMetadata = (process.argv[2] === '--gen');
+new AutoComplete();
+
+var AzureCli = require('../lib/cli');
+cli = new AzureCli();
 cli.parse(process.argv);
 if (cli.args.length === 0) {
   cli.parse(['', '', '-h']);
