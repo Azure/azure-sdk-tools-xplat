@@ -1547,6 +1547,7 @@
   "the resource group name": "the resource group name",
   "the resource name": "the resource name",
   "the resource type": "the resource type",
+  "the server farm to use": "the server farm to use",
   "the size of the instances (available are: small, medium and large)": "the size of the instances (available are: small, medium and large)",
   "the source storage key if source-path\n                         is a Windows Azure private blob url": "the source storage key if source-path\n                         is a Windows Azure private blob url",
   "the ssh port to enable [22]": "the ssh port to enable [22]",
