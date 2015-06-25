@@ -13375,6 +13375,14 @@
               "description": "the name of the slot"
             },
             {
+              "flags": "--serverfarm <serverfarm>",
+              "required": -14,
+              "optional": 0,
+              "bool": true,
+              "long": "--serverfarm",
+              "description": "the server farm to use"
+            },
+            {
               "flags": "--git",
               "required": 0,
               "optional": 0,
