@@ -101,7 +101,7 @@ You can also install the Azure Xplat-CLI from sources using **git**  and **npm**
 ```bash
 git clone https://github.com/Azure/azure-xplat-cli.git
 cd ./azure-xplat-cli
-npm install
+npm install -g
 ```
 
 ### Configure auto-complete
