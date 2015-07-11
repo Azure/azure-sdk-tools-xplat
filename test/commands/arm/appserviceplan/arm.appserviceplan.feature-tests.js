@@ -40,13 +40,13 @@ describe('arm', function () {
     suite.setupSuite(function () {
       planname = suite.generateId('appsvcplanclitest', createdPlans);
       groupName = suite.generateId('testrg1', createdGroups);
-      console.log(">>>>>>>creating group" + groupName);
+     // console.log(">>>>>>>creating group" + groupName);
       if (!suite.isPlayback()) {
         suite.execute('group create %s --location %s --json', groupName, location, function (result) {
           result.exitStatus.should.equal(0);
           done();
         });
-        console.log(">>>>>>>DONE creating group" + groupName + " at location " + location + " plan name is " + planname);
+      //  console.log(">>>>>>>DONE creating group" + groupName + " at location " + location + " plan name is " + planname);
       } else {
         done();
       }
