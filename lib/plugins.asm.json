@@ -13091,7 +13091,7 @@
               "optional": 0,
               "bool": true,
               "long": "--php-version",
-              "description": "the PHP version. Valid options are off, v5.3 and v5.4"
+              "description": "the PHP version. Valid options are off, v5.4, v5.5 and v5.6"
             },
             {
               "flags": "--platform <platform>",
@@ -19272,7 +19272,7 @@
             },
             {
               "name": "show",
-              "description": "Get a endpoint in a VM",
+              "description": "Get an endpoint in a VM",
               "fullName": "vm endpoint show",
               "usage": "[options] <vm-name> <endpoint-name>",
               "filePath": "commands/asm/vm._js",
@@ -19631,6 +19631,15 @@
                       "short": "-a",
                       "long": "--action",
                       "description": "the new action for the ACL"
+                    },
+                    {
+                      "flags": "-t, --remote-subnet  <subnet>",
+                      "required": -22,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-t",
+                      "long": "--remote-subnet",
+                      "description": "the ACL rule remote subnet"
                     },
                     {
                       "flags": "-r, --description  <name>",
