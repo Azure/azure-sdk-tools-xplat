@@ -49,6 +49,7 @@
     "azure-asm-hdinsight": "0.10.1",
     "azure-mgmt-vnet": "0.9.17",
     "azure-mgmt-resource": "2.0.0-pre.17",
+	"azure-arm-rediscache": "0.0.2",
     "azure-mgmt-sb": "0.9.16",
     "azure-mgmt-subscription": "0.9.16",
     "azure-mgmt-sql": "0.9.17",
