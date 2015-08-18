@@ -47,7 +47,7 @@ var testResourceGroup;
 
 var cacheName;
 var newCacheName;
-var testVmSize;
+var testSize;
 var testSku;
 var testMaxMemoryPolicy;
 var testEnableNonSSLPort;
@@ -64,14 +64,14 @@ describe('arm', function() {
         testLocation = process.env.AZURE_ARM_TEST_LOCATION;
         testLocation = testLocation.toLowerCase().replace(/ /g, '');
         testResourceGroup = suite.generateId(process.env.AZURE_ARM_TEST_RESOURCE_GROUP, knownNames);
-		testVmSize ='C2';
-		testSku ='Basic';
-		testMaxMemoryPolicy = 'AllKeysRandom';
-		testEnableNonSSLPort = 'true';
-		testNewMaxMemoryPolicy = 'VolatileLRU';
-		cacheName = suite.generateId(cachePrefix, knownNames);
-		newCacheName = suite.generateId(cachePrefix, knownNames);
-		
+        testSize ='C2';
+        testSku ='Basic';
+        testMaxMemoryPolicy = 'AllKeysRandom';
+        testEnableNonSSLPort = 'true';
+        testNewMaxMemoryPolicy = 'VolatileLRU';
+        cacheName = suite.generateId(cachePrefix, knownNames);
+        newCacheName = suite.generateId(cachePrefix, knownNames);
+        
         suite.execute('group create %s --location %s', testResourceGroup, testLocation, function() {
           done();
         });      
@@ -92,115 +92,115 @@ describe('arm', function() {
     afterEach(function(done) {
       suite.teardownTest(done);
     });
-	
-	describe('Redis Cache', function () {
+    
+    describe('Redis Cache', function () {
       it('create commands should work', function(done) {
         suite.execute('rediscache create --name %s --resource-group %s --location %s --json', cacheName, testResourceGroup, testLocation, function(result) {
             result.exitStatus.should.be.equal(0);
-			var cacheJson = JSON.parse(result.text);
-			cacheJson.name.should.be.equal(cacheName);
-			
-			suite.execute('rediscache create --name %s --resource-group %s --location %s --vm-size %s --sku %s --max-memory-policy %s --enable-non-ssl-port %s --json', newCacheName, testResourceGroup, testLocation, testVmSize, testSku, testMaxMemoryPolicy, testEnableNonSSLPort, function(result) {
+            var cacheJson = JSON.parse(result.text);
+            cacheJson.name.should.be.equal(cacheName);
+            
+            suite.execute('rediscache create --name %s --resource-group %s --location %s --size %s --sku %s --max-memory-policy %s --enable-non-ssl-port %s --json', newCacheName, testResourceGroup, testLocation, testSize, testSku, testMaxMemoryPolicy, testEnableNonSSLPort, function(result) {
             result.exitStatus.should.be.equal(0);
-			var newCacheJson = JSON.parse(result.text);
-			newCacheJson.name.should.be.equal(newCacheName);
-			done();
+            var newCacheJson = JSON.parse(result.text);
+            newCacheJson.name.should.be.equal(newCacheName);
+            done();
           });
           }); 
-	  });
-	  
-	  it('create cache with same name should fail', function(done) {
+      });
+      
+      it('create cache with same name should fail', function(done) {
         suite.execute('rediscache create --name %s --resource-group %s --location %s --json', cacheName, testResourceGroup, testLocation, function(result) {
             result.exitStatus.should.be.equal(1);
-			result.errorText.should.include('The requested cache name is unavailable');
-			done();
+            result.errorText.should.include('The requested cache name is unavailable');
+            done();
           });
-	  });
-	  
-	  it('show command should work', function(done) {
+      });
+      
+      it('show command should work', function(done) {
         suite.execute('rediscache show --name %s --resource-group %s --json', cacheName, testResourceGroup, function(result) {
             result.exitStatus.should.be.equal(0);
-			var cacheJson = JSON.parse(result.text);
-			cacheJson.name.should.be.equal(cacheName);
-			done();
+            var cacheJson = JSON.parse(result.text);
+            cacheJson.name.should.be.equal(cacheName);
+            done();
           });
-	  });
-	  
-	  it('list commands should work', function(done) {
+      });
+      
+      it('list commands should work', function(done) {
         suite.execute('rediscache list --json',  function(result) {
             result.exitStatus.should.be.equal(0);
-			
-				suite.execute('rediscache list --resource-group %s --json',testResourceGroup,  function(result) {
-				result.exitStatus.should.be.equal(0);
-				done();
-			  });
+            
+                suite.execute('rediscache list --resource-group %s --json',testResourceGroup,  function(result) {
+                result.exitStatus.should.be.equal(0);
+                done();
+              });
           });
-	  });
-	  
-	  it('Show Key command should work', function(done) {
-        suite.execute('rediscache show-key --name %s --resource-group %s --json', cacheName, testResourceGroup,  function(result) {
+      });
+      
+      it('list-keys command should work', function(done) {
+        suite.execute('rediscache list-keys --name %s --resource-group %s --json', cacheName, testResourceGroup,  function(result) {
             result.exitStatus.should.be.equal(0);
-			var cacheJson = JSON.parse(result.text);
-			console.log('res : ' + util.inspect(cacheJson));
-			cacheJson.primaryKey.should.not.be.null;
-			done();
+            var cacheJson = JSON.parse(result.text);
+            console.log('res : ' + util.inspect(cacheJson));
+            cacheJson.primaryKey.should.not.be.null;
+            done();
           });
-	  });
-	  
+      });
+      
       it.skip('Set Cache command should work', function (done) {
-		  listPoll(suite, 40, cacheName, testResourceGroup, function (result){  			  
-			  suite.execute('rediscache set --name %s --resource-group %s --max-memory-policy %s --json', cacheName, testResourceGroup,testNewMaxMemoryPolicy, function(result) {
-				result.exitStatus.should.be.equal(0);
-				done();
-		  });
-		});
-	  });
-	  
-	  it.skip('Regenerate Key command should work', function(done) {
-        suite.execute('rediscache regenerate-key --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
-            result.exitStatus.should.be.equal(0);
-			done();
+          listPoll(suite, 40, cacheName, testResourceGroup, function (result){                
+              suite.execute('rediscache set --name %s --resource-group %s --max-memory-policy %s --json', cacheName, testResourceGroup,testNewMaxMemoryPolicy, function(result) {
+                result.exitStatus.should.be.equal(0);
+                done();
           });
-	  });
-	  
-	  it.skip('Delete command should work', function(done) {
-			suite.execute('rediscache delete --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
+        });
+      });
+      
+      it.skip('Renew Key command should work', function(done) {
+        suite.execute('rediscache renew-key --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
             result.exitStatus.should.be.equal(0);
-			done();
+            done();
           });
-	  });
-	  
-	  it.skip('Show command must fail for deleted cache', function(done) {
-			suite.execute('rediscache show --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
+      });
+      
+      it.skip('Delete command should work', function(done) {
+            suite.execute('rediscache delete --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
+            result.exitStatus.should.be.equal(0);
+            done();
+          });
+      });
+      
+      it.skip('Show command must fail for deleted cache', function(done) {
+            suite.execute('rediscache show --name %s --resource-group %s --json',cacheName, testResourceGroup,  function(result) {
             result.exitStatus.should.be.equal(1);
             result.errorText.should.include('Cache not found');
-			done();
+            done();
           });
-	  });
-  });	  
+      });
+  });      
 });
 
 function listPoll(suite, attemptsLeft, cacheName, cacheRG, callback) {
       if(attemptsLeft === 0) {
         throw new Error('azure rediscache show --name ' + cacheName + ' --resource-group ' + cacheRG + ' : Timeout expired for cache creation');
       }
-	  
-	  var objectFound = false;
-	  suite.execute('rediscache show --name %s --resource-group %s --json', cacheName, cacheRG, function (showResult) {
-		var cacheJson = JSON.parse(showResult.text);
-		if(cacheJson)
-		{
-			objectFound = cacheJson.properties.provisioningState === 'Succeeded';
-		}
+      
+      var objectFound = false;
+      suite.execute('rediscache show --name %s --resource-group %s --json', cacheName, cacheRG, function (showResult) {
+        var cacheJson = JSON.parse(showResult.text);
+        if(cacheJson)
+        {
+            objectFound = cacheJson.properties.provisioningState === 'Succeeded';
+        }
         if (objectFound === true)
-		{
-			callback(showResult);
-		}
-		else
-		{
-			setTimeout(function () {
-				listPoll(suite, attemptsLeft-1, cacheName, cacheRG, callback);
+        {
+            callback(showResult);
+        }
+        else
+        {
+            setTimeout(function () {
+                listPoll(suite, attemptsLeft-1, cacheName, cacheRG, callback);
           }, 30000);
-		}
-	  });
+        }
+      });
     }

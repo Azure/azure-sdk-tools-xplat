@@ -34,14 +34,14 @@ nock('http://management.azure.com:443')
   'content-length': '535',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
-  'x-ms-request-id': '66ff52c9-8880-43e9-ae6f-dad9733cb8af',
+  'x-ms-request-id': '291563bc-9cdf-444c-8993-628a63343088',
   'x-rp-server-mvid': 'af670903-1b42-4933-b84c-636f2d204d89',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
   server: 'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14751',
-  'x-ms-correlation-request-id': 'aa78a6d0-0196-4fdf-b14b-ffaf2f90550b',
-  'x-ms-routing-request-id': 'WESTUS:20150818T203015Z:aa78a6d0-0196-4fdf-b14b-ffaf2f90550b',
-  date: 'Tue, 18 Aug 2015 20:30:15 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14860',
+  'x-ms-correlation-request-id': '8c7d1ba5-90a8-4789-b655-0c1fbbc1481f',
+  'x-ms-routing-request-id': 'WESTUS:20150818T203018Z:8c7d1ba5-90a8-4789-b655-0c1fbbc1481f',
+  date: 'Tue, 18 Aug 2015 20:30:17 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
@@ -53,13 +53,51 @@ nock('https://management.azure.com:443')
   'content-length': '535',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
-  'x-ms-request-id': '66ff52c9-8880-43e9-ae6f-dad9733cb8af',
+  'x-ms-request-id': '291563bc-9cdf-444c-8993-628a63343088',
   'x-rp-server-mvid': 'af670903-1b42-4933-b84c-636f2d204d89',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
   server: 'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14751',
-  'x-ms-correlation-request-id': 'aa78a6d0-0196-4fdf-b14b-ffaf2f90550b',
-  'x-ms-routing-request-id': 'WESTUS:20150818T203015Z:aa78a6d0-0196-4fdf-b14b-ffaf2f90550b',
-  date: 'Tue, 18 Aug 2015 20:30:15 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14860',
+  'x-ms-correlation-request-id': '8c7d1ba5-90a8-4789-b655-0c1fbbc1481f',
+  'x-ms-routing-request-id': 'WESTUS:20150818T203018Z:8c7d1ba5-90a8-4789-b655-0c1fbbc1481f',
+  date: 'Tue, 18 Aug 2015 20:30:17 GMT',
+  connection: 'close' });
+ return result; },
+function (nock) { 
+var result = 
+nock('http://management.azure.com:443')
+  .post('/subscriptions/04db7ed3-6ed9-4861-8b22-7c0c0c98490b/resourceGroups/xplatTestCacheRG2801/providers/Microsoft.Cache/Redis/xplatTestCache691/listKeys?api-version=2015-03-01')
+  .reply(200, "{\"primaryKey\":\"J/gMxprSNaxWuyMtg7lbWACGSsCBOkVJedGQMA2u9mY=\",\"secondaryKey\":\"ZX//rnLhcRIQWbm2GhNr3yV0nVO9Ycz00omf0I9mols=\"}", { 'cache-control': 'no-cache',
+  pragma: 'no-cache',
+  'content-length': '123',
+  'content-type': 'application/json; charset=utf-8',
+  expires: '-1',
+  'x-ms-request-id': '36167f75-aeed-4d09-a1ad-7d8bc9d7478b',
+  'x-rp-server-mvid': 'af670903-1b42-4933-b84c-636f2d204d89',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
+  server: 'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-writes': '1197',
+  'x-ms-correlation-request-id': '4b112a37-8b78-495b-9c80-0eb940f06d7f',
+  'x-ms-routing-request-id': 'WESTUS:20150818T203018Z:4b112a37-8b78-495b-9c80-0eb940f06d7f',
+  date: 'Tue, 18 Aug 2015 20:30:18 GMT',
+  connection: 'close' });
+ return result; },
+function (nock) { 
+var result = 
+nock('https://management.azure.com:443')
+  .post('/subscriptions/04db7ed3-6ed9-4861-8b22-7c0c0c98490b/resourceGroups/xplatTestCacheRG2801/providers/Microsoft.Cache/Redis/xplatTestCache691/listKeys?api-version=2015-03-01')
+  .reply(200, "{\"primaryKey\":\"J/gMxprSNaxWuyMtg7lbWACGSsCBOkVJedGQMA2u9mY=\",\"secondaryKey\":\"ZX//rnLhcRIQWbm2GhNr3yV0nVO9Ycz00omf0I9mols=\"}", { 'cache-control': 'no-cache',
+  pragma: 'no-cache',
+  'content-length': '123',
+  'content-type': 'application/json; charset=utf-8',
+  expires: '-1',
+  'x-ms-request-id': '36167f75-aeed-4d09-a1ad-7d8bc9d7478b',
+  'x-rp-server-mvid': 'af670903-1b42-4933-b84c-636f2d204d89',
+  'strict-transport-security': 'max-age=31536000; includeSubDomains',
+  server: 'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-writes': '1197',
+  'x-ms-correlation-request-id': '4b112a37-8b78-495b-9c80-0eb940f06d7f',
+  'x-ms-routing-request-id': 'WESTUS:20150818T203018Z:4b112a37-8b78-495b-9c80-0eb940f06d7f',
+  date: 'Tue, 18 Aug 2015 20:30:18 GMT',
   connection: 'close' });
  return result; }]];

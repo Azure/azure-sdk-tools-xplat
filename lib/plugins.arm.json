@@ -18354,12 +18354,12 @@
               "description": "Location to create cache"
             },
             {
-              "flags": "-v, --vm-size <vm-size>",
+              "flags": "-z, --size <vm-size>",
               "required": -15,
               "optional": 0,
               "bool": true,
-              "short": "-v",
-              "long": "--vm-size",
+              "short": "-z",
+              "long": "--size",
               "description": "Size of Redis cache. Valid values: C0, C1, C2, C3, C4, C5, C6, 250MB, 1GB, 2.5GB, 6GB, 13GB, 26GB, 53GB"
             },
             {
@@ -18402,7 +18402,7 @@
         },
 		{
           "name": "set",
-          "description": "Change Max Memory Policy of an existing Redis Cache",
+          "description": "Change settings of an existing Redis Cache",
           "fullName": "rediscache set",
           "usage": "[--name <name> --resource-group <resource-group> --max-memory-policy <max-memory-policy>]",
           "filePath": "commands/arm/rediscache/rediscache._js",
@@ -18609,9 +18609,9 @@
           ]
         },
 		{
-          "name": "regenerate-key",
-          "description": "Regenerate the authentication key for an existing Redis Cache",
-          "fullName": "rediscache regenerate-key",
+          "name": "renew-key",
+          "description": "Renew the authentication key for an existing Redis Cache",
+          "fullName": "rediscache renew-key",
           "usage": "[--name <name> --resource-group <resource-group>]",
           "filePath": "commands/arm/rediscache/rediscache._js",
           "options": [
@@ -18651,7 +18651,7 @@
               "description": "Name of Resource Group"
             },
 			{
-              "flags": "-g --key-type <resource-group>",
+              "flags": "-t --key-type <key-type>",
               "required": -16,
               "optional": 0,
               "bool": true,
@@ -18670,9 +18670,9 @@
           ]
         },
 		{
-          "name": "show-key",
-          "description": "Show Primary and Secondary key of an existing Redis Cache",
-          "fullName": "rediscache show-key",
+          "name": "list-keys",
+          "description": "Lists Primary and Secondary key of an existing Redis Cache",
+          "fullName": "rediscache list-keys",
           "usage": "[--name <name> --resource-group <resource-group>]",
           "filePath": "commands/arm/rediscache/rediscache._js",
           "options": [
