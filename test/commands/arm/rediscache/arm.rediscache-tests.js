@@ -63,7 +63,7 @@ describe('arm', function() {
       suite.setupSuite(function() { 
         testLocation = process.env.AZURE_ARM_TEST_LOCATION;
         testLocation = testLocation.toLowerCase().replace(/ /g, '');
-        testResourceGroup = suite.generateId(process.env.AZURE_ARM_TEST_RESOURCE_GROUP, knownNames);
+        testResourceGroup = process.env.AZURE_ARM_TEST_RESOURCE_GROUP;
         testSize ='C2';
         testSku ='Basic';
         testMaxMemoryPolicy = 'AllKeysRandom';

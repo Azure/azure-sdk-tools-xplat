@@ -10647,7 +10647,7 @@
                   "bool": true,
                   "short": "-o",
                   "long": "--key-ops",
-                  "description": "JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, wrap, unwrap, sign, verify, backup, restore]"
+                  "description": "JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, sign, verify, wrapKey, unwrapKey]"
                 },
                 {
                   "flags": "-t, --tags <tags>",
@@ -10769,7 +10769,7 @@
                   "bool": true,
                   "short": "-o",
                   "long": "--key-ops",
-                  "description": "JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, wrap, unwrap, sign, verify, backup, restore]"
+                  "description": "JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, sign, verify, wrapKey, unwrapKey]"
                 },
                 {
                   "flags": "-t, --tags <tags>",
@@ -10866,7 +10866,7 @@
                   "bool": true,
                   "short": "-o",
                   "long": "--key-ops",
-                  "description": "if informed, command will change valid operations; must be JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, wrap, unwrap, sign, verify, backup, restore]"
+                  "description": "if informed, command will change valid operations; must be JSON-encoded array of strings representing key operations; each string can be one of [encrypt, decrypt, sign, verify, wrapKey, unwrapKey]"
                 },
                 {
                   "flags": "-t, --tags <tags>",
@@ -18295,7 +18295,7 @@
       ],
       "categories": {}
     },
-	"rediscache": {
+    "rediscache": {
       "name": "rediscache",
       "description": "Commands to manage your Azure Redis Cache(s)",
       "fullName": "rediscache",
@@ -18333,7 +18333,7 @@
               "bool": true,
               "short": "-n",
               "long": "--name",
-              "description": "Name of redis cache."
+              "description": "Name of the Redis Cache."
             },
             {
               "flags": "-g, --resource-group <resource-group>",
@@ -18342,7 +18342,7 @@
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of Resource Group"
+              "description": "Name of the Resource Group"
             },
             {
               "flags": "-l, --location <location>",
@@ -18351,16 +18351,16 @@
               "bool": true,
               "short": "-l",
               "long": "--location",
-              "description": "Location to create cache"
+              "description": "Location to create cache."
             },
             {
-              "flags": "-z, --size <vm-size>",
-              "required": -15,
+              "flags": "-z, --size <size>",
+              "required": -12,
               "optional": 0,
               "bool": true,
               "short": "-z",
               "long": "--size",
-              "description": "Size of Redis cache. Valid values: C0, C1, C2, C3, C4, C5, C6, 250MB, 1GB, 2.5GB, 6GB, 13GB, 26GB, 53GB"
+              "description": "Size of the Redis Cache. Valid values: [C0, C1, C2, C3, C4, C5, C6]"
             },
             {
               "flags": "-x, --sku <sku>",
@@ -18369,7 +18369,7 @@
               "bool": true,
               "short": "-x",
               "long": "--sku",
-              "description": "Redis SKU. Should be one of : Basic, Standard"
+              "description": "Redis SKU. Should be one of : [Basic, Standard]"
             },
             {
               "flags": "-m, --max-memory-policy <max-memory-policy>",
@@ -18378,7 +18378,7 @@
               "bool": true,
               "short": "-m",
               "long": "--max-memory-policy",
-              "description": "MaxMemoryPolicy property of Redis Cache. Valid values: AllKeysLRU, AllKeysRandom, NoEviction, VolatileLRU, VolatileRandom, VolatileTTL"
+              "description": "MaxMemoryPolicy property of the Redis Cache. Valid values: [AllKeysLRU, AllKeysRandom, NoEviction, VolatileLRU, VolatileRandom, VolatileTTL]"
             },
             {
               "flags": "-e, --enable-non-ssl-port <enable-non-ssl-port>",
@@ -18387,7 +18387,7 @@
               "bool": true,
               "short": "-e",
               "long": "--enable-non-ssl-port",
-              "description": "EnableNonSslPort property of redis cache"
+              "description": "EnableNonSslPort property of the Redis Cache"
             },
             {
               "flags": "-s, --subscription <id>",
@@ -18400,11 +18400,11 @@
             }
           ]
         },
-		{
-          "name": "set",
-          "description": "Change settings of an existing Redis Cache",
-          "fullName": "rediscache set",
-          "usage": "[--name <name> --resource-group <resource-group> --max-memory-policy <max-memory-policy>]",
+        {
+          "name": "delete",
+          "description": "Delete an existing Redis Cache",
+          "fullName": "rediscache delete",
+          "usage": "[--name <name> --resource-group <resource-group> ]",
           "filePath": "commands/arm/rediscache/rediscache._js",
           "options": [
             {
@@ -18425,95 +18425,35 @@
               "description": "use json output"
             },
             {
-              "flags": "-n --name <name>",
+              "flags": "-n, --name <name>",
               "required": -12,
               "optional": 0,
               "bool": true,
               "short": "-n",
               "long": "--name",
-              "description": "Name of Redis cache."
+              "description": "Name of the Redis Cache."
             },
             {
-              "flags": "-g --resource-group <resource-group>",
+              "flags": "-g, --resource-group <resource-group>",
               "required": -22,
               "optional": 0,
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of Resource Group"
-            },
-			{
-              "flags": "-m, --max-memory-policy <max-memory-policy>",
-              "required": -16,
-              "optional": 0,
-              "bool": true,
-              "short": "-m",
-              "long": "--max-memory-policy",
-              "description": "MaxMemoryPolicy property of redis cache. Valid values: AllKeysLRU, AllKeysRandom, NoEviction, VolatileLRU, VolatileRandom, VolatileTTL"
+              "description": "Name of the Resource Group under which the cache exists"
             },
             {
-              "flags": "--subscription <subscription>",
+              "flags": "-s, --subscription <subscription>",
               "required": -20,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
           ]
         },
         {
-          "name": "delete",
-          "description": "Delete an existing Redis Cache",
-          "fullName": "rediscache delete",
-          "usage": "[--name <name> --resource-group <resource-group>]",
-          "filePath": "commands/arm/rediscache/rediscache._js",
-          "options": [
-            {
-              "flags": "-v, --verbose",
-              "required": 0,
-              "optional": 0,
-              "bool": true,
-              "short": "-v",
-              "long": "--verbose",
-              "description": "use verbose output"
-            },
-            {
-              "flags": "--json",
-              "required": 0,
-              "optional": 0,
-              "bool": true,
-              "long": "--json",
-              "description": "use json output"
-            },
-            {
-              "flags": "-n --name <name>",
-              "required": -11,
-              "optional": 0,
-              "bool": true,
-              "short": "-n",
-              "long": "--name",
-              "description": "Name of Redis Cache."
-            },
-            {
-              "flags": "-g --resource-group <resource-group>",
-              "required": -21,
-              "optional": 0,
-              "bool": true,
-              "short": "-g",
-              "long": "--resource-group",
-              "description": "Name of Resource Group"
-            },
-            {
-              "flags": "--subscription <subscription>",
-              "required": -16,
-              "optional": 0,
-              "bool": true,
-              "long": "--subscription",
-              "description": "the subscription identifier"
-            }
-          ]
-        },
-		{
           "name": "list",
           "description": "List all Redis Caches within your Subscription or Resource Group",
           "fullName": "rediscache list",
@@ -18538,19 +18478,20 @@
               "description": "use json output"
             },
             {
-              "flags": "-g --resource-group <resource-group>",
-              "required": -21,
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
               "optional": 0,
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of Resource Group"
+              "description": "Name of the Resource Group"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
@@ -18581,38 +18522,39 @@
               "description": "use json output"
             },
             {
-              "flags": "-n --name <name>",
-              "required": -11,
+              "flags": "-n, --name <name>",
+              "required": -12,
               "optional": 0,
               "bool": true,
               "short": "-n",
               "long": "--name",
-              "description": "Name of Redis Cache."
+              "description": "Name of the Redis Cache."
             },
             {
-              "flags": "-g --resource-group <resource-group>",
-              "required": -21,
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
               "optional": 0,
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of resource group"
+              "description": "Name of the Resource Group"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
           ]
         },
-		{
-          "name": "renew-key",
-          "description": "Renew the authentication key for an existing Redis Cache",
-          "fullName": "rediscache renew-key",
-          "usage": "[--name <name> --resource-group <resource-group>]",
+        {
+          "name": "set",
+          "description": "Change settings of an existing Redis Cache",
+          "fullName": "rediscache set",
+          "usage": "[--name <name> --resource-group <resource-group> --max-memory-policy <max-memory-policy>]",
           "filePath": "commands/arm/rediscache/rediscache._js",
           "options": [
             {
@@ -18633,43 +18575,106 @@
               "description": "use json output"
             },
             {
-              "flags": "-n --name <name>",
-              "required": -11,
+              "flags": "-n, --name <name>",
+              "required": -12,
               "optional": 0,
               "bool": true,
               "short": "-n",
               "long": "--name",
-              "description": "Name of Redis Cache."
+              "description": "Name of the Redis Cache."
             },
             {
-              "flags": "-g --resource-group <resource-group>",
-              "required": -21,
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
               "optional": 0,
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of Resource Group"
-            },
-			{
-              "flags": "-t --key-type <key-type>",
-              "required": -16,
-              "optional": 0,
-              "bool": true,
-              "short": "-g",
-              "long": "--key-type",
-              "description": "Type of Authentication Key. Valid Values: Primary, Secondary"
+              "description": "Name of the Resource Group"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -22,
+              "flags": "-m, --max-memory-policy <max-memory-policy>",
+              "required": -25,
               "optional": 0,
               "bool": true,
+              "short": "-m",
+              "long": "--max-memory-policy",
+              "description": "Max Memory Policy of the Redis Cache. Valid values: [AllKeysLRU, AllKeysRandom, NoEviction, VolatileLRU, VolatileRandom, VolatileTTL]"
+            },
+            {
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
+              "optional": 0,
+              "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
           ]
         },
-		{
+        {
+          "name": "renew-key",
+          "description": "Renew the authentication key for an existing Redis Cache",
+          "fullName": "rediscache renew-key",
+          "usage": "[--name <name> --resource-group <resource-group> ]",
+          "filePath": "commands/arm/rediscache/rediscache._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n, --name <name>",
+              "required": -12,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--name",
+              "description": "Name of the Redis Cache."
+            },
+            {
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
+              "optional": 0,
+              "bool": true,
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the Resource Group under which cache exists"
+            },
+            {
+              "flags": "-t, --key-type <key-type>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "short": "-t",
+              "long": "--key-type",
+              "description": "type of key to renew"
+            },
+            {
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
+              "optional": 0,
+              "bool": true,
+              "short": "-s",
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
           "name": "list-keys",
           "description": "Lists Primary and Secondary key of an existing Redis Cache",
           "fullName": "rediscache list-keys",
@@ -18694,28 +18699,29 @@
               "description": "use json output"
             },
             {
-              "flags": "-n --name <name>",
-              "required": -11,
+              "flags": "-n, --name <name>",
+              "required": -12,
               "optional": 0,
               "bool": true,
               "short": "-n",
               "long": "--name",
-              "description": "Name of Redis Cache."
+              "description": "Name of the Redis Cache."
             },
             {
-              "flags": "-g --resource-group <resource-group>",
-              "required": -21,
+              "flags": "-g, --resource-group <resource-group>",
+              "required": -22,
               "optional": 0,
               "bool": true,
               "short": "-g",
               "long": "--resource-group",
-              "description": "Name of Resource Group"
+              "description": "Name of the Resource Group under which Cache exists"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s, --subscription <subscription>",
+              "required": -20,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
@@ -22297,7 +22303,7 @@
           "name": "create",
           "description": "create a web app",
           "fullName": "webapp create",
-          "usage": "[options] [resourcegroup] [name] [location] [plan]",
+          "usage": "[options] [resource-group] [name] [location] [plan]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22318,18 +22324,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to create"
             },
@@ -22342,18 +22350,20 @@
               "description": "the name of the slot"
             },
             {
-              "flags": "--location <location>",
-              "required": -12,
+              "flags": "-l --location <location>",
+              "required": -15,
               "optional": 0,
               "bool": true,
+              "short": "-l",
               "long": "--location",
               "description": "the geographic region to create the webapp"
             },
             {
-              "flags": "--plan <plan>",
-              "required": -8,
+              "flags": "-p --plan <plan>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-p",
               "long": "--plan",
               "description": "the name of the app service plan eg: Default1."
             },
@@ -22372,7 +22382,7 @@
           "name": "stop",
           "description": "Stop a web app",
           "fullName": "webapp stop",
-          "usage": "[options] [resourcegroup] [name]",
+          "usage": "[options] [resource-group] [name]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22393,18 +22403,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "the name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to stop"
             },
@@ -22431,7 +22443,7 @@
           "name": "start",
           "description": "Start a web app",
           "fullName": "webapp start",
-          "usage": "[options] [resourcegroup] [name]",
+          "usage": "[options] [resource-group] [name]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22452,18 +22464,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "the name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to start"
             },
@@ -22490,7 +22504,7 @@
           "name": "restart",
           "description": "Stop and then start a web app",
           "fullName": "webapp restart",
-          "usage": "[options] [resourcegroup] [name]",
+          "usage": "[options] [resource-group] [name]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22511,18 +22525,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "the name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to restart"
             },
@@ -22549,7 +22565,7 @@
           "name": "delete",
           "description": "Delete a webapp",
           "fullName": "webapp delete",
-          "usage": "[options] [resourcegroup] [name]",
+          "usage": "[options] [resource-group] [name]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22570,18 +22586,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "Name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to delete"
             },
@@ -22603,10 +22621,11 @@
               "description": "quiet mode, do not ask for delete confirmation"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s --subscription <subscription>",
+              "required": -19,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
@@ -22616,7 +22635,7 @@
           "name": "list",
           "description": "List your webapps",
           "fullName": "webapp list",
-          "usage": "[options] [resourcegroup]",
+          "usage": "[options] [resource-group]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22637,18 +22656,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "the name of the resource group"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s --subscription <subscription>",
+              "required": -19,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
@@ -22658,7 +22679,7 @@
           "name": "show",
           "description": "Get an available webapp",
           "fullName": "webapp show",
-          "usage": "[options] [resourcegroup] [name]",
+          "usage": "[options] [resource-group] [name]",
           "filePath": "commands/arm/webapp/webapp._js",
           "options": [
             {
@@ -22679,18 +22700,20 @@
               "description": "use json output"
             },
             {
-              "flags": "--resourcegroup <resourcegroup>",
-              "required": -17,
+              "flags": "-g --resource-group <resource-group>",
+              "required": -21,
               "optional": 0,
               "bool": true,
-              "long": "--resourcegroup",
-              "description": "the name of the resourceGroup"
+              "short": "-g",
+              "long": "--resource-group",
+              "description": "the name of the resource group"
             },
             {
-              "flags": "--name <name>",
-              "required": -8,
+              "flags": "-n --name <name>",
+              "required": -11,
               "optional": 0,
               "bool": true,
+              "short": "-n",
               "long": "--name",
               "description": "the name of the webapp to show"
             },
@@ -22703,10 +22726,11 @@
               "description": "the name of the slot to show"
             },
             {
-              "flags": "--subscription <subscription>",
-              "required": -16,
+              "flags": "-s --subscription <subscription>",
+              "required": -19,
               "optional": 0,
               "bool": true,
+              "short": "-s",
               "long": "--subscription",
               "description": "the subscription identifier"
             }
