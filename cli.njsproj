@@ -52,6 +52,7 @@
     <Compile Include="scripts\filter-testresults.js" />
     <Compile Include="scripts\harvest-cmds.js" />
     <Compile Include="scripts\link-to-sdk.js" />
+    <Compile Include="scripts\remove-streamline-files.js" />
     <Compile Include="scripts\unit.js" />
     <Content Include="test\testlist.txt" />
     <Content Include="test\testlistarm.txt" />
