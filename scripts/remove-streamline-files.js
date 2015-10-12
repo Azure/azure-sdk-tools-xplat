@@ -13,16 +13,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var path = require('path'); 
-var rimraf = require('rimraf');
+var path = require('path');
+var rimraf = require('./rimraf.js');
 
 var getHomeFolder = require('../lib/util/utilsCore').homeFolder;
 var streamLineFolder = path.join(getHomeFolder(), '.streamline');
 
 //if needed, we can filter&delete subfolders with namelike '*azure-cli*';
 //otherwise, it's safe to clean up other apps' files, which are temp files anyway.
-rimraf(streamLineFolder, function (er) {
-  if (er) {
-    throw er;
-  }
-});
+console.log('@@Start to clean:' + streamLineFolder);
+setTimeout(cleanup(), 180000000);
+
+function cleanup() {
+  rimraf(streamLineFolder, function (er) {
+    if (er) {
+      throw new Error('@@error and error:' + JSON.stringify(er));
+    //throw er;
+    }
+  })
+}
+

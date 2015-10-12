@@ -96,7 +96,7 @@
     "wordwrap": "0.0.2",
     "xml2js": "0.1.x",
     "xmlbuilder": "0.4.x",
-    "rimraf": "2.4.3"
+    "glob": "^5.0.14"
   },
   "devDependencies": {
     "istanbul": "0.3.19",
