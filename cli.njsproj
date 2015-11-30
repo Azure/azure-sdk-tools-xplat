@@ -42,7 +42,6 @@
     <Content Include="Documentation\TestModes.md" />
     <Content Include="Documentation\Writing-Cmd.md" />
     <Content Include="Documentation\Writing-Test.md" />
-    <Content Include="lib\plugins.arm.json" />
     <Content Include="lib\plugins.asm.json" />
     <Compile Include="lib\autocomplete.js" />
     <Compile Include="lib\cli.js" />
@@ -100,8 +99,6 @@
     <Compile Include="lib\commands\arm\role\rbacClients.js" />
     <Compile Include="lib\commands\arm\role\rbacConstants.js" />
     <Compile Include="lib\commands\arm\tag\tagUtils.js" />
-    <Compile Include="lib\commands\arm\temporary\storage.js" />
-    <Compile Include="lib\commands\arm\temporary\storageManagementClient.js" />
     <Compile Include="lib\commands\arm\apiapp\lib\azureSdkStream.js" />
     <Compile Include="lib\commands\arm\apiapp\lib\deployTracker.js" />
     <Compile Include="lib\commands\arm\apiapp\lib\propertyPrompts.js" />
@@ -430,6 +427,7 @@
     <Folder Include="lib\commands\arm\keyvault" />
     <Folder Include="lib\commands\arm\location" />
     <Folder Include="lib\commands\arm\network" />
+    <Folder Include="lib\commands\arm\hdinsight\" />
     <Folder Include="lib\commands\arm\providers" />
     <Folder Include="lib\commands\arm\rediscache\" />
     <Folder Include="lib\commands\arm\resource" />
