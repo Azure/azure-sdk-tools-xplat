@@ -28492,7 +28492,7 @@
                   "bool": true,
                   "short": "-i",
                   "long": "--http-settings-protocol",
-                  "description": "the HTTP settings protocol, valid value is \"Http\""
+                  "description": "the HTTP settings protocol, valid values are [Http]"
                 },
                 {
                   "flags": "-o, --http-settings-port <http-settings-port>",
@@ -28531,11 +28531,11 @@
                   "description": "the name of the public ip"
                 },
                 {
-                  "flags": "-t, --routing-rule-type <routing-rule-type>",
+                  "flags": "-w, --routing-rule-type <routing-rule-type>",
                   "required": -25,
                   "optional": 0,
                   "bool": true,
-                  "short": "-t",
+                  "short": "-w",
                   "long": "--routing-rule-type",
                   "description": "the request routing rule type, default is \"Basic\""
                 },
@@ -28546,7 +28546,7 @@
                   "bool": true,
                   "short": "-a",
                   "long": "--sku-name",
-                  "description": "the name of the sku"
+                  "description": "the name of the sku, valid values are [Standard_Small,Standard_Medium,Standard_Large]. Default values is \"Standard_Small,Standard_Medium,Standard_Large\""
                 },
                 {
                   "flags": "-t, --sku-tier <sku-tier>",
@@ -28555,7 +28555,7 @@
                   "bool": true,
                   "short": "-t",
                   "long": "--sku-tier",
-                  "description": "the sku tier"
+                  "description": "the sku tier, valid values are [undefined]. Default values is \"undefined\""
                 },
                 {
                   "flags": "-z, --capacity <capacity>",
@@ -28583,6 +28583,15 @@
                   "short": "-s",
                   "long": "--subscription",
                   "description": "the subscription identifier"
+                },
+                {
+                  "flags": "-t, --tags <tags>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--tags",
+                  "description": "the list of tags.\n     Can be multiple. In the format of \"name=value\".\n     Name is required and value is optional.\n     For example, -t \"tag1=value1;tag2\""
                 }
               ]
             },
@@ -28671,49 +28680,6 @@
                   "short": "-d",
                   "long": "--description",
                   "description": "the description for the application gateway"
-                },
-                {
-                  "flags": "-s, --subscription <subscription>",
-                  "required": -20,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-s",
-                  "long": "--subscription",
-                  "description": "the subscription identifier"
-                }
-              ]
-            },
-            {
-              "name": "list-all",
-              "description": "List subscription application gateways",
-              "fullName": "network application-gateway list-all",
-              "usage": "[options]",
-              "filePath": "commands/arm/network/network._js",
-              "options": [
-                {
-                  "flags": "-v, --verbose",
-                  "required": 0,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-v",
-                  "long": "--verbose",
-                  "description": "use verbose output"
-                },
-                {
-                  "flags": "-vv",
-                  "required": 0,
-                  "optional": 0,
-                  "bool": true,
-                  "long": "-vv",
-                  "description": "more verbose with debug output"
-                },
-                {
-                  "flags": "--json",
-                  "required": 0,
-                  "optional": 0,
-                  "bool": true,
-                  "long": "--json",
-                  "description": "use json output"
                 },
                 {
                   "flags": "-s, --subscription <subscription>",
@@ -30296,30 +30262,30 @@
                       "description": "the name of the request routing rule"
                     },
                     {
-                      "flags": "-i, --http-settings <http-settings>",
-                      "required": -21,
+                      "flags": "-i, --http-settings-name <http-settings-name>",
+                      "required": -26,
                       "optional": 0,
                       "bool": true,
                       "short": "-i",
-                      "long": "--http-settings",
+                      "long": "--http-settings-name",
                       "description": "the name of an existing backend HTTP settings"
                     },
                     {
-                      "flags": "-l, --http-listener <http-listener>",
-                      "required": -21,
+                      "flags": "-l, --http-listener-name <http-listener-name>",
+                      "required": -26,
                       "optional": 0,
                       "bool": true,
                       "short": "-l",
-                      "long": "--http-listener",
+                      "long": "--http-listener-name",
                       "description": "the name of an existing HTTP listener"
                     },
                     {
-                      "flags": "-p, --address-pool <address-pool>",
-                      "required": -20,
+                      "flags": "-p, --address-pool-name <address-pool-name>",
+                      "required": -25,
                       "optional": 0,
                       "bool": true,
                       "short": "-p",
-                      "long": "--address-pool",
+                      "long": "--address-pool-name",
                       "description": "the name of an existing backend address pool"
                     },
                     {
@@ -30329,7 +30295,7 @@
                       "bool": true,
                       "short": "-t",
                       "long": "--type",
-                      "description": "the type, default is \"Basic\""
+                      "description": "the type, currently supported only default value \"%s\""
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
