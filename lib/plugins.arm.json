@@ -29585,7 +29585,7 @@
                       "bool": true,
                       "short": "-o",
                       "long": "--port",
-                      "description": "the port, valid range is [0-65535]"
+                      "description": "the port, valid range is [0,65535]"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
