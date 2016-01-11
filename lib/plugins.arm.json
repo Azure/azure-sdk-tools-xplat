@@ -28459,6 +28459,15 @@
                   "description": "the name of subnet in the virtual network identified by --vnet-name"
                 },
                 {
+                  "flags": "-d, --subnet-id <subnet-id>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-d",
+                  "long": "--subnet-id",
+                  "description": "the subnet identifier.\n     e.g. /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/VirtualNetworks/<vnet-name>/subnets/<subnet-name>"
+                },
+                {
                   "flags": "-с, --cert-file <cert-file>",
                   "required": -17,
                   "optional": 0,
@@ -28531,6 +28540,15 @@
                   "description": "the name of the public ip"
                 },
                 {
+                  "flags": "-p, --public-ip-id <public-ip-id>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--public-ip-id",
+                  "description": "the public ip identifier.\n     e.g. /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/publicIPAddresses/<public-ip-name>"
+                },
+                {
                   "flags": "-w, --routing-rule-type <routing-rule-type>",
                   "required": -25,
                   "optional": 0,
@@ -28549,11 +28567,11 @@
                   "description": "the name of the sku, valid values are [Standard_Small,Standard_Medium,Standard_Large]. Default values is \"Standard_Small,Standard_Medium,Standard_Large\""
                 },
                 {
-                  "flags": "-t, --sku-tier <sku-tier>",
+                  "flags": "-u, --sku-tier <sku-tier>",
                   "required": -16,
                   "optional": 0,
                   "bool": true,
-                  "short": "-t",
+                  "short": "-u",
                   "long": "--sku-tier",
                   "description": "the sku tier, valid values are [undefined]. Default values is \"undefined\""
                 },
@@ -28565,15 +28583,6 @@
                   "short": "-z",
                   "long": "--capacity",
                   "description": "application gateway instance count in range [2,10]. Default value is 2."
-                },
-                {
-                  "flags": "-d, --description <description>",
-                  "required": -19,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-d",
-                  "long": "--description",
-                  "description": "the description for the application gateway"
                 },
                 {
                   "flags": "-s, --subscription <subscription>",
@@ -29384,6 +29393,15 @@
                       "short": "-p",
                       "long": "--public-ip-name",
                       "description": "the name of the public ip name"
+                    },
+                    {
+                      "flags": "-p, --public-ip-id <public-ip-id>",
+                      "required": -20,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-p",
+                      "long": "--public-ip-id",
+                      "description": "the public ip identifier.\n     e.g. /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Network/publicIPAddresses/<public-ip-name>"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
