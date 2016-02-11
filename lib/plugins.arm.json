@@ -32568,6 +32568,14 @@
               "bool": true,
               "long": "--key-encryption-key-url",
               "description": "The Url of the master key used to encrypt the OS disk encryption key."
+            },
+            {
+              "flags": "--license-type <license-type>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "long": "--license-type",
+              "description": "The license type of the system; currently, only 'Windows_Sever' is supported."
             }
           ]
         },
