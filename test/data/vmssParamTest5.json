@@ -1,0 +1,56 @@
+{
+  "sku": {
+    "name": "Standard_A1",
+    "tier": "Standard",
+    "capacity": 51
+  },
+  "upgradePolicy": {
+    "mode": "Manual"
+  },
+  "virtualMachineProfile": {
+    "osProfile": {
+      "computerNamePrefix": "test",
+      "adminUsername": "azureuser",
+      "adminPassword": "Brillio@2015"
+    },
+    "storageProfile": {
+      "imageReference": {
+        "publisher": "MicrosoftWindowsServer",
+        "offer": "WindowsServer",
+        "sku": "2012-R2-Datacenter",
+        "version": "latest"
+      },
+      "osDisk": {
+        "name": "test",
+        "caching": "None",
+        "createOption": "fromImage",
+        "vhdContainers": [
+          "https://xplatteststorage15539.blob.core.windows.net/xplatteststoragecnt19298",
+          "https://xplatteststorage22389.blob.core.windows.net/xplatteststoragecnt21575",
+          "https://xplatteststorage3936.blob.core.windows.net/xplatteststoragecnt31155"
+        ]
+      }
+    },
+    "networkProfile": {
+      "networkInterfaceConfigurations": [
+        {
+          "name": "test",
+          "primary": true,
+          "ipConfigurations": [
+            {
+              "name": "test",
+              "subnet": {
+                "id": "/subscriptions/e33f361b-53c2-4cc7-b829-78906708387b/resourceGroups/xplatTstVmssGCreate4245/providers/Microsoft.Network/VirtualNetworks/xplattestvnet193/subnets/xplattestsubnet232"
+              },
+              "id": ""
+            }
+          ],
+          "id": ""
+        }
+      ]
+    }
+  },
+  "id": null,
+  "name": "xplattestvmss5",
+  "location": "southeastasia"
+}

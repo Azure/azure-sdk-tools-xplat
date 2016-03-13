@@ -1,0 +1,132 @@
+{
+  "sku": {
+    "name": "",
+    "tier": "",
+    "capacity": null
+  },
+  "upgradePolicy": {
+    "mode": ""
+  },
+  "virtualMachineProfile": {
+    "osProfile": {
+      "computerNamePrefix": "",
+      "adminUsername": "",
+      "adminPassword": "",
+      "customData": "",
+      "windowsConfiguration": {
+        "provisionVMAgent": null,
+        "enableAutomaticUpdates": null,
+        "timeZone": "",
+        "additionalUnattendContent": [
+          {
+            "passName": "",
+            "componentName": "",
+            "settingName": "",
+            "content": ""
+          }
+        ],
+        "winRM": {
+          "listeners": [
+            {
+              "protocol": "",
+              "certificateUrl": ""
+            }
+          ]
+        }
+      },
+      "linuxConfiguration": {
+        "disablePasswordAuthentication": null,
+        "ssh": {
+          "publicKeys": [
+            {
+              "path": "",
+              "keyData": ""
+            }
+          ]
+        }
+      },
+      "secrets": [
+        {
+          "sourceVault": {
+            "id": ""
+          },
+          "vaultCertificates": [
+            {
+              "certificateUrl": "",
+              "certificateStore": ""
+            }
+          ]
+        }
+      ]
+    },
+    "storageProfile": {
+      "imageReference": {
+        "publisher": "",
+        "offer": "",
+        "sku": "",
+        "version": ""
+      },
+      "osDisk": {
+        "name": "",
+        "caching": "",
+        "createOption": "",
+        "osType": "",
+        "image": {
+          "uri": ""
+        },
+        "vhdContainers": [
+          ""
+        ]
+      }
+    },
+    "networkProfile": {
+      "networkInterfaceConfigurations": [
+        {
+          "name": "",
+          "primary": null,
+          "ipConfigurations": [
+            {
+              "name": "",
+              "subnet": {
+                "id": ""
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": ""
+                }
+              ],
+              "loadBalancerInboundNatPools": [
+                {
+                  "id": ""
+                }
+              ],
+              "id": ""
+            }
+          ],
+          "id": ""
+        }
+      ]
+    },
+    "extensionProfile": {
+      "extensions": [
+        {
+          "name": "",
+          "publisher": "",
+          "virtualMachineScaleSetExtensionType": "",
+          "typeHandlerVersion": "",
+          "autoUpgradeMinorVersion": null,
+          "settings": {},
+          "protectedSettings": {},
+          "provisioningState": "",
+          "id": ""
+        }
+      ]
+    }
+  },
+  "provisioningState": "",
+  "id": null,
+  "name": null,
+  "type": null,
+  "location": "",
+  "tags": {}
+}
