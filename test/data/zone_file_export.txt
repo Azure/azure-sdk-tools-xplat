@@ -1,13 +1,13 @@
 ; Exported zone file from Azure DNS
 ; Resource Group Name: xplat-test-dns-zone
 ; Zone name: example1.com
-; Date and time (UTC): Tue Mar 08 2016 09:13:05 GMT+0000
+; Date and time (UTC): Fri Mar 11 2016 06:24:36 GMT+0000
 
 $TTL 3600
 $ORIGIN example1.com.
 
 @ 3600 IN SOA ns1-07.azure-dns.com. hostmaster.example1.com. (
-				2016030805
+				2016031136
 				43200
 				900
 				1814400
