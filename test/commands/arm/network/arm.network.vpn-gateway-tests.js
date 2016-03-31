@@ -37,6 +37,7 @@ var gatewayProp = {
   publicIpName: 'test-ip',
   type: 'RouteBased',
   sku: 'HighPerformance',
+  gatewayType: 'Vpn',
   privateIpAddress: '10.1.0.11',
   newPrivateIpAddress: '10.1.0.12',
   enableBgp: false,
