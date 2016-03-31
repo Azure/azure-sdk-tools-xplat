@@ -37,6 +37,7 @@ var firstGatewayProp = {
   publicIpName: 'test-ip-1',
   type: 'RouteBased',
   sku: 'Basic',
+  gatewayType: 'Vpn',
   privateIpAddress: '10.1.0.11',
   enableBgp: false,
   tags: networkUtil.tags
@@ -52,6 +53,7 @@ var secondGatewayProp = {
   publicIpName: 'test-ip-2',
   type: 'RouteBased',
   sku: 'Basic',
+  gatewayType: 'Vpn',
   privateIpAddress: '10.2.0.11',
   enableBgp: false,
   tags: networkUtil.tags

@@ -45584,7 +45584,7 @@
                   "bool": true,
                   "short": "-y",
                   "long": "--type",
-                  "description": "the gateway type\n     Valid values are [RouteBased,PolicyBased,Dedicated]\n     Default is RouteBased"
+                  "description": "the vpn type\n     Valid values are [RouteBased,PolicyBased,Dedicated]\n     Default is RouteBased"
                 },
                 {
                   "flags": "-k, --sku-name <sku-name>",
@@ -45594,6 +45594,15 @@
                   "short": "-k",
                   "long": "--sku-name",
                   "description": "the SKU name\n     Valid values are [Basic,HighPerformance,Standard]\n     Default is Basic"
+                },
+                {
+                  "flags": "-w, --gateway-type <gateway-type>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-w",
+                  "long": "--gateway-type",
+                  "description": "the gateway type\n     Valid values are [Vpn,ExpressRoute]\n     Default is Vpn"
                 },
                 {
                   "flags": "-u, --public-ip-id <public-ip-id>",
