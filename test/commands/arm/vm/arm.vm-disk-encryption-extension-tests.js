@@ -39,7 +39,9 @@ var groupName,
   aadAppName = 'xplattestapp',
   aadClientSecret = 'xPL4t',
   aadClientId,
+  aadObjectId,
   spn,
+  spObjectId,
   location,
   username = 'azureuser',
   password = 'AzDE@2016',
@@ -83,7 +85,19 @@ describe('arm', function() {
 
     after(function(done) {
        vmTest.deleteUsedGroup(groupName, suite, function(result) {
-         suite.teardownSuite(done);
+         suite.teardownSuite(function () {
+         //delete all the artifacts that were created during setup and do not belong to the resource group
+          suite.execute('ad app delete --objectId %s --quiet --json', aadObjectId, function (result) {
+            result.exitStatus.should.equal(0);
+          });
+          suite.execute('ad sp delete --objectId %s -q --json', spObjectId, function (result) {
+            result.exitStatus.should.equal(0);
+          });
+          suite.execute('keyvault delete -u %s --quiet --json', vaultName, function (result) {
+            result.exitStatus.should.equal(0);
+          });
+          done();
+         });
        });
     });
 
@@ -129,6 +143,7 @@ describe('arm', function() {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
           aadClientId = allResources.appId;
+          aadObjectId = allResources.objectId;
           done();
         });
       });
@@ -139,6 +154,7 @@ describe('arm', function() {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
           spn = allResources.appId;
+          spObjectId = allResources.objectId;
           done();
         });
       });
@@ -164,7 +180,7 @@ describe('arm', function() {
       });
 
       it('should enable encryption on the Windows VM', function(done) {
-        var cmd = util.format('vm enable-disk-encryption -g %s -n %s -a %s -p %s -k %s -r %s --quiet', groupName, vmPrefix, spn, aadClientSecret, diskEncryptionKeySecretUrl, diskEncryptionKeyVaultId).split(' ');
+        var cmd = util.format('vm enable-disk-encryption -g %s -n %s -a %s -p %s -k %s -r %s --quiet --json', groupName, vmPrefix, spn, aadClientSecret, diskEncryptionKeySecretUrl, diskEncryptionKeyVaultId).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           done();
@@ -183,7 +199,7 @@ describe('arm', function() {
       });
 
       it('should disable encryption on the Windows VM', function(done) {
-        var cmd = util.format('vm disable-disk-encryption -g %s -n %s --quiet', groupName, vmPrefix).split(' ');
+        var cmd = util.format('vm disable-disk-encryption -g %s -n %s --quiet --json', groupName, vmPrefix).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           done();
