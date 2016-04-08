@@ -116,8 +116,8 @@ describe('arm', function() {
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
-          allResources.osVolumeEncrypted.should.equal(false);
-          allResources.dataVolumesEncrypted.should.equal(false);
+          allResources.osVolumeEncrypted.should.equal('NotEncrypted');
+          allResources.dataVolumesEncrypted.should.equal('NotEncrypted');
           done();
         });
       });
@@ -176,8 +176,8 @@ describe('arm', function() {
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
-          allResources.osVolumeEncrypted.should.equal(true);
-          allResources.dataVolumesEncrypted.should.equal(true);
+          allResources.osVolumeEncrypted.should.equal('Encrypted');
+          allResources.dataVolumesEncrypted.should.equal('Encrypted');
           done();
         });
       });
@@ -195,8 +195,8 @@ describe('arm', function() {
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
-          allResources.osVolumeEncrypted.should.equal(false);
-          allResources.dataVolumesEncrypted.should.equal(false);
+          allResources.osVolumeEncrypted.should.equal('NotEncrypted');
+          allResources.dataVolumesEncrypted.should.equal('NotEncrypted');
           done();
         });
       });
