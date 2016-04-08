@@ -16,6 +16,7 @@
 'use strict';
 var _ = require('underscore');
 var CLITest = require('../../../framework/arm-cli-test');
+var constants = require('../../../../lib/commands/arm/network/constants');
 var NetworkTestUtil = require('../../../util/networkTestUtil');
 var networkUtil = new NetworkTestUtil();
 var should = require('should');
@@ -54,7 +55,14 @@ var location, groupName = 'xplatTestGroupCreateAppGw',
     path: '/',
     interval: 30,
     timeout: 120,
-    unhealthyThreshold: 8
+    unhealthyThreshold: 8,
+    urlPathMapName: 'urlPathMapName01',
+    urlMapRuleName: 'urlMapRuleName01',
+    defHttpSettingName: constants.appGateway.settings.name,
+    defPoolName: constants.appGateway.pool.name,
+    mapPath: '/test',
+    newUrlMapRuleName: 'rule01',
+    newMapPath: '/test01'
   };
 
 var requiredEnvironment = [{
@@ -316,22 +324,89 @@ describe('arm', function () {
         });
       });
 
+      it('url path map add should create map in application gateway ', function (done) {
+        var cmd = util.format('network application-gateway url-path-map add {group} {name} {urlPathMapName} -r {urlMapRuleName} ' +
+          '-p {mapPath} -i {defHttpSettingName} -a {defPoolName} --json').formatArgs(gatewayProp);
+        testUtils.executeCommand(suite, retry, cmd, function (result) {
+          result.exitStatus.should.equal(0);
+          var appGateway = JSON.parse(result.text);
+          appGateway.name.should.equal(gatewayProp.name);
+
+          var urlPathMap = appGateway.urlPathMaps[0];
+          urlPathMap.name.should.equal(gatewayProp.urlPathMapName);
+          urlPathMap.pathRules[0].name.should.equal(gatewayProp.urlMapRuleName);
+          networkUtil.shouldBeSucceeded(urlPathMap);
+          done();
+        });
+      });
+
+      it('url path map rule add should create map rule in application gateway ', function (done) {
+        var cmd = util.format('network application-gateway url-path-map rule add {group} {name} {newUrlMapRuleName} ' +
+          '-u {urlPathMapName} -p {newMapPath} -i {defHttpSettingName} -a {defPoolName} --json').formatArgs(gatewayProp);
+        testUtils.executeCommand(suite, retry, cmd, function (result) {
+          result.exitStatus.should.equal(0);
+          var appGateway = JSON.parse(result.text);
+          appGateway.name.should.equal(gatewayProp.name);
+
+          var urlPathMap = appGateway.urlPathMaps[0];
+          urlPathMap.name.should.equal(gatewayProp.urlPathMapName);
+          _.some(urlPathMap.pathRules, function (rule) {
+            return (rule.name === gatewayProp.newUrlMapRuleName);
+          }).should.be.true;
+          networkUtil.shouldBeSucceeded(urlPathMap);
+          done();
+        });
+      });
+
       // Changed application gateway state to "Stopped" in this test case.
-      it('probe remove should remove probe from application gateway', function (done) {
+      it('url path map rule remove should remove map rule in application gateway ', function (done) {
         networkUtil.stopAppGateway(groupName, gatewayProp.name, suite, function () {
-          var cmd = 'network application-gateway probe remove {group} {name} {probeName} -q --json'.formatArgs(gatewayProp);
+          var cmd = util.format('network application-gateway url-path-map rule remove {group} {name} {newUrlMapRuleName} ' +
+            '-u {urlPathMapName} -q --json').formatArgs(gatewayProp);
           testUtils.executeCommand(suite, retry, cmd, function (result) {
             result.exitStatus.should.equal(0);
             var appGateway = JSON.parse(result.text);
             appGateway.name.should.equal(gatewayProp.name);
 
-            var probes = appGateway.probes;
-            _.some(probes, function (probe) {
-              return probe.name === gatewayProp.probeName;
+            var urlPathMap = appGateway.urlPathMaps[0];
+            urlPathMap.name.should.equal(gatewayProp.urlPathMapName);
+            _.some(urlPathMap.pathRules, function (rule) {
+              return (rule.name === gatewayProp.newUrlMapRuleName);
             }).should.be.false;
-            networkUtil.shouldBeSucceeded(appGateway);
+            networkUtil.shouldBeSucceeded(urlPathMap);
             done();
           });
+        });
+      });
+
+      it('url-path-map remove should remove url path map from application gateway', function (done) {
+        var cmd = 'network application-gateway url-path-map remove {group} {name} {urlPathMapName} -q --json'.formatArgs(gatewayProp);
+        testUtils.executeCommand(suite, retry, cmd, function (result) {
+          result.exitStatus.should.equal(0);
+          var appGateway = JSON.parse(result.text);
+          appGateway.name.should.equal(gatewayProp.name);
+          var urlPathMaps = appGateway.probes;
+          _.some(urlPathMaps, function (map) {
+            return map.name === gatewayProp.urlPathMapName;
+          }).should.be.false;
+          networkUtil.shouldBeSucceeded(appGateway);
+          done();
+        });
+      });
+
+      it('probe remove should remove probe from application gateway', function (done) {
+        var cmd = 'network application-gateway probe remove {group} {name} {probeName} -q --json'.formatArgs(gatewayProp);
+        testUtils.executeCommand(suite, retry, cmd, function (result) {
+          result.exitStatus.should.equal(0);
+          var appGateway = JSON.parse(result.text);
+          appGateway.name.should.equal(gatewayProp.name);
+
+          var probes = appGateway.probes;
+          _.some(probes, function (probe) {
+            return probe.name === gatewayProp.probeName;
+          }).should.be.false;
+          networkUtil.shouldBeSucceeded(appGateway);
+          done();
         });
       });
 
