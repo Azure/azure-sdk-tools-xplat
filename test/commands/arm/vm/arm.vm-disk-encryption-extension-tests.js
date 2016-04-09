@@ -192,7 +192,6 @@ describe('arm', function() {
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
-		  console.log('AllResources: ' + util.inspect(allResources, {depth: null}));
           allResources.osVolumeEncrypted.should.equal('Encrypted');
           allResources.dataVolumesEncrypted.should.equal('Encrypted');
           done();
