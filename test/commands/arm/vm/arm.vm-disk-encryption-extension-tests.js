@@ -159,7 +159,7 @@ describe('arm', function() {
         });
       });
 
-      it.only('should create a KeyVault', function(done) {
+      it('should create a KeyVault', function(done) {
         var cmd = util.format('keyvault create %s --resource-group %s --location %s --json', vaultName, groupName, location).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
