@@ -159,7 +159,7 @@ describe('arm', function() {
         });
       });
 
-      it('should create a KeyVault', function(done) {
+      it.only('should create a KeyVault', function(done) {
         var cmd = util.format('keyvault create %s --resource-group %s --location %s --json', vaultName, groupName, location).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
@@ -187,11 +187,12 @@ describe('arm', function() {
         });
       });
 
-      it('should show the correct encryption status for the VM', function(done) {
+      it('should show the correct encryption status for the VM - encrypted', function(done) {
         var cmd = util.format('vm show-disk-encryption-status %s %s --json', groupName, vmPrefix).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
+		  console.log('AllResources: ' + util.inspect(allResources, {depth: null}));
           allResources.osVolumeEncrypted.should.equal('Encrypted');
           allResources.dataVolumesEncrypted.should.equal('Encrypted');
           done();
@@ -206,7 +207,7 @@ describe('arm', function() {
         });
       });
 
-      it('should show the correct encryption status for the VM', function(done) {
+      it('should show the correct encryption status for the VM - not encrypted', function(done) {
         var cmd = util.format('vm show-disk-encryption-status %s %s --json', groupName, vmPrefix).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
