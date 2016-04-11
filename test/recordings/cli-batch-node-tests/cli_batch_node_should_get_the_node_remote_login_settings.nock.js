@@ -34,7 +34,7 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/pools/xplatTestLinuxPool/nodes/tvm-1695681911_1-20160408t230251z/remoteloginsettings?api-version=2016-02-01.3.0')
+  .get('/pools/xplatTestLinuxPool/nodes/tvm-1695681911_1-20160408t230251z/remoteloginsettings?api-version=2016-02-01.3.0&timeout=30')
   .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.RemoteLoginSettings\",\"remoteLoginIPAddress\":\"13.68.23.129\",\"remoteLoginPort\":50000\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',
@@ -48,7 +48,7 @@ nock('http://jstesteastus2.eastus2.batch.azure.com:443')
 function (nock) { 
 var result = 
 nock('https://jstesteastus2.eastus2.batch.azure.com:443')
-  .get('/pools/xplatTestLinuxPool/nodes/tvm-1695681911_1-20160408t230251z/remoteloginsettings?api-version=2016-02-01.3.0')
+  .get('/pools/xplatTestLinuxPool/nodes/tvm-1695681911_1-20160408t230251z/remoteloginsettings?api-version=2016-02-01.3.0&timeout=30')
   .reply(200, "{\r\n  \"odata.metadata\":\"https://jstesteastus2.eastus2.batch.azure.com/$metadata#Microsoft.Azure.Batch.Protocol.Entities.RemoteLoginSettings\",\"remoteLoginIPAddress\":\"13.68.23.129\",\"remoteLoginPort\":50000\r\n}", { 'transfer-encoding': 'chunked',
   'content-type': 'application/json;odata=minimalmetadata',
   server: 'Microsoft-HTTPAPI/2.0',

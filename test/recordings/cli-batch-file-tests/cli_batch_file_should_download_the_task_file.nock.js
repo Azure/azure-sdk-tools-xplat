@@ -37,16 +37,16 @@ nock('http://jstesteastus2.eastus2.batch.azure.com:443')
   .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%5CtaskOut.txt?api-version=2016-02-01.3.0&timeout=30')
   .reply(200, "test \r\n", { 'transfer-encoding': 'chunked',
   'content-type': 'application/octet-stream',
-  'last-modified': 'Sat, 09 Apr 2016 00:07:55 GMT',
+  'last-modified': 'Mon, 11 Apr 2016 16:46:05 GMT',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'f43bb975-4a21-4aff-ac3f-59548a3a4914',
+  'request-id': '6a98c453-e0b7-471c-8eb7-635bbd9a2e81',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '361e575a-2fd4-49ae-9188-f8f6eaf0ae1e',
+  'client-request-id': 'c414810a-f6c6-4bd6-9c06-3d6938e64921',
   dataserviceversion: '3.0',
-  'ocp-creation-time': 'Sat, 09 Apr 2016 00:07:55 GMT',
+  'ocp-creation-time': 'Mon, 11 Apr 2016 16:46:05 GMT',
   'ocp-batch-file-isdirectory': 'False',
   'ocp-batch-file-url': 'https%3A%2F%2Fjstesteastus2.eastus2.batch.azure.com%2Fjobs%2FxplatJobForFileTests%2Ftasks%2FxplatTask%2Ffiles%2Fwd%2FtaskOut.txt',
-  date: 'Sat, 09 Apr 2016 00:08:02 GMT',
+  date: 'Mon, 11 Apr 2016 16:46:12 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
@@ -55,15 +55,15 @@ nock('https://jstesteastus2.eastus2.batch.azure.com:443')
   .get('/jobs/xplatJobForFileTests/tasks/xplatTask/files/wd%5CtaskOut.txt?api-version=2016-02-01.3.0&timeout=30')
   .reply(200, "test \r\n", { 'transfer-encoding': 'chunked',
   'content-type': 'application/octet-stream',
-  'last-modified': 'Sat, 09 Apr 2016 00:07:55 GMT',
+  'last-modified': 'Mon, 11 Apr 2016 16:46:05 GMT',
   server: 'Microsoft-HTTPAPI/2.0',
-  'request-id': 'f43bb975-4a21-4aff-ac3f-59548a3a4914',
+  'request-id': '6a98c453-e0b7-471c-8eb7-635bbd9a2e81',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'client-request-id': '361e575a-2fd4-49ae-9188-f8f6eaf0ae1e',
+  'client-request-id': 'c414810a-f6c6-4bd6-9c06-3d6938e64921',
   dataserviceversion: '3.0',
-  'ocp-creation-time': 'Sat, 09 Apr 2016 00:07:55 GMT',
+  'ocp-creation-time': 'Mon, 11 Apr 2016 16:46:05 GMT',
   'ocp-batch-file-isdirectory': 'False',
   'ocp-batch-file-url': 'https%3A%2F%2Fjstesteastus2.eastus2.batch.azure.com%2Fjobs%2FxplatJobForFileTests%2Ftasks%2FxplatTask%2Ffiles%2Fwd%2FtaskOut.txt',
-  date: 'Sat, 09 Apr 2016 00:08:02 GMT',
+  date: 'Mon, 11 Apr 2016 16:46:12 GMT',
   connection: 'close' });
  return result; }]];
