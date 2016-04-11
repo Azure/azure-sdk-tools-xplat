@@ -1971,6 +1971,7 @@
   "The name of the setting.": "The name of the setting.",
   "The operation name.": "The operation name.",
   "The recurrence frequency of a recurrent schedule: None, Second, Minute, Hour, Day, Week, Month, Year (the value is case insensitive)": "The recurrence frequency of a recurrent schedule: None, Second, Minute, Hour, Day, Week, Month, Year (the value is case insensitive)",
+  "The remote login settings for a Batch compute node": "The remote login settings for a Batch compute node",
   "The resource group.": "The resource group.",
   "The resource Id.": "The resource Id.",
   "The target resource Id.": "The target resource Id.",

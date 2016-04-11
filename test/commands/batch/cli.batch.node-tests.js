@@ -116,7 +116,7 @@ describe('cli', function () {
     });
     
     it('should get the node remote login settings', function (done) {
-      suite.execute('batch node get-remote-login-settings %s %s --account-name %s --account-key %s --account-endpoint %s --json',
+      suite.execute('batch node remote-login-settings show %s %s --account-name %s --account-key %s --account-endpoint %s --json',
         linuxPoolId, linuxComputeNodeId, batchAccount, batchAccountKey, batchAccountEndpoint, function (result) {
         result.exitStatus.should.equal(0);
         var settings = JSON.parse(result.text);
