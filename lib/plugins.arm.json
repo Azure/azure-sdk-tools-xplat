@@ -47699,9 +47699,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add application gateway SSL certificate",
-                  "fullName": "network application-gateway ssl-cert add",
+                  "fullName": "network application-gateway ssl-cert create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -47787,9 +47787,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete application gateway SSL certificate",
-                  "fullName": "network application-gateway ssl-cert remove",
+                  "fullName": "network application-gateway ssl-cert delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -47876,9 +47876,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add a frontend ip configuration to an application gateway",
-                  "fullName": "network application-gateway frontend-ip add",
+                  "fullName": "network application-gateway frontend-ip create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48000,9 +48000,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete a frontend ip configuration from an application gateway",
-                  "fullName": "network application-gateway frontend-ip remove",
+                  "fullName": "network application-gateway frontend-ip delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48089,9 +48089,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add a frontend port to an application gateway",
-                  "fullName": "network application-gateway frontend-port add",
+                  "fullName": "network application-gateway frontend-port create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48168,9 +48168,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete a frontend port from an application gateway",
-                  "fullName": "network application-gateway frontend-port remove",
+                  "fullName": "network application-gateway frontend-port delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48257,9 +48257,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add a backend address pool to an application gateway",
-                  "fullName": "network application-gateway address-pool add",
+                  "fullName": "network application-gateway address-pool create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48336,9 +48336,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete a backend address pool from an application gateway",
-                  "fullName": "network application-gateway address-pool remove",
+                  "fullName": "network application-gateway address-pool delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48425,9 +48425,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add http settings to an application gateway",
-                  "fullName": "network application-gateway http-settings add",
+                  "fullName": "network application-gateway http-settings create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48522,9 +48522,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete http settings to an application gateway",
-                  "fullName": "network application-gateway http-settings remove",
+                  "fullName": "network application-gateway http-settings delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48611,9 +48611,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add an http listener to an application gateway",
-                  "fullName": "network application-gateway http-listener add",
+                  "fullName": "network application-gateway http-listener create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48717,9 +48717,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete an http listener from an application gateway",
-                  "fullName": "network application-gateway http-listener remove",
+                  "fullName": "network application-gateway http-listener delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48806,9 +48806,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add request routing rule to application gateway",
-                  "fullName": "network application-gateway rule add",
+                  "fullName": "network application-gateway rule create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -48912,9 +48912,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete a request routing rule from an application gateway",
-                  "fullName": "network application-gateway rule remove",
+                  "fullName": "network application-gateway rule delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -49001,9 +49001,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add probe to application gateway",
-                  "fullName": "network application-gateway probe add",
+                  "fullName": "network application-gateway probe create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -49134,9 +49134,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete a probe from an application gateway",
-                  "fullName": "network application-gateway probe remove",
+                  "fullName": "network application-gateway probe delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -49223,9 +49223,9 @@
               "options": [],
               "commands": [
                 {
-                  "name": "add",
+                  "name": "create",
                   "description": "Add url path map to application gateway",
-                  "fullName": "network application-gateway url-path-map add",
+                  "fullName": "network application-gateway url-path-map create",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -49329,9 +49329,9 @@
                   ]
                 },
                 {
-                  "name": "remove",
+                  "name": "delete",
                   "description": "Delete an url path map from an application gateway",
-                  "fullName": "network application-gateway url-path-map remove",
+                  "fullName": "network application-gateway url-path-map delete",
                   "usage": "[options] <resource-group> <gateway-name> <name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
@@ -49417,9 +49417,9 @@
                   "options": [],
                   "commands": [
                     {
-                      "name": "add",
+                      "name": "create",
                       "description": "Add url path map to application gateway",
-                      "fullName": "network application-gateway url-path-map rule add",
+                      "fullName": "network application-gateway url-path-map rule create",
                       "usage": "[options] <resource-group> <gateway-name> <name>",
                       "filePath": "commands/arm/network/network._js",
                       "options": [
@@ -49523,9 +49523,9 @@
                       ]
                     },
                     {
-                      "name": "remove",
+                      "name": "delete",
                       "description": "Delete an url path map from an application gateway",
-                      "fullName": "network application-gateway url-path-map rule remove",
+                      "fullName": "network application-gateway url-path-map rule delete",
                       "usage": "[options] <resource-group> <gateway-name> <name>",
                       "filePath": "commands/arm/network/network._js",
                       "options": [
