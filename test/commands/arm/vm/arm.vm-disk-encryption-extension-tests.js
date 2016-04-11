@@ -39,6 +39,7 @@ var groupName,
   aadAppName = 'xplattestapp',
   aadClientSecret = 'xPL4t',
   aadClientId,
+  identifierUri,
   aadObjectId,
   spn,
   spObjectId,
@@ -62,6 +63,7 @@ describe('arm', function() {
     var suite, retry = 5;
     var vmTest = new VMTestUtil();
     before(function(done) {
+      this.timeout(vmTest.timeoutLarge);
       suite = new CLITest(this, testprefix, requiredEnvironment);
       suite.setupSuite(function() {
         location = process.env.AZURE_VM_TEST_LOCATION;
@@ -71,6 +73,7 @@ describe('arm', function() {
         nicName = suite.isMocked ? nicName : suite.generateId(nicName, null);
         vaultName = suite.isMocked ? vaultName : suite.generateId(vaultName, null);
         aadAppName = suite.isMocked ? aadAppName : suite.generateId(aadAppName, null);
+        identifierUri = util.format('http://localhost:8080/%s', aadAppName);
         aadClientSecret = suite.isMocked ? aadClientSecret : suite.generateId(aadClientSecret, null);
         storageAccount = suite.generateId(storageAccount, null);
         storageCont = suite.generateId(storageCont, null);
@@ -79,26 +82,22 @@ describe('arm', function() {
         publicipName = suite.isMocked ? publicipName : suite.generateId(publicipName, null);
         dnsPrefix = suite.generateId(dnsPrefix, null);
         subscriptionId = profile.current.getSubscription().id;
-        done();
+        if (!suite.isPlayback()) {
+          setupPrerequisites(done);
+        } else {
+          done();
+        }
       });
     });
 
     after(function(done) {
-       vmTest.deleteUsedGroup(groupName, suite, function(result) {
-         suite.teardownSuite(function () {
-         //delete all the artifacts that were created during setup and do not belong to the resource group
-          suite.execute('ad app delete --objectId %s --quiet --json', aadObjectId, function (result) {
-            result.exitStatus.should.equal(0);
-          });
-          suite.execute('ad sp delete --objectId %s -q --json', spObjectId, function (result) {
-            result.exitStatus.should.equal(0);
-          });
-          suite.execute('keyvault delete -u %s --quiet --json', vaultName, function (result) {
-            result.exitStatus.should.equal(0);
-          });
+      suite.teardownSuite(function () {
+        if (!suite.isPlayback()) {
+          cleanupCreatedArtifacts(done);
+        } else {
           done();
-         });
-       });
+        }
+      });
     });
 
     beforeEach(function(done) {
@@ -109,72 +108,66 @@ describe('arm', function() {
       suite.teardownTest(done);
     });
 
-    describe('vm', function() {
-      it('should create a Windows VM to be used for encryption testing', function(done) {
-        this.timeout(vmTest.timeoutLarge);
-        vmTest.checkImagefile(function() {
-          vmTest.createGroup(groupName, location, suite, function(result) {
-            var cmd = util.format('vm create %s %s %s Windows -f %s -Q %s -u %s -p %s -o %s -R %s -F %s -P %s -j %s -k %s -i %s -w %s --json',
-              groupName, vmPrefix, location, nicName, winImageUrn, username, password, storageAccount, storageCont,
-              vNetPrefix, '10.4.0.0/16', subnetName, '10.4.0.0/24', publicipName, dnsPrefix).split(' ');
-            testUtils.executeCommand(suite, retry, cmd, function(result) {
+    function setupPrerequisites(done)
+    {
+      // Create a resource group
+      suite.execute('group create -n %s -l %s --json', groupName, location, function (result) {
+        result.exitStatus.should.equal(0);
+        // Create a Windows VM
+        suite.execute('vm create %s %s %s Windows -f %s -Q %s -u %s -p %s -o %s -R %s -F %s -P %s -j %s -k %s -i %s -w %s --json', groupName, vmPrefix, location, nicName, winImageUrn, username, password, storageAccount, storageCont, vNetPrefix, '10.4.0.0/16', subnetName, '10.4.0.0/24', publicipName, dnsPrefix, function (result) {
+          result.exitStatus.should.equal(0);
+          // Create an AAD app
+          suite.execute('ad app create -n %s --home-page "http://www.contoso.com" -i %s -p %s --json', aadAppName, identifierUri, aadClientSecret, function (result) {
+            result.exitStatus.should.equal(0);
+            var appResources = JSON.parse(result.text);
+            aadClientId = appResources.appId;
+            aadObjectId = appResources.objectId;
+            // Create a service principal
+            suite.execute('ad sp create --applicationId %s --json', aadClientId, function (result) {
               result.exitStatus.should.equal(0);
-              done();
+              var spResources = JSON.parse(result.text);
+              spn = spResources.appId;
+              spObjectId = spResources.objectId;
+              // Create a KeyVault
+              suite.execute('keyvault create %s --resource-group %s --location %s --json', vaultName, groupName, location, function (result) {
+                result.exitStatus.should.equal(0);
+                var kvResources = JSON.parse(result.text);
+                diskEncryptionKeyVaultId = kvResources.id;
+                diskEncryptionKeySecretUrl = kvResources.properties.vaultUri;
+                // Prepare the vault for encryption
+                suite.execute('keyvault set-policy -u %s --spn %s --perms-to-keys ["all"] --perms-to-secrets ["all"] --enabled-for-disk-encryption true --json', vaultName, spn, function (result) {
+                  result.exitStatus.should.equal(0);
+                  done();
+                });
+              });
             });
           });
         });
       });
+    }
 
-      it('should show the correct encryption status for the Windows VM', function(done) {
+    function cleanupCreatedArtifacts(done)
+    {
+      suite.execute('ad app delete --objectId %s --quiet --json', aadObjectId, function (result) {
+        result.exitStatus.should.equal(0);
+        suite.execute('keyvault delete -u %s --quiet --json', vaultName, function (result) {
+          result.exitStatus.should.equal(0);
+          suite.execute('group delete -n %s --quiet --json', groupName, function (result) {
+            result.exitStatus.should.equal(0);
+            done();
+          });
+        });
+      });
+    }
+
+    describe('vm', function() {
+      it('should show the correct encryption status for the new Windows VM - not encrypted', function(done) {
         var cmd = util.format('vm show-disk-encryption-status %s %s --json', groupName, vmPrefix).split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);
           var allResources = JSON.parse(result.text);
           allResources.osVolumeEncrypted.should.equal('NotEncrypted');
           allResources.dataVolumesEncrypted.should.equal('NotEncrypted');
-          done();
-        });
-      });
-
-      it('should create an AAD app', function(done) {
-        var identifierUri = util.format('http://localhost:8080/%s', aadAppName);
-        var cmd = util.format('ad app create -n %s --home-page "http://www.contoso.com" -i %s -p %s --json', aadAppName, identifierUri, aadClientSecret).split(' ');
-        testUtils.executeCommand(suite, retry, cmd, function(result) {
-          result.exitStatus.should.equal(0);
-          var allResources = JSON.parse(result.text);
-          aadClientId = allResources.appId;
-          aadObjectId = allResources.objectId;
-          done();
-        });
-      });
-
-      it('should create a service principal that will have access to the keyvault', function(done) {
-        var cmd = util.format('ad sp create --applicationId %s --json', aadClientId).split(' ');
-        testUtils.executeCommand(suite, retry, cmd, function(result) {
-          result.exitStatus.should.equal(0);
-          var allResources = JSON.parse(result.text);
-          spn = allResources.appId;
-          spObjectId = allResources.objectId;
-          done();
-        });
-      });
-
-      it('should create a KeyVault', function(done) {
-        var cmd = util.format('keyvault create %s --resource-group %s --location %s --json', vaultName, groupName, location).split(' ');
-        testUtils.executeCommand(suite, retry, cmd, function(result) {
-          result.exitStatus.should.equal(0);
-          var allResources = JSON.parse(result.text);
-          diskEncryptionKeyVaultId = allResources.id;
-          diskEncryptionKeySecretUrl = allResources.properties.vaultUri;
-          done();
-        });
-      });
-
-      it('should prepare the vault for encryption', function(done) {
-        var cmd = util.format('keyvault set-policy -u %s --spn %s --perms-to-keys ["all"] --perms-to-secrets ["all"] --enabled-for-disk-encryption true --json', vaultName, spn).split(' ');
-        testUtils.executeCommand(suite, retry, cmd, function(result) {
-          result.exitStatus.should.equal(0);
-          var allResources = JSON.parse(result.text);
           done();
         });
       });
