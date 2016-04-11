@@ -116,7 +116,8 @@ describe('arm', function () {
         networkUtil.createGroup(gatewayProp.group, gatewayProp.location, suite, function () {
           networkUtil.createVnet(gatewayProp.group, gatewayProp.vnetName, gatewayProp.location, gatewayProp.vnetAddress, suite, function () {
             networkUtil.createSubnet(gatewayProp.group, gatewayProp.vnetName, gatewayProp.subnetName, gatewayProp.subnetAddress, suite, function () {
-              var cmd = 'network application-gateway create {group} {name} -l {location} -e {vnetName} -m {subnetName} -r {servers} -t {tags} --json'.formatArgs(gatewayProp);
+              var cmd = util.format('network application-gateway create {group} {name} -l {location} -e {vnetName} -m {subnetName} ' +
+                '-r {servers} -t {tags} --json').formatArgs(gatewayProp);
               testUtils.executeCommand(suite, retry, cmd, function (result) {
                 result.exitStatus.should.equal(0);
                 var appGateway = JSON.parse(result.text);
