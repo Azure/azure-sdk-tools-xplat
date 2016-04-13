@@ -231,8 +231,8 @@ _.extend(NetworkTestUtil.prototype, {
     });
   },
   createLocalGateway: function (gatewayProp, suite, callback) {
-    var cmd = 'network local-gateway create -g {group} -n {name} -l {location} -a {addressPrefix} -i {gatewayIpAddress} -t {tags} --json'
-      .formatArgs(gatewayProp);
+    var cmd = util.format('network local-gateway create -g {group} -n {name} -l {location} -a {addressPrefix} ' +
+      '-i {gatewayIpAddress} -t {tags} --json').formatArgs(gatewayProp);
     testUtils.executeCommand(suite, retry, cmd, function (result) {
       result.exitStatus.should.equal(0);
       var gateway = JSON.parse(result.text);
@@ -255,7 +255,8 @@ _.extend(NetworkTestUtil.prototype, {
   },
   createDnsRecordSet: function (rsetProp, suite, callback) {
     var self = this;
-    var cmd = 'network dns record-set create -g {group} -z {zoneName} -n {name} -y {type} -l {ttl} -t {tags} --json'.formatArgs(rsetProp);
+    var cmd = 'network dns record-set create -g {group} -z {zoneName} -n {name} -y {type} -l {ttl} -t {tags} --json'
+      .formatArgs(rsetProp);
     testUtils.executeCommand(suite, retry, cmd, function (result) {
       result.exitStatus.should.equal(0);
       var rset = JSON.parse(result.text);
@@ -302,15 +303,16 @@ _.extend(NetworkTestUtil.prototype, {
     });
   },
   deleteDnsRecord: function (rsetProp, suite, callback) {
-    var cmd = 'network dns record-set delete-record -g {group} -z {zoneName} -n {name} -y {type} {params} --quiet --json'.formatArgs(rsetProp);
+    var cmd = 'network dns record-set delete-record -g {group} -z {zoneName} -n {name} -y {type} {params} --quiet --json'
+      .formatArgs(rsetProp);
     testUtils.executeCommand(suite, retry, cmd, function (result) {
       result.exitStatus.should.equal(0);
       callback();
     });
   },
   createTrafficManagerProfile: function (profileProp, suite, callback) {
-    var cmd = 'network traffic-manager profile create -g {group} -n {name} -u {profileStatus} -m {trafficRoutingMethod} -r {relativeDnsName} -l {ttl} -p {monitorProtocol} -o {monitorPort} -a {monitorPath} -t {tags} --json'
-      .formatArgs(profileProp);
+    var cmd = util.format('network traffic-manager profile create -g {group} -n {name} -u {profileStatus} -m {trafficRoutingMethod} ' +
+      '-r {relativeDnsName} -l {ttl} -p {monitorProtocol} -o {monitorPort} -a {monitorPath} -t {tags} --json').formatArgs(profileProp);
 
     testUtils.executeCommand(suite, retry, cmd, function (result) {
       result.exitStatus.should.equal(0);
@@ -326,8 +328,8 @@ _.extend(NetworkTestUtil.prototype, {
       callback(profile);
     });
   },
-  stopAppGateway: function(groupName, appGatewayPrefix, suite, callback) {
-    var cmd = util.format('network application-gateway stop %s %s --json', groupName, appGatewayPrefix).split(' ');
+  stopAppGateway: function(gatewayProps, suite, callback) {
+    var cmd = 'network application-gateway stop {group} {name} --json'.formatArgs(gatewayProps);
     testUtils.executeCommand(suite, retry, cmd, function(result) {
       result.exitStatus.should.equal(0);
       callback();
