@@ -15402,6 +15402,236 @@
         }
       }
     },
+    "invoke": {
+      "name": "invoke",
+      "description": "Commands to invoke service management operations.",
+      "fullName": "invoke",
+      "usage": "[options]",
+      "options": [],
+      "commands": [],
+      "categories": {
+        "deployment": {
+          "name": "deployment",
+          "description": "Commands to manage your deployment.  ",
+          "fullName": "invoke deployment",
+          "usage": "[options] [command]",
+          "options": [],
+          "commands": [
+            {
+              "name": "abort-migration",
+              "description": "The Abort Deployment Operation validates and aborts your deployment for IaaS Classic to ARM migration.",
+              "fullName": "invoke deployment abort-migration",
+              "usage": "[options] <service-name> <deployment-name>",
+              "filePath": "commands/asm/migration/migration._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "--service-name <service-name>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--service-name",
+                  "description": "service-name"
+                },
+                {
+                  "flags": "--deployment-name <deployment-name>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--deployment-name",
+                  "description": "deployment-name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "commit-migration",
+              "description": "The Commit Deployment Operation validates and commits your deployment for IaaS Classic to ARM migration.",
+              "fullName": "invoke deployment commit-migration",
+              "usage": "[options] <service-name> <deployment-name>",
+              "filePath": "commands/asm/migration/migration._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "--service-name <service-name>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--service-name",
+                  "description": "service-name"
+                },
+                {
+                  "flags": "--deployment-name <deployment-name>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--deployment-name",
+                  "description": "deployment-name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "prepare-migration",
+              "description": "The Prepare Deployment Operation validates and prepares your deployment for IaaS Classic to ARM migration.",
+              "fullName": "invoke deployment prepare-migration",
+              "usage": "[options] <service-name> <deployment-name> <destination-virtual-network> <resource-group-name> <sub-net-name> <virtual-network-name>",
+              "filePath": "commands/asm/migration/migration._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "--service-name <service-name>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--service-name",
+                  "description": "service-name"
+                },
+                {
+                  "flags": "--deployment-name <deployment-name>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--deployment-name",
+                  "description": "deployment-name"
+                },
+                {
+                  "flags": "--destination-virtual-network <destination-virtual-network>",
+                  "required": -31,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--destination-virtual-network",
+                  "description": "destination-virtual-network"
+                },
+                {
+                  "flags": "-g, --resource-group-name <resource-group-name>",
+                  "required": -27,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-g",
+                  "long": "--resource-group-name",
+                  "description": "resource-group-name"
+                },
+                {
+                  "flags": "--sub-net-name <sub-net-name>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--sub-net-name",
+                  "description": "sub-net-name"
+                },
+                {
+                  "flags": "--virtual-network-name <virtual-network-name>",
+                  "required": -24,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--virtual-network-name",
+                  "description": "virtual-network-name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier"
+                }
+              ]
+            }
+          ],
+          "categories": {}
+        }
+      }
+    },
     "mobile": {
       "name": "mobile",
       "description": "Commands to manage your Mobile Services",
