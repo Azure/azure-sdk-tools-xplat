@@ -7,6 +7,10 @@ exports.getMockedProfile = function () {
 
   newProfile.addSubscription(new profile.Subscription({
     id: 'e33f361b-53c2-4cc7-b829-78906708387b',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
     name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
@@ -36,13 +40,13 @@ nock('http://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-served-by': 'db2c81f2-c6fa-41a7-b70e-bc4bed3c3b56_131007406745598633',
-  'x-ms-request-id': '4a31e587-bee9-4240-870e-d9f38137fe8f',
+  'x-ms-served-by': 'db2c81f2-c6fa-41a7-b70e-bc4bed3c3b56_131056317130923594',
+  'x-ms-request-id': '8329dabc-c975-43c2-8eab-ffab2112a032',
   server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14998',
-  'x-ms-correlation-request-id': '8a2ef408-7464-430a-a599-59a7f24eb884',
-  'x-ms-routing-request-id': 'CENTRALUS:20160420T162912Z:8a2ef408-7464-430a-a599-59a7f24eb884',
-  date: 'Wed, 20 Apr 2016 16:29:11 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14986',
+  'x-ms-correlation-request-id': '855eedfb-93c8-4fd6-b927-62ed50bc3ce0',
+  'x-ms-routing-request-id': 'CENTRALUS:20160426T044622Z:855eedfb-93c8-4fd6-b927-62ed50bc3ce0',
+  date: 'Tue, 26 Apr 2016 04:46:22 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
@@ -55,12 +59,12 @@ nock('https://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-served-by': 'db2c81f2-c6fa-41a7-b70e-bc4bed3c3b56_131007406745598633',
-  'x-ms-request-id': '4a31e587-bee9-4240-870e-d9f38137fe8f',
+  'x-ms-served-by': 'db2c81f2-c6fa-41a7-b70e-bc4bed3c3b56_131056317130923594',
+  'x-ms-request-id': '8329dabc-c975-43c2-8eab-ffab2112a032',
   server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14998',
-  'x-ms-correlation-request-id': '8a2ef408-7464-430a-a599-59a7f24eb884',
-  'x-ms-routing-request-id': 'CENTRALUS:20160420T162912Z:8a2ef408-7464-430a-a599-59a7f24eb884',
-  date: 'Wed, 20 Apr 2016 16:29:11 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14986',
+  'x-ms-correlation-request-id': '855eedfb-93c8-4fd6-b927-62ed50bc3ce0',
+  'x-ms-routing-request-id': 'CENTRALUS:20160426T044622Z:855eedfb-93c8-4fd6-b927-62ed50bc3ce0',
+  date: 'Tue, 26 Apr 2016 04:46:22 GMT',
   connection: 'close' });
  return result; }]];

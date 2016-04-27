@@ -7,6 +7,10 @@ exports.getMockedProfile = function () {
 
   newProfile.addSubscription(new profile.Subscription({
     id: 'e33f361b-53c2-4cc7-b829-78906708387b',
+    managementCertificate: {
+      key: 'mockedKey',
+      cert: 'mockedCert'
+    },
     name: 'Microsoft Azure Internal Consumption',
     user: {
       name: 'user@domain.example',
@@ -22,9 +26,9 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_VM_TEST_LOCATION'] = 'southeastasia';
+  process.env['AZURE_VM_TEST_LOCATION'] = 'southindia';
 };
 
 exports.scopes = [];
 
- exports.randomTestIdsGenerated = function() { return ['xplatTstVmssGCreate3073','xplattestnic4125','xplatteststorage16461','xplatteststorage27475','xplatteststorage37607','xplatteststoragecnt14139','xplatteststoragecnt21455','xplatteststoragecnt3949','xplattestvnet4402','xplattestsubnet6522','xplattestipdns59'];};
+ exports.randomTestIdsGenerated = function() { return ['xplatTstVmssGCreate9885','xplattestnic8769','xplatteststorage136','xplatteststorage2469','xplatteststorage36631','xplatteststoragecnt12553','xplatteststoragecnt23020','xplatteststoragecnt39470','xplattestvnet7289','xplattestsubnet7947','xplattestipdns224'];};
