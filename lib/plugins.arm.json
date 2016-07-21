@@ -52327,7 +52327,7 @@
                   "name": "list",
                   "description": "Get all DNS zones",
                   "fullName": "network dns zone list",
-                  "usage": "[options] [resource-group]",
+                  "usage": "[options] <resource-group>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
                     {
@@ -52825,7 +52825,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set, valid values are\n     [A,AAAA,MX,NS,SRV,TXT,CNAME]"
+                      "description": "the type of the record set, valid values are\n     [A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]"
                     },
                     {
                       "flags": "-l, --ttl <ttl>",
@@ -52922,7 +52922,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set, valid values are\n     [SOA,A,AAAA,CNAME,MX,NS,SRV,TXT]"
+                      "description": "the type of the record set, valid values are\n     [SOA,A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]"
                     },
                     {
                       "flags": "-l, --ttl <ttl>",
@@ -53010,7 +53010,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set, \n     If specified only record sets of this type will be listed.\n     valid values are [SOA,A,AAAA,CNAME,MX,NS,SRV,TXT]"
+                      "description": "the type of the record set, \n     If specified only record sets of this type will be listed.\n     valid values are [SOA,A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
@@ -53089,7 +53089,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set, \n     valid values are [SOA,A,AAAA,CNAME,MX,NS,SRV,TXT]"
+                      "description": "the type of the record set, \n     valid values are [SOA,A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
@@ -53168,7 +53168,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--type",
-                      "description": "the type of the record set, \n     valid values are [A,AAAA,CNAME,MX,NS,SRV,TXT]"
+                      "description": "the type of the record set, \n     valid values are [A,AAAA,CNAME,MX,NS,PTR,SRV,TXT]"
                     },
                     {
                       "flags": "-q, --quiet",
