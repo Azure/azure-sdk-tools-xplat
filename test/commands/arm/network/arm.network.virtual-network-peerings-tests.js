@@ -30,7 +30,7 @@ var NetworkTestUtil = require('../../../util/networkTestUtil');
 var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
 var networkUtil = new NetworkTestUtil();
 
-var testPrefix = 'arm-network-autogen-virtualnetworkpeerings-tests',
+var testPrefix = 'arm-network-autogen-virtual-network-peerings-tests',
   groupName = 'xplat-test-virtual-network-peerings',
   location;
 
