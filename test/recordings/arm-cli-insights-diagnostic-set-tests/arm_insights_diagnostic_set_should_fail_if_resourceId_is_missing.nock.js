@@ -6,15 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'fb3a3d6b-44c8-44f5-88c9-b20917c9b96b',
-    name: 'Visual Studio Enterprise',
+    id: '4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c',
+    name: 'Insights Org Sub2',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
-    tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
+    tenantId: 'e58d7273-6738-4be8-9c6e-82863ed7b695',
     state: 'Enabled',
-    registeredProviders: ['mobileservice'],
+    registeredProviders: [],
     _eventsCount: '1',
     isDefault: true
   }, newProfile.environments['AzureCloud']));
@@ -25,4 +25,4 @@ exports.getMockedProfile = function () {
 exports.setEnvironment = function() {
 };
 
-exports.scopes = [];
+exports.scopes = [[]];
