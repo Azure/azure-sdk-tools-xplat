@@ -52275,9 +52275,9 @@
                       "description": "the name of the DNS zone"
                     },
                     {
-                      "flags": "-t, --tags <tags>",
-                      "required": -12,
-                      "optional": 0,
+                      "flags": "-t, --tags [tags>",
+                      "required": 0,
+                      "optional": -12,
                       "bool": true,
                       "short": "-t",
                       "long": "--tags",
@@ -52368,7 +52368,7 @@
                   "name": "list",
                   "description": "Get all DNS zones",
                   "fullName": "network dns zone list",
-                  "usage": "[options] <resource-group>",
+                  "usage": "[options]",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
                     {
