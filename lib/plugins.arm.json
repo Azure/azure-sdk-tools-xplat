@@ -52598,15 +52598,6 @@
                       "description": "the name of the DNS zone"
                     },
                     {
-                      "flags": "-q, --quiet",
-                      "required": 0,
-                      "optional": 0,
-                      "bool": true,
-                      "short": "-q",
-                      "long": "--quiet",
-                      "description": "quiet mode, do not ask for delete confirmation"
-                    },
-                    {
                       "flags": "-s, --subscription <subscription>",
                       "required": -20,
                       "optional": 0,
@@ -52998,7 +52989,7 @@
                   "name": "list",
                   "description": "Get all record sets in a DNS zone",
                   "fullName": "network dns record-set list",
-                  "usage": "[options] <resource-group> <dns-zone-name> [type]",
+                  "usage": "[options] <resource-group> <dns-zone-name>",
                   "filePath": "commands/arm/network/network._js",
                   "options": [
                     {
