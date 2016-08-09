@@ -154,8 +154,8 @@ describe('arm', function () {
           result.exitStatus.should.equal(0);
           var aSet = JSON.parse(result.text);
           aSet.name.should.equal(aProp.name);
-          aSet.properties.ttl.should.equal(aProp.newTtl);
-          networkUtil.shouldAppendTags(aSet.properties, 'metadata');
+          aSet.tTL.should.equal(aProp.newTtl);
+          networkUtil.shouldAppendTags(aSet, 'metadata');
           done();
         });
       });
@@ -167,7 +167,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type A', function (done) {
         networkUtil.addDnsRecord(aProp, suite, function (aSet) {
-          aSet.properties.aRecords.should.containEql({ipv4Address: '192.168.17.18'});
+          aSet.aRecords.should.containEql({ipv4Address: '192.168.17.18'});
           done();
         });
       });
@@ -193,7 +193,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type AAAA', function (done) {
         networkUtil.addDnsRecord(aaaaProp, suite, function (aaaaSet) {
-          aaaaSet.properties.aaaaRecords.should.containEql({ipv6Address: '2001:cafe:130::100'});
+          aaaaSet.aaaaRecords.should.containEql({ipv6Address: '2001:cafe:130::100'});
           done();
         });
       });
@@ -212,7 +212,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type MX', function (done) {
         networkUtil.addDnsRecord(mxProp, suite, function (mxSet) {
-          mxSet.properties.mxRecords.should.containEql({preference: 100, exchange: 'mail.test.com'});
+          mxSet.mxRecords.should.containEql({preference: 100, exchange: 'mail.test.com'});
           done();
         });
       });
@@ -231,7 +231,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type NS', function (done) {
         networkUtil.addDnsRecord(nsProp, suite, function (mxSet) {
-          mxSet.properties.nsRecords.should.containEql({nsdname: 'ns1.com.'});
+          mxSet.nsRecords.should.containEql({nsdname: 'ns1.com.'});
           done();
         });
       });
@@ -250,7 +250,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type TXT', function (done) {
         networkUtil.addDnsRecord(txtProp, suite, function (mxSet) {
-          mxSet.properties.txtRecords.should.containEql({value: ['longtexthere']});
+          mxSet.txtRecords.should.containEql({value: ['longtexthere']});
           done();
         });
       });
@@ -269,7 +269,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type SRV', function (done) {
         networkUtil.addDnsRecord(srvProp, suite, function (mxSet) {
-          mxSet.properties.srvRecords.should.containEql({priority: 1, weight: 2, port: 3, target: 'target.com'});
+          mxSet.srvRecords.should.containEql({priority: 1, weight: 2, port: 3, target: 'target.com'});
           done();
         });
       });
@@ -285,7 +285,7 @@ describe('arm', function () {
        */
       it('add-record should add a record of type CNAME', function (done) {
         networkUtil.addDnsRecord(cnameProp, suite, function (cnameSet) {
-          cnameSet.properties.cnameRecord.cname.should.equal('testcname');
+          cnameSet.cnameRecord.cname.should.equal('testcname');
           done();
         });
       });
