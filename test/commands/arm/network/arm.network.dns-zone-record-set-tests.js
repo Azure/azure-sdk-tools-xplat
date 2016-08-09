@@ -40,8 +40,8 @@ var aProp = {
   newTtl: 255,
   params: '-a 192.168.17.18',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags,
-  newTags: networkUtil.newTags
+  metadata: networkUtil.tags,
+  newMetadata: networkUtil.newTags
 };
 var aaaaProp = {
   name: 'set-aaaa',
@@ -49,7 +49,7 @@ var aaaaProp = {
   ttl: 3600,
   params: '-b 2001:cafe:130::100',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags
+  metadata: networkUtil.tags
 };
 var mxProp = {
   name: 'set-mx',
@@ -57,7 +57,7 @@ var mxProp = {
   ttl: 3600,
   params: '-f 100 -e mail.test.com.',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags
+  metadata: networkUtil.tags
 };
 var nsProp = {
   name: 'set-ns',
@@ -65,7 +65,7 @@ var nsProp = {
   ttl: 3600,
   params: '-d ns1.com.',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags
+  metadata: networkUtil.tags
 };
 var txtProp = {
   name: 'set-txt',
@@ -73,7 +73,7 @@ var txtProp = {
   ttl: 3600,
   params: '-x longtexthere',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags
+  metadata: networkUtil.tags
 };
 var srvProp = {
   name: 'set-srv',
@@ -81,7 +81,15 @@ var srvProp = {
   ttl: 3600,
   params: '-p 1 -w 2 -o 3 -u target.com.',
   zoneName: zoneProp.name,
-  tags: networkUtil.tags
+  metadata: networkUtil.tags
+};
+var cnameProp = {
+  name: 'set-cname',
+  type: 'CNAME',
+  ttl: 3600,
+  params: '-c testcname',
+  zoneName: zoneProp.name,
+  metadata: networkUtil.tags
 };
 
 var requiredEnvironment = [{
@@ -108,6 +116,7 @@ describe('arm', function () {
         nsProp.group = zoneProp.group;
         txtProp.group = zoneProp.group;
         srvProp.group = zoneProp.group;
+        cnameProp.group = zoneProp.group;
 
         done();
       });
@@ -140,14 +149,13 @@ describe('arm', function () {
         networkUtil.createDnsRecordSet(aProp, suite, done);
       });
       it('set should modify a record-set', function (done) {
-        var cmd = 'network dns record-set set -g {group} -z {zoneName} -n {name} -y {type} -l {newTtl} -t {newTags} --json'
-          .formatArgs(aProp);
+        var cmd = 'network dns record-set set -g {group} -z {zoneName} -n {name} -y {type} -l {newTtl} -m {newMetadata} --json'.formatArgs(aProp);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
           var aSet = JSON.parse(result.text);
           aSet.name.should.equal(aProp.name);
           aSet.properties.ttl.should.equal(aProp.newTtl);
-          networkUtil.shouldAppendTags(aSet);
+          networkUtil.shouldAppendTags(aSet.properties, 'metadata');
           done();
         });
       });
@@ -242,7 +250,7 @@ describe('arm', function () {
       });
       it('add-record should add a record of type TXT', function (done) {
         networkUtil.addDnsRecord(txtProp, suite, function (mxSet) {
-          mxSet.properties.txtRecords.should.containEql({value: 'longtexthere'});
+          mxSet.properties.txtRecords.should.containEql({value: ['longtexthere']});
           done();
         });
       });
@@ -270,6 +278,19 @@ describe('arm', function () {
       });
       it('delete should delete record-set of type SRV', function (done) {
         networkUtil.deleteDnsRecordSet(srvProp, suite, done);
+      });
+
+      /**
+       * CNAME
+       */
+      it('add-record should add a record of type CNAME', function (done) {
+        networkUtil.addDnsRecord(cnameProp, suite, function (cnameSet) {
+          cnameSet.properties.cnameRecord.cname.should.equal('testcname');
+          done();
+        });
+      });
+      it('delete-record should delete a record of type CNAME', function (done) {
+        networkUtil.deleteDnsRecord(cnameProp, suite, done);
       });
     });
   });

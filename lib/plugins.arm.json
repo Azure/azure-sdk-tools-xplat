@@ -52275,7 +52275,7 @@
                       "description": "the name of the DNS zone"
                     },
                     {
-                      "flags": "-t, --tags [tags>",
+                      "flags": "-t, --tags [tags]",
                       "required": 0,
                       "optional": -12,
                       "bool": true,
@@ -52596,6 +52596,15 @@
                       "short": "-n",
                       "long": "--name",
                       "description": "the name of the DNS zone"
+                    },
+                    {
+                      "flags": "-q, --quiet",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-q",
+                      "long": "--quiet",
+                      "description": "quiet mode, do not ask for delete confirmation"
                     },
                     {
                       "flags": "-s, --subscription <subscription>",
