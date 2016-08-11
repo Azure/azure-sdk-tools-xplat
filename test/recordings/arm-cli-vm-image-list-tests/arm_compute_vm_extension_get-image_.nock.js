@@ -14,7 +14,7 @@ exports.getMockedProfile = function () {
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
+    registeredProviders: ['mobileservice'],
     _eventsCount: '1',
     isDefault: true
   }, newProfile.environments['AzureCloud']));
@@ -36,12 +36,12 @@ nock('http://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '6c910cde-8cd6-4086-ba6e-2c34b039c623',
-  server: 'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14962',
-  'x-ms-correlation-request-id': '03fb1c38-5074-486e-b1e7-482ee9010856',
-  'x-ms-routing-request-id': 'EASTUS:20160718T210057Z:03fb1c38-5074-486e-b1e7-482ee9010856',
-  date: 'Mon, 18 Jul 2016 21:00:56 GMT',
+  'x-ms-request-id': '9cb2ad07-e781-43cd-909b-2d2c2cabc0ac',
+  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads': '14907',
+  'x-ms-correlation-request-id': '4732e635-e99d-425f-9348-6bb5dcf0d38b',
+  'x-ms-routing-request-id': 'CANADAEAST:20160811T180912Z:4732e635-e99d-425f-9348-6bb5dcf0d38b',
+  date: 'Thu, 11 Aug 2016 18:09:11 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
@@ -54,11 +54,11 @@ nock('https://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '6c910cde-8cd6-4086-ba6e-2c34b039c623',
-  server: 'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14962',
-  'x-ms-correlation-request-id': '03fb1c38-5074-486e-b1e7-482ee9010856',
-  'x-ms-routing-request-id': 'EASTUS:20160718T210057Z:03fb1c38-5074-486e-b1e7-482ee9010856',
-  date: 'Mon, 18 Jul 2016 21:00:56 GMT',
+  'x-ms-request-id': '9cb2ad07-e781-43cd-909b-2d2c2cabc0ac',
+  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-reads': '14907',
+  'x-ms-correlation-request-id': '4732e635-e99d-425f-9348-6bb5dcf0d38b',
+  'x-ms-routing-request-id': 'CANADAEAST:20160811T180912Z:4732e635-e99d-425f-9348-6bb5dcf0d38b',
+  date: 'Thu, 11 Aug 2016 18:09:11 GMT',
   connection: 'close' });
  return result; }]];
