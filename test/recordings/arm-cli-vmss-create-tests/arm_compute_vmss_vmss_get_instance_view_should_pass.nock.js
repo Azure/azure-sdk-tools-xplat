@@ -6,19 +6,16 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'e33f361b-53c2-4cc7-b829-78906708387b',
-    managementCertificate: {
-      key: 'mockedKey',
-      cert: 'mockedCert'
-    },
-    name: 'Microsoft Azure Internal Consumption',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
-      type: 'servicePrincipal'
+      type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
+    registeredProviders: ['mobileservice'],
+    _eventsCount: '1',
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -26,44 +23,44 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_VM_TEST_LOCATION'] = 'southeastasia';
+  process.env['AZURE_VM_TEST_LOCATION'] = 'eastus';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://management.azure.com:443')
-  .get('/subscriptions/e33f361b-53c2-4cc7-b829-78906708387b/resourceGroups/xplatTestVMSSCreate8396/providers/Microsoft.Compute/virtualMachineScaleSets/xplattestvms2/instanceView?api-version=2016-03-30')
-  .reply(200, "{\r\n  \"virtualMachine\": {\r\n    \"statusesSummary\": [\r\n      {\r\n        \"code\": \"ProvisioningState/succeeded\",\r\n        \"count\": 6\r\n      }\r\n    ]\r\n  },\r\n  \"statuses\": [\r\n    {\r\n      \"code\": \"ProvisioningState/succeeded\",\r\n      \"level\": \"Info\",\r\n      \"displayStatus\": \"Provisioning succeeded\",\r\n      \"time\": \"2016-05-26T06:18:00.6276604+00:00\"\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
+  .get('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplatTestVMSSCreate7805/providers/Microsoft.Compute/virtualMachineScaleSets/xplattestvms2/instanceView?api-version=2016-03-30')
+  .reply(200, "{\r\n  \"virtualMachine\": {\r\n    \"statusesSummary\": [\r\n      {\r\n        \"code\": \"ProvisioningState/succeeded\",\r\n        \"count\": 6\r\n      }\r\n    ]\r\n  },\r\n  \"statuses\": [\r\n    {\r\n      \"code\": \"ProvisioningState/succeeded\",\r\n      \"level\": \"Info\",\r\n      \"displayStatus\": \"Provisioning succeeded\",\r\n      \"time\": \"2016-08-11T23:22:24.8724374+00:00\"\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '359',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-served-by': 'dce02487-9cda-4782-8138-773eb1573792_131086717345190504',
-  'x-ms-request-id': '8f7f3879-64f0-45ed-a48d-026687afc090',
+  'x-ms-served-by': 'f1952173-7412-4020-8c98-fffca6509750_131118073625769552',
+  'x-ms-request-id': '60e1d807-0a2a-4189-888a-6b781599eb00',
   server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14998',
-  'x-ms-correlation-request-id': '044e74d1-c198-43ee-8a55-79adcbe9367b',
-  'x-ms-routing-request-id': 'CENTRALUS:20160526T061815Z:044e74d1-c198-43ee-8a55-79adcbe9367b',
-  date: 'Thu, 26 May 2016 06:18:15 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14966',
+  'x-ms-correlation-request-id': '90c22e06-608c-4219-8463-0694ba22037b',
+  'x-ms-routing-request-id': 'CANADAEAST:20160811T232230Z:90c22e06-608c-4219-8463-0694ba22037b',
+  date: 'Thu, 11 Aug 2016 23:22:29 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
-  .get('/subscriptions/e33f361b-53c2-4cc7-b829-78906708387b/resourceGroups/xplatTestVMSSCreate8396/providers/Microsoft.Compute/virtualMachineScaleSets/xplattestvms2/instanceView?api-version=2016-03-30')
-  .reply(200, "{\r\n  \"virtualMachine\": {\r\n    \"statusesSummary\": [\r\n      {\r\n        \"code\": \"ProvisioningState/succeeded\",\r\n        \"count\": 6\r\n      }\r\n    ]\r\n  },\r\n  \"statuses\": [\r\n    {\r\n      \"code\": \"ProvisioningState/succeeded\",\r\n      \"level\": \"Info\",\r\n      \"displayStatus\": \"Provisioning succeeded\",\r\n      \"time\": \"2016-05-26T06:18:00.6276604+00:00\"\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
+  .get('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplatTestVMSSCreate7805/providers/Microsoft.Compute/virtualMachineScaleSets/xplattestvms2/instanceView?api-version=2016-03-30')
+  .reply(200, "{\r\n  \"virtualMachine\": {\r\n    \"statusesSummary\": [\r\n      {\r\n        \"code\": \"ProvisioningState/succeeded\",\r\n        \"count\": 6\r\n      }\r\n    ]\r\n  },\r\n  \"statuses\": [\r\n    {\r\n      \"code\": \"ProvisioningState/succeeded\",\r\n      \"level\": \"Info\",\r\n      \"displayStatus\": \"Provisioning succeeded\",\r\n      \"time\": \"2016-08-11T23:22:24.8724374+00:00\"\r\n    }\r\n  ]\r\n}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '359',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-served-by': 'dce02487-9cda-4782-8138-773eb1573792_131086717345190504',
-  'x-ms-request-id': '8f7f3879-64f0-45ed-a48d-026687afc090',
+  'x-ms-served-by': 'f1952173-7412-4020-8c98-fffca6509750_131118073625769552',
+  'x-ms-request-id': '60e1d807-0a2a-4189-888a-6b781599eb00',
   server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads': '14998',
-  'x-ms-correlation-request-id': '044e74d1-c198-43ee-8a55-79adcbe9367b',
-  'x-ms-routing-request-id': 'CENTRALUS:20160526T061815Z:044e74d1-c198-43ee-8a55-79adcbe9367b',
-  date: 'Thu, 26 May 2016 06:18:15 GMT',
+  'x-ms-ratelimit-remaining-subscription-reads': '14966',
+  'x-ms-correlation-request-id': '90c22e06-608c-4219-8463-0694ba22037b',
+  'x-ms-routing-request-id': 'CANADAEAST:20160811T232230Z:90c22e06-608c-4219-8463-0694ba22037b',
+  date: 'Thu, 11 Aug 2016 23:22:29 GMT',
   connection: 'close' });
  return result; }]];
