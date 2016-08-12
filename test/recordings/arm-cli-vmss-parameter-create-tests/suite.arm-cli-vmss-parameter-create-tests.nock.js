@@ -14,7 +14,7 @@ exports.getMockedProfile = function () {
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
+    registeredProviders: ['mobileservice'],
     _eventsCount: '1',
     isDefault: true
   }, newProfile.environments['AzureCloud']));
@@ -23,9 +23,9 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_VM_TEST_LOCATION'] = 'southeastasia';
+  process.env['AZURE_VM_TEST_LOCATION'] = 'eastus';
 };
 
 exports.scopes = [];
 
- exports.randomTestIdsGenerated = function() { return ['xplatTstVmssGCreate1093','xplattestnic9699','xplatteststorage16018','xplatteststorage26659','xplatteststorage37766','xplatteststoragecnt12103','xplatteststoragecnt24121','xplatteststoragecnt39401','xplattestvnet5583','xplattestsubnet7518','xplattestipdns2177'];};
+ exports.randomTestIdsGenerated = function() { return ['xplatTstVmssGCreate7730','xplattestnic7298','xplatteststorage193','xplatteststorage28468','xplatteststorage32138','xplatteststoragecnt17081','xplatteststoragecnt29157','xplatteststoragecnt37293','xplattestvnet9698','xplattestsubnet4710','xplattestipdns8215'];};

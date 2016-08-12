@@ -29,4 +29,4 @@ exports.setEnvironment = function() {
 
 exports.scopes = [];
 
- exports.randomTestIdsGenerated = function() { return ['xplatTestVMPlan8014','xplatteststorage1657','xplatteststoragecnt14200','xplattestipdns9606'];};
+ exports.randomTestIdsGenerated = function() { return ['xplatTestVMPlan4821','xplatteststorage12431','xplatteststoragecnt19309','xplattestipdns6169'];};
