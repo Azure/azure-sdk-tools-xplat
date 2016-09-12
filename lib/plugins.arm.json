@@ -1522,7 +1522,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--display-name",
-                  "description": "the disaply name for the application"
+                  "description": "the display name for the application"
                 },
                 {
                   "flags": "-g, --resource-group <resource-group>",
@@ -1606,7 +1606,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--display-name",
-                  "description": "the disaply name for the application"
+                  "description": "the display name for the application"
                 },
                 {
                   "flags": "-g, --resource-group <resource-group>",
@@ -3626,7 +3626,7 @@
                   "bool": true,
                   "short": "-p",
                   "long": "--pool-id",
-                  "description": "the id of an existing pool; all the tasks of the job will run on the speicfied pool"
+                  "description": "the id of an existing pool; all the tasks of the job will run on the specified pool"
                 },
                 {
                   "flags": "--metadata <--metadata>",
@@ -3752,7 +3752,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "-a, --account-name <account-name>",
@@ -3838,7 +3838,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "-a, --account-name <account-name>",
@@ -4028,10 +4028,10 @@
                   "bool": true,
                   "short": "-p",
                   "long": "--pool-id",
-                  "description": "the id of an existing pool; all the tasks of the job will run on the speicfied pool"
+                  "description": "the id of an existing pool; all the tasks of the job will run on the specified pool"
                 },
                 {
-                  "flags": "--metadata <--metadata>",
+                  "flags": "--metadata <metadata>",
                   "required": -12,
                   "optional": 0,
                   "bool": true,
@@ -4052,7 +4052,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--max-wall-clock-time",
-                  "description": "the maximum elapsed time that a job may run, in ISO 8601 duration formation"
+                  "description": "the maximum elapsed time that a job may run, in ISO 8601 duration format"
                 },
                 {
                   "flags": "--max-task-retry-count <max-task-retry-count>",
@@ -4593,7 +4593,7 @@
                   "bool": true,
                   "short": "-p",
                   "long": "--pool-id",
-                  "description": "the id of an existing pool; all the tasks of jobs created under this schedule will run on the speicfied pool"
+                  "description": "the id of an existing pool; all the tasks of jobs created under this schedule will run on the specified pool"
                 },
                 {
                   "flags": "--priority <priority>",
@@ -4742,7 +4742,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "-a, --account-name <account-name>",
@@ -4828,7 +4828,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "--if-match <if-match>",
@@ -5050,7 +5050,7 @@
                   "bool": true,
                   "short": "-p",
                   "long": "--pool-id",
-                  "description": "the id of an existing pool; all the tasks of jobs created under this schedule will run on the speicfied pool"
+                  "description": "the id of an existing pool; all the tasks of jobs created under this schedule will run on the specified pool"
                 },
                 {
                   "flags": "--priority <priority>",
@@ -6951,7 +6951,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "-a, --account-name <account-name>",
@@ -7037,7 +7037,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "--if-match <if-match>",
@@ -8299,7 +8299,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "-a, --account-name <account-name>",
@@ -8402,7 +8402,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--expand-clause",
-                  "description": "list of related entites by which the results can be expanded"
+                  "description": "list of related entities by which the results can be expanded"
                 },
                 {
                   "flags": "--if-match <if-match>",
@@ -72247,7 +72247,7 @@
           "commands": [
             {
               "name": "show",
-              "description": "Get webapp configuration",
+              "description": "Get webapp configuration \nexample:  webapp config show resroucegroup1 webapp1\nexample:  webapp config show resroucegroup1 webapp1 --propertiesToInclude remoteDebuggingVersion,logsDirectorySizeLimit ",
               "fullName": "webapp config show",
               "usage": "[options] <resource-group> <name>",
               "filePath": "commands/arm/webapp/webapp.config._js",
@@ -72324,9 +72324,9 @@
             },
             {
               "name": "set",
-              "description": "set webapp configuration (1 setting at a time)",
+              "description": "set webapp configuration",
               "fullName": "webapp config set",
-              "usage": "[options] <resource-group> <name>",
+              "usage": "[options] <resource-group> <name>\nexample:  webapp config set resroucegroup1 webapp1 --alwayson true --numberofworkers 1",
               "filePath": "commands/arm/webapp/webapp.config._js",
               "options": [
                 {
@@ -72379,7 +72379,7 @@
                   "bool": true,
                   "short": "-l",
                   "long": "--location",
-                  "description": "the location of the webapp to update, , \n\t\t\t\t\t\t   locations found at https://azure.microsoft.com/en-us/status/"
+                  "description": "the location of the webapp to update,\n\t\t\t\t\t\t\tlocations found at https://azure.microsoft.com/en-us/status/"
                 },
                 {
                   "flags": "-j --jsonInput <jsonInput>",
@@ -72396,7 +72396,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--phpversion",
-                  "description": "phpversion of webapp"
+                  "description": "php version of webapp"
                 },
                 {
                   "flags": "--pythonversion <pythonversion>",
@@ -72404,7 +72404,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--pythonversion",
-                  "description": "pythonversion of webapp"
+                  "description": "python version of webapp"
                 },
                 {
                   "flags": "--nodeversion <nodeversion>",
@@ -72412,15 +72412,87 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--nodeversion",
-                  "description": "nodeversion of webapp"
+                  "description": "node version of webapp"
                 },
                 {
-                  "flags": "--appcommandline <appcommandline>",
-                  "required": -18,
+                  "flags": "--numberofworkers <numberofworkers>",
+                  "required": -19,
                   "optional": 0,
                   "bool": true,
-                  "long": "--appcommandline",
-                  "description": "app command line for webapp"
+                  "long": "--numberofworkers",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--netframeworkversion <netframeworkversion>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--netframeworkversion",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--requesttracingenabled <requesttracingenabled>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--requesttracingenabled",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--remotedebuggingenabled <remotedebuggingenabled>",
+                  "required": -26,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--remotedebuggingenabled",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--httploggingenabled <httploggingenabled>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--httploggingenabled",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--detailederrorloggingenabled <detailederrorloggingenabled>",
+                  "required": -31,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--detailederrorloggingenabled",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--websocketenabled <websocketenabled>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--websocketenabled",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--use32bitworkerprocess <use32bitworkerprocess>",
+                  "required": -25,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--use32bitworkerprocess",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--alwayson <alwayson>",
+                  "required": -12,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--alwayson",
+                  "description": "node version of webapp"
+                },
+                {
+                  "flags": "--autohealenabled <autohealenabled>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--autohealenabled",
+                  "description": "node version of webapp"
                 },
                 {
                   "flags": "--javaversion <javaversion>",
@@ -72428,7 +72500,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--javaversion",
-                  "description": "javaversion of webapp"
+                  "description": "java version of webapp"
                 },
                 {
                   "flags": "--javacontainer <javacontainer>",
@@ -72436,7 +72508,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--javacontainer",
-                  "description": "javacontainer of webapp"
+                  "description": "java container of webapp"
                 },
                 {
                   "flags": "--javacontainerversion <javacontainerversion>",
@@ -72444,15 +72516,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--javacontainerversion",
-                  "description": "javacontainerversion of webapp"
-                },
-                {
-                  "flags": "--appsettings <appsettings>",
-                  "required": -15,
-                  "optional": 0,
-                  "bool": true,
-                  "long": "--appsettings",
-                  "description": "webapp appsettings"
+                  "description": "java container version of webapp"
                 },
                 {
                   "flags": "--slot <slot>",
@@ -72474,7 +72538,243 @@
               ]
             }
           ],
-          "categories": {}
+          "categories": {
+            "appsetting": {
+              "name": "appsetting",
+              "description": "Commands to manage your Azure webapps app setting configurations",
+              "fullName": "webapp config appsetting",
+              "usage": "[options] [command]",
+              "options": [],
+              "commands": [
+                {
+                  "name": "list",
+                  "description": "Get webapp app settings",
+                  "fullName": "webapp config appsetting list",
+                  "usage": "[options] <resource-group> <name>",
+                  "filePath": "commands/arm/webapp/webapp.config._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "the name of the resource group"
+                    },
+                    {
+                      "flags": "-n --name <name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the webapp to show"
+                    },
+                    {
+                      "flags": "--slot <slot>",
+                      "required": -8,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--slot",
+                      "description": "the name of the slot to show"
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "add",
+                  "description": "Add webapp app settings (using comma seperated key value pairs)\nexample:  webapp config appsetting add KEY1=val1,KEY2=val2,KEY3=val3",
+                  "fullName": "webapp config appsetting add",
+                  "usage": "[options] <resource-group> <name> <appsettings>",
+                  "filePath": "commands/arm/webapp/webapp.config._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "the name of the resource group"
+                    },
+                    {
+                      "flags": "-n --name <name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the webapp to show"
+                    },
+                    {
+                      "flags": "-a --appsettings <appsettings>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--appsettings",
+                      "description": "the appsettings of the webapp to add"
+                    },
+                    {
+                      "flags": "--slot <slot>",
+                      "required": -8,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--slot",
+                      "description": "the name of the slot to show"
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "Delete webapp app settings (using comma seperated keys)\nexample:  webapp config appsetting add KEY1,KEY2,KEY3",
+                  "fullName": "webapp config appsetting delete",
+                  "usage": "[options] <resource-group> <name> <appsettings>",
+                  "filePath": "commands/arm/webapp/webapp.config._js",
+                  "options": [
+                    {
+                      "flags": "-v, --verbose",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-v",
+                      "long": "--verbose",
+                      "description": "use verbose output"
+                    },
+                    {
+                      "flags": "-vv",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "-vv",
+                      "description": "more verbose with debug output"
+                    },
+                    {
+                      "flags": "--json",
+                      "required": 0,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--json",
+                      "description": "use json output"
+                    },
+                    {
+                      "flags": "-g --resource-group <resource-group>",
+                      "required": -21,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-g",
+                      "long": "--resource-group",
+                      "description": "the name of the resource group"
+                    },
+                    {
+                      "flags": "-n --name <name>",
+                      "required": -11,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-n",
+                      "long": "--name",
+                      "description": "the name of the webapp to show"
+                    },
+                    {
+                      "flags": "-a --appsettings <appsettings>",
+                      "required": -18,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-a",
+                      "long": "--appsettings",
+                      "description": "the appsettings of the webapp to add"
+                    },
+                    {
+                      "flags": "--slot <slot>",
+                      "required": -8,
+                      "optional": 0,
+                      "bool": true,
+                      "long": "--slot",
+                      "description": "the name of the slot to show"
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "the subscription identifier"
+                    }
+                  ]
+                }
+              ],
+              "categories": {}
+            }
+          }
         },
         "publishprofile": {
           "name": "publishprofile",
@@ -72487,7 +72787,7 @@
               "name": "show",
               "description": "Get webapp publish profile",
               "fullName": "webapp publishprofile show",
-              "usage": "[options] <resource-group> <name>",
+              "usage": "[options] <resource-group> <name>\nexample:  webapp config show ",
               "filePath": "commands/arm/webapp/webapp.config._js",
               "options": [
                 {
