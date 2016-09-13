@@ -72247,7 +72247,7 @@
           "commands": [
             {
               "name": "show",
-              "description": "Get webapp configuration \nexample:  webapp config show resroucegroup1 webapp1\nexample:  webapp config show resroucegroup1 webapp1 --propertiesToInclude remoteDebuggingVersion,logsDirectorySizeLimit ",
+              "description": "Get webapp configuration \nexample:  webapp config show resroucegroup1 webapp1",
               "fullName": "webapp config show",
               "usage": "[options] <resource-group> <name>",
               "filePath": "commands/arm/webapp/webapp.config._js",
@@ -72302,14 +72302,6 @@
                   "bool": true,
                   "long": "--slot",
                   "description": "the name of the slot to show"
-                },
-                {
-                  "flags": "--propertiesToInclude <propertiesToInclude>",
-                  "required": -23,
-                  "optional": 0,
-                  "bool": true,
-                  "long": "--propertiesToInclude",
-                  "description": "comma separate property names to include"
                 },
                 {
                   "flags": "-s --subscription <subscription>",
@@ -72371,15 +72363,6 @@
                   "short": "-n",
                   "long": "--name",
                   "description": "the name of the webapp to update"
-                },
-                {
-                  "flags": "-l --location <location>",
-                  "required": -15,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-l",
-                  "long": "--location",
-                  "description": "the location of the webapp to update,\n\t\t\t\t\t\t\tlocations found at https://azure.microsoft.com/en-us/status/"
                 },
                 {
                   "flags": "-j --jsonInput <jsonInput>",
@@ -72617,7 +72600,7 @@
                 },
                 {
                   "name": "add",
-                  "description": "Add webapp app settings (using comma seperated key value pairs)\nexample:  webapp config appsetting add KEY1=val1,KEY2=val2,KEY3=val3",
+                  "description": "Add webapp app settings (using comma seperated key value pairs)\nexample:  webapp config appsetting RGName SiteName add KEY1=val1,KEY2=val2,KEY3=val3",
                   "fullName": "webapp config appsetting add",
                   "usage": "[options] <resource-group> <name> <appsettings>",
                   "filePath": "commands/arm/webapp/webapp.config._js",

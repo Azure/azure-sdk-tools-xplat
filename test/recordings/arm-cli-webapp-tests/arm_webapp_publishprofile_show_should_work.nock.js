@@ -28,40 +28,40 @@ exports.setEnvironment = function() {
 exports.scopes = [[function (nock) { 
 var result = 
 nock('http://management.azure.com:443')
-  .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg14682/providers/Microsoft.Web/sites/webappclitests2408/config/publishingcredentials/list?api-version=2015-08-01')
-  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg14682/providers/Microsoft.Web/sites/webappclitests2408/publishingcredentials/$webappclitests2408\",\"name\":\"webappclitests2408\",\"type\":\"Microsoft.Web/sites/publishingcredentials\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"name\":null,\"publishingUserName\":\"$webappclitests2408\",\"publishingPassword\":\"RMtDQhr55jMmeGYXgmrstM8K6v8JgCPd0XmzEzqPXlLaY1lnBoZMe954Mslq\",\"publishingPasswordHash\":null,\"publishingPasswordHashSalt\":null,\"metadata\":null,\"isDeleted\":false,\"scmUri\":\"https://$webappclitests2408:RMtDQhr55jMmeGYXgmrstM8K6v8JgCPd0XmzEzqPXlLaY1lnBoZMe954Mslq@webappclitests2408.scm.azurewebsites.net\"}}", { 'cache-control': 'no-cache',
+  .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg18956/providers/Microsoft.Web/sites/webappclitests1951/config/publishingcredentials/list?api-version=2015-08-01')
+  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg18956/providers/Microsoft.Web/sites/webappclitests1951/publishingcredentials/$webappclitests1951\",\"name\":\"webappclitests1951\",\"type\":\"Microsoft.Web/sites/publishingcredentials\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"name\":null,\"publishingUserName\":\"$webappclitests1951\",\"publishingPassword\":\"81xvAi5sBpCmxgkxxDTT2azXftZczcuieaL3PRyyc7wyZQro3Ceus7iu1v7M\",\"publishingPasswordHash\":null,\"publishingPasswordHashSalt\":null,\"metadata\":null,\"isDeleted\":false,\"scmUri\":\"https://$webappclitests1951:81xvAi5sBpCmxgkxxDTT2azXftZczcuieaL3PRyyc7wyZQro3Ceus7iu1v7M@webappclitests1951.scm.azurewebsites.net\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '683',
   'content-type': 'application/json',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': 'f9032756-ad8b-4ded-9a23-19cba36df7a5',
+  'x-ms-request-id': '276d022d-43c5-4e97-8718-ba710fb4667d',
   server: 'Microsoft-IIS/8.0',
   'x-aspnet-version': '4.0.30319',
   'x-powered-by': 'ASP.NET',
-  'x-ms-ratelimit-remaining-subscription-resource-requests': '11997',
-  'x-ms-correlation-request-id': 'db97796a-49ce-4dd0-bba4-45792550e2c9',
-  'x-ms-routing-request-id': 'CENTRALUS:20160912T075843Z:db97796a-49ce-4dd0-bba4-45792550e2c9',
-  date: 'Mon, 12 Sep 2016 07:58:43 GMT',
+  'x-ms-ratelimit-remaining-subscription-resource-requests': '11999',
+  'x-ms-correlation-request-id': '8fc590b8-f46b-46c2-85a7-8191f00893bb',
+  'x-ms-routing-request-id': 'WESTUS2:20160912T235810Z:8fc590b8-f46b-46c2-85a7-8191f00893bb',
+  date: 'Mon, 12 Sep 2016 23:58:10 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
-  .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg14682/providers/Microsoft.Web/sites/webappclitests2408/config/publishingcredentials/list?api-version=2015-08-01')
-  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg14682/providers/Microsoft.Web/sites/webappclitests2408/publishingcredentials/$webappclitests2408\",\"name\":\"webappclitests2408\",\"type\":\"Microsoft.Web/sites/publishingcredentials\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"name\":null,\"publishingUserName\":\"$webappclitests2408\",\"publishingPassword\":\"RMtDQhr55jMmeGYXgmrstM8K6v8JgCPd0XmzEzqPXlLaY1lnBoZMe954Mslq\",\"publishingPasswordHash\":null,\"publishingPasswordHashSalt\":null,\"metadata\":null,\"isDeleted\":false,\"scmUri\":\"https://$webappclitests2408:RMtDQhr55jMmeGYXgmrstM8K6v8JgCPd0XmzEzqPXlLaY1lnBoZMe954Mslq@webappclitests2408.scm.azurewebsites.net\"}}", { 'cache-control': 'no-cache',
+  .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg18956/providers/Microsoft.Web/sites/webappclitests1951/config/publishingcredentials/list?api-version=2015-08-01')
+  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg18956/providers/Microsoft.Web/sites/webappclitests1951/publishingcredentials/$webappclitests1951\",\"name\":\"webappclitests1951\",\"type\":\"Microsoft.Web/sites/publishingcredentials\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"name\":null,\"publishingUserName\":\"$webappclitests1951\",\"publishingPassword\":\"81xvAi5sBpCmxgkxxDTT2azXftZczcuieaL3PRyyc7wyZQro3Ceus7iu1v7M\",\"publishingPasswordHash\":null,\"publishingPasswordHashSalt\":null,\"metadata\":null,\"isDeleted\":false,\"scmUri\":\"https://$webappclitests1951:81xvAi5sBpCmxgkxxDTT2azXftZczcuieaL3PRyyc7wyZQro3Ceus7iu1v7M@webappclitests1951.scm.azurewebsites.net\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
   'content-length': '683',
   'content-type': 'application/json',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': 'f9032756-ad8b-4ded-9a23-19cba36df7a5',
+  'x-ms-request-id': '276d022d-43c5-4e97-8718-ba710fb4667d',
   server: 'Microsoft-IIS/8.0',
   'x-aspnet-version': '4.0.30319',
   'x-powered-by': 'ASP.NET',
-  'x-ms-ratelimit-remaining-subscription-resource-requests': '11997',
-  'x-ms-correlation-request-id': 'db97796a-49ce-4dd0-bba4-45792550e2c9',
-  'x-ms-routing-request-id': 'CENTRALUS:20160912T075843Z:db97796a-49ce-4dd0-bba4-45792550e2c9',
-  date: 'Mon, 12 Sep 2016 07:58:43 GMT',
+  'x-ms-ratelimit-remaining-subscription-resource-requests': '11999',
+  'x-ms-correlation-request-id': '8fc590b8-f46b-46c2-85a7-8191f00893bb',
+  'x-ms-routing-request-id': 'WESTUS2:20160912T235810Z:8fc590b8-f46b-46c2-85a7-8191f00893bb',
+  date: 'Mon, 12 Sep 2016 23:58:10 GMT',
   connection: 'close' });
  return result; }]];
