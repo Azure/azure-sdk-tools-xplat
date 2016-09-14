@@ -72318,7 +72318,7 @@
               "name": "set",
               "description": "set webapp configuration",
               "fullName": "webapp config set",
-              "usage": "[options] <resource-group> <name>\nexample:  webapp config set resroucegroup1 webapp1 --alwayson true --numberofworkers 1",
+              "usage": "[options] <resource-group> <name>\nexample:  webapp config set RGName SiteName --alwayson true --numberofworkers 1",
               "filePath": "commands/arm/webapp/webapp.config._js",
               "options": [
                 {
@@ -72403,7 +72403,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--numberofworkers",
-                  "description": "node version of webapp"
+                  "description": "number of workers"
                 },
                 {
                   "flags": "--netframeworkversion <netframeworkversion>",
@@ -72411,7 +72411,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--netframeworkversion",
-                  "description": "node version of webapp"
+                  "description": "net framwork version of webapp"
                 },
                 {
                   "flags": "--requesttracingenabled <requesttracingenabled>",
@@ -72419,7 +72419,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--requesttracingenabled",
-                  "description": "node version of webapp"
+                  "description": "request tracing enabled option"
                 },
                 {
                   "flags": "--remotedebuggingenabled <remotedebuggingenabled>",
@@ -72427,7 +72427,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--remotedebuggingenabled",
-                  "description": "node version of webapp"
+                  "description": "remote debugging enabled option"
                 },
                 {
                   "flags": "--httploggingenabled <httploggingenabled>",
@@ -72435,7 +72435,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--httploggingenabled",
-                  "description": "node version of webapp"
+                  "description": "http logging enabled option"
                 },
                 {
                   "flags": "--detailederrorloggingenabled <detailederrorloggingenabled>",
@@ -72443,7 +72443,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--detailederrorloggingenabled",
-                  "description": "node version of webapp"
+                  "description": "detailed error logging enabled option"
                 },
                 {
                   "flags": "--websocketenabled <websocketenabled>",
@@ -72451,7 +72451,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--websocketenabled",
-                  "description": "node version of webapp"
+                  "description": "web socket enabled option"
                 },
                 {
                   "flags": "--use32bitworkerprocess <use32bitworkerprocess>",
@@ -72459,7 +72459,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--use32bitworkerprocess",
-                  "description": "node version of webapp"
+                  "description": "use 32 bit process option"
                 },
                 {
                   "flags": "--alwayson <alwayson>",
@@ -72467,7 +72467,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--alwayson",
-                  "description": "node version of webapp"
+                  "description": "always on option"
                 },
                 {
                   "flags": "--autohealenabled <autohealenabled>",
@@ -72475,7 +72475,7 @@
                   "optional": 0,
                   "bool": true,
                   "long": "--autohealenabled",
-                  "description": "node version of webapp"
+                  "description": "auto heal enabled option"
                 },
                 {
                   "flags": "--javaversion <javaversion>",
@@ -72599,9 +72599,9 @@
                   ]
                 },
                 {
-                  "name": "add",
-                  "description": "Add webapp app settings (using comma seperated key value pairs)\nexample:  webapp config appsetting RGName SiteName add KEY1=val1,KEY2=val2,KEY3=val3",
-                  "fullName": "webapp config appsetting add",
+                  "name": "set",
+                  "description": "Set webapp app settings (using comma seperated key value pairs)\nexample:  webapp config appsetting RGName SiteName set KEY1=val1,KEY2=val2,KEY3=val3",
+                  "fullName": "webapp config appsetting set",
                   "usage": "[options] <resource-group> <name> <appsettings>",
                   "filePath": "commands/arm/webapp/webapp.config._js",
                   "options": [
@@ -72678,7 +72678,7 @@
                 },
                 {
                   "name": "delete",
-                  "description": "Delete webapp app settings (using comma seperated keys)\nexample:  webapp config appsetting add KEY1,KEY2,KEY3",
+                  "description": "Delete webapp app settings (using comma seperated keys)\nexample:  webapp config appsetting add RGName SiteName KEY1,KEY2,KEY3",
                   "fullName": "webapp config appsetting delete",
                   "usage": "[options] <resource-group> <name> <appsettings>",
                   "filePath": "commands/arm/webapp/webapp.config._js",

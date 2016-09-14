@@ -128,8 +128,8 @@ describe('arm', function () {
       });
     });
 
-    it('config appsetting add should work', function (done) {
-      suite.execute('webapp config appsetting add %s %s %s --json', groupName, sitename, finalAppSetting, function (result) {
+    it('config appsetting set should work', function (done) {
+      suite.execute('webapp config appsetting set %s %s %s --json', groupName, sitename, finalAppSetting, function (result) {
         result.exitStatus.should.equal(0);
         done();
       });
