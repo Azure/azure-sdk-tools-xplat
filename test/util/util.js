@@ -179,8 +179,13 @@ exports.getTemplateInfoByName = function(suite, name, callback) {
 exports.executeCommand = function(suite, retry, cmd, callback) {
   var self = this;
 
-  if (cmd instanceof String) {
-    cmd = cmd.split(' ');
+  if (typeof cmd === 'string') {
+    // splits by space all that is not surrounded with quotes
+    cmd = cmd.match(/(?:[^\s"]+|"[^"]*")+/g);
+    // strips quotes from items
+    cmd.forEach(function(item, index) {
+      cmd[index] = cmd[index].replace(/"/g, '');
+    });
   }
 
   suite.execute(cmd, function(result) {

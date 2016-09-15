@@ -6,14 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'a0d901ba-9956-4f7d-830c-2d7974c36666',
-    name: 'Azure Storage DM Dev',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
-    registeredProviders: [],
+    state: 'Enabled',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -21,46 +22,33 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_STORAGE_CONNECTION_STRING'] = 'DefaultEndpointsProtocol=http;TableEndpoint=http://yaxiatest.table.testrr1.xstore-test.windows-int.net/;QueueEndpoint=http://yaxiatest.queue.testrr1.xstore-test.windows-int.net/;FileEndpoint=http://yaxiatest.file.testrr1.xstore-test.windows-int.net/;BlobEndpoint=https://yaxiatest.blob.testrr1.xstore-test.windows-int.net/;AccountName=yaxiatest;AccountKey=null';
+  process.env['AZURE_STORAGE_TEST_LOCATION'] = 'West Europe';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://yaxiatest.blob.testrr1.xstore-test.windows-int.net:443')
+nock('https://cliteststorage6387.blob.core.windows.net:443')
   .get('/testfilecopysourcecontainer?restype=container&comp=acl')
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers />", { 'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
-  'last-modified': 'Fri, 03 Jul 2015 06:05:04 GMT',
-  etag: '"0x8D2836D57105F5D"',
+  'last-modified': 'Wed, 07 Sep 2016 12:05:53 GMT',
+  etag: '"0x8D3D717516C6F3F"',
   server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '52b9486e-0001-000e-5256-b51ce9000000',
-  'x-ms-version': '2015-02-21',
-  date: 'Fri, 03 Jul 2015 06:06:00 GMT' });
+  'x-ms-request-id': '9a9edc89-0001-0055-4500-09b2b3000000',
+  'x-ms-version': '2015-04-05',
+  date: 'Wed, 07 Sep 2016 12:06:01 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://yaxiatest.blob.testrr1.xstore-test.windows-int.net:443')
-  .get('/testfilecopysourcecontainer?restype=container&comp=acl')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers />", { 'transfer-encoding': 'chunked',
-  'content-type': 'application/xml',
-  'last-modified': 'Fri, 03 Jul 2015 06:05:04 GMT',
-  etag: '"0x8D2836D57105F5D"',
-  server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '52b9486e-0001-000e-5256-b51ce9000000',
-  'x-ms-version': '2015-02-21',
-  date: 'Fri, 03 Jul 2015 06:06:00 GMT' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://yaxiatest.file.testrr1.xstore-test.windows-int.net:80')
+nock('https://cliteststorage6387.file.core.windows.net:443')
   .put('/testfilecopydestshare/testfilecopydestdir/toCopy')
   .reply(202, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 03 Jul 2015 06:05:07 GMT',
-  etag: '"0x8D2836D58EA1FDC"',
+  'last-modified': 'Wed, 07 Sep 2016 12:06:02 GMT',
+  etag: '"0x8D3D717564D445A"',
   server: 'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'eb131d59-001a-0008-0356-b555f8000000',
-  'x-ms-version': '2015-02-21',
-  'x-ms-copy-id': '16346a10-b508-41cb-85bb-16f2c53be320',
+  'x-ms-request-id': '8bb96028-001a-0038-7200-09189d000000',
+  'x-ms-version': '2015-04-05',
+  'x-ms-copy-id': 'fecdaba6-0620-4974-a685-562214e554cb',
   'x-ms-copy-status': 'pending',
-  date: 'Fri, 03 Jul 2015 06:05:28 GMT' });
+  date: 'Wed, 07 Sep 2016 12:06:01 GMT' });
  return result; }]];

@@ -166,7 +166,7 @@ describe('cli', function () {
     });
 
     it('should return false for a storage account whose name has been taken in the subscription', function (done) {
-      var accountName = 'xplat';
+      var accountName = storageName;
       suite.execute('storage account check %s --json', accountName, function (result) {
         result.exitStatus.should.equal(0);
         var availability = JSON.parse(result.text);

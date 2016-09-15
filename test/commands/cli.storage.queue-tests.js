@@ -20,10 +20,13 @@ var azureCommon = require('azure-common');
 var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
+var storageTestUtil = require('../util/asmStorageTestUtil');
 
 var suite;
 var aclTimeout;
 var testPrefix = 'cli.storage.queue-tests';
+var storageAccountPrefix = 'cliteststorage';
+var storageAccountKey = '';
 var crypto = require('crypto');
 
 function stripAccessKey(connectionString) {
@@ -35,7 +38,7 @@ function fetchAccountName(connectionString) {
 }
 
 var requiredEnvironment = [
-  { name: 'AZURE_STORAGE_CONNECTION_STRING', secure: stripAccessKey }
+  { name: 'AZURE_STORAGE_TEST_LOCATION', defaultValue: 'West Europe' }
 ];
 
 /**
@@ -43,7 +46,7 @@ var requiredEnvironment = [
 */
 describe('cli', function () {
   describe('storage', function() {
-
+    var storageUtil = new storageTestUtil();
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
@@ -53,11 +56,36 @@ describe('cli', function () {
         utils.POLL_REQUEST_INTERVAL = 0;
       }
 
-      suite.setupSuite(done);
+      suite.setupSuite(function() {
+        storageAccountPrefix = suite.generateId(storageAccountPrefix, null);
+        var storageObject = {};
+        storageObject.name = storageAccountPrefix;
+        storageObject.location = process.env.AZURE_STORAGE_TEST_LOCATION;
+        if(!suite.isPlayback()) {
+          storageUtil.createStorageAccount(storageObject, aclTimeout, suite, function() {
+            storageAccountKey = storageObject.key;
+            connectionString =
+              process.env.AZURE_STORAGE_CONNECTION_STRING ||
+              'DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + storageAccountKey;
+            done();
+          });
+        } else {
+          connectionString='DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + new Buffer("Key placeholder").toString('base64');
+          done();
+        }
+      });
     });
 
     after(function (done) {
-      suite.teardownSuite(done);
+      suite.teardownSuite(function() {
+        if(!suite.isPlayback()) {
+         storageUtil.removeStorageAccount(storageAccountPrefix, aclTimeout, suite, function() {
+           done();
+         });
+        } else {
+          done();
+        }
+      });
     });
 
     beforeEach(function (done) {
@@ -72,7 +100,7 @@ describe('cli', function () {
       var queueName = 'storageclitestqueue';
       describe('create', function() {
         it('should create a new queue', function(done) {
-          suite.execute('storage queue create %s --json', queueName, function(result) {
+          suite.execute('storage queue create %s --connection-string ' + connectionString + ' --json', queueName, function(result) {
             result.errorText.should.be.empty;
             done();
           });
@@ -81,7 +109,7 @@ describe('cli', function () {
 
       describe('list', function() {
         it('should list all storage queues', function(done) {
-            suite.execute('storage queue list --json', function (result) {
+            suite.execute('storage queue list --connection-string ' + connectionString + ' --json', function (result) {
             var queues = JSON.parse(result.text);
             queues.length.should.greaterThan(0);
             queues.forEach(function (queue) {
@@ -100,7 +128,7 @@ describe('cli', function () {
         var permissions = 'au';
 
         it('should create the queue policy with add and update permission', function (done) {
-          suite.execute('storage queue policy create %s %s --permissions %s --start %s --expiry %s --json', queueName, policyName1, permissions, start, expiry, function (result) {
+          suite.execute('storage queue policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', queueName, policyName1, permissions, start, expiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -119,7 +147,7 @@ describe('cli', function () {
 
         it('should show the created policy', function (done) {
           setTimeout(function() {
-            suite.execute('storage queue policy show %s %s --json', queueName, policyName1, function (result) {
+            suite.execute('storage queue policy show %s %s --connection-string ' + connectionString + ' --json', queueName, policyName1, function (result) {
               var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -141,9 +169,9 @@ describe('cli', function () {
         });
 
         it('should list the policies', function (done) {
-          suite.execute('storage queue policy create %s %s --permissions %s --start %s --expiry %s --json', queueName, policyName2, permissions, start, expiry, function (result) {
+          suite.execute('storage queue policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', queueName, policyName2, permissions, start, expiry, function (result) {
             setTimeout(function() {
-              suite.execute('storage queue policy list %s --json', queueName, function (result) {
+              suite.execute('storage queue policy list %s --connection-string ' + connectionString + ' --json', queueName, function (result) {
                 var policies = JSON.parse(result.text);
                 Object.keys(policies).length.should.equal(2);
                 done();
@@ -156,7 +184,7 @@ describe('cli', function () {
           var newPermissions = 'raup';
           var newStart = new Date('2015-12-01').toISOString();
           var newExpiry = new Date('2100-12-31').toISOString();
-          suite.execute('storage queue policy set %s %s --permissions %s --start %s --expiry %s --json', queueName, policyName1, newPermissions, newStart, newExpiry, function (result) {
+          suite.execute('storage queue policy set %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', queueName, policyName1, newPermissions, newStart, newExpiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -177,25 +205,25 @@ describe('cli', function () {
         });
 
         it('should delete the policy', function (done) {
-          suite.execute('storage queue policy delete %s %s --json', queueName, policyName1, function (result) {
+          suite.execute('storage queue policy delete %s %s --connection-string ' + connectionString + ' --json', queueName, policyName1, function (result) {
             var policies = JSON.parse(result.text);
             Object.keys(policies).length.should.greaterThan(0);
             done();
           });
         });
       });
-      
+
       describe('sas', function () {
         it('should create the queue sas and show the queue with sas', function (done) {
           var expiry = azureCommon.date.minutesFromNow(5).toISOString();
-          suite.execute('storage queue sas create %s rau %s --json', queueName, expiry, function (result) {
+          suite.execute('storage queue sas create %s rau %s --connection-string ' + connectionString + ' --json', queueName, expiry, function (result) {
             var sas = JSON.parse(result.text);
             sas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
             if (!suite.isMocked) {
-              var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-              suite.execute('storage queue show %s -a %s --sas %s --json', queueName, account, sas.sas, function (showResult) {
+              var account = fetchAccountName(connectionString);
+              suite.execute('storage queue show %s -a %s --sas %s --connection-string ' + connectionString + ' --json', queueName, account, sas.sas, function (showResult) {
                 showResult.errorText.should.be.empty;
                 done();
               });
@@ -208,7 +236,7 @@ describe('cli', function () {
 
       describe('show', function() {
         it('should show details of the specified queue', function(done) {
-            suite.execute('storage queue show %s --json', queueName, function (result) {
+            suite.execute('storage queue show %s --connection-string ' + connectionString + ' --json', queueName, function (result) {
               result.errorText.should.be.empty;
               done();
           });
@@ -217,7 +245,7 @@ describe('cli', function () {
 
       describe('delete', function() {
         it('should delete the specified queue', function(done) {
-          suite.execute('storage queue delete %s -q --json',queueName,function(result) {
+          suite.execute('storage queue delete %s -q --connection-string ' + connectionString + ' --json',queueName,function(result) {
             result.errorText.should.be.empty;
             done();
           });

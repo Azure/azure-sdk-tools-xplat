@@ -20,10 +20,14 @@ var azureCommon = require('azure-common');
 var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
+var storageTestUtil = require('../util/asmStorageTestUtil');
 
 var suite;
 var aclTimeout;
 var testPrefix = 'cli.storage.table-tests';
+var storageAccountPrefix = 'cliteststorage';
+var storageAccountKey = '';
+connectionString = '';
 var crypto = require('crypto');
 
 function stripAccessKey(connectionString) {
@@ -31,7 +35,7 @@ function stripAccessKey(connectionString) {
 }
 
 var requiredEnvironment = [
-  { name: 'AZURE_STORAGE_CONNECTION_STRING', secure: stripAccessKey }
+  { name: 'AZURE_STORAGE_TEST_LOCATION', defaultValue: 'West Europe' }
 ];
 
 /**
@@ -39,7 +43,7 @@ var requiredEnvironment = [
 */
 describe('cli', function () {
   describe('storage', function() {
-
+    var storageUtil = new storageTestUtil();
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
@@ -49,11 +53,36 @@ describe('cli', function () {
         utils.POLL_REQUEST_INTERVAL = 0;
       }
 
-      suite.setupSuite(done);
+      suite.setupSuite(function() {
+        storageAccountPrefix = suite.generateId(storageAccountPrefix, null);
+        var storageObject = {};
+        storageObject.name = storageAccountPrefix;
+        storageObject.location = process.env.AZURE_STORAGE_TEST_LOCATION;
+        if(!suite.isPlayback()) {
+          storageUtil.createStorageAccount(storageObject, aclTimeout, suite, function() {
+            storageAccountKey = storageObject.key;
+            connectionString =
+              process.env.AZURE_STORAGE_CONNECTION_STRING ||
+              'DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + storageAccountKey;
+            done();
+          });
+        } else {
+          connectionString='DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + new Buffer("Key placeholder").toString('base64');
+          done();
+        }
+      });
     });
 
     after(function (done) {
-      suite.teardownSuite(done);
+      suite.teardownSuite(function() {
+        if(!suite.isPlayback()) {
+          storageUtil.removeStorageAccount(storageAccountPrefix, aclTimeout, suite, function() {
+            done();
+          });
+        } else {
+          done();
+        }
+      });
     });
 
     beforeEach(function (done) {
@@ -68,7 +97,7 @@ describe('cli', function () {
       var tableName = 'storageclitesttable';
       describe('create', function() {
         it('should create a new table', function(done) {
-          suite.execute('storage table create %s --json', tableName, function(result) {
+          suite.execute('storage table create %s --connection-string ' + connectionString + ' --json', tableName, function(result) {
             result.errorText.should.be.empty;
             done();
           });
@@ -77,7 +106,7 @@ describe('cli', function () {
 
       describe('list', function() {
         it('should list all storage tables', function(done) {
-            suite.execute('storage table list --json', function (result) {
+            suite.execute('storage table list --connection-string ' + connectionString + ' --json', function (result) {
               var tables = JSON.parse(result.text);
               tables.length.should.greaterThan(0);
               tables.forEach(function(table) {
@@ -90,7 +119,7 @@ describe('cli', function () {
 
       describe('show', function() {
         it('should show details of the specified table', function(done) {
-            suite.execute('storage table show %s --json', tableName, function (result) {
+            suite.execute('storage table show %s --connection-string ' + connectionString + ' --json', tableName, function (result) {
               result.errorText.should.be.empty;
               done();
           });
@@ -105,7 +134,7 @@ describe('cli', function () {
         var permissions = 'ad';
 
         it('should create the table policy with add and delete permission', function (done) {
-          suite.execute('storage table policy create %s %s --permissions %s --start %s --expiry %s --json', tableName, policyName1, permissions, start, expiry, function (result) {
+          suite.execute('storage table policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', tableName, policyName1, permissions, start, expiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -124,7 +153,7 @@ describe('cli', function () {
 
         it('should show the created policy', function (done) {
           setTimeout(function() {
-            suite.execute('storage table policy show %s %s --json', tableName, policyName1, function (result) {
+            suite.execute('storage table policy show %s %s --connection-string ' + connectionString + ' --json', tableName, policyName1, function (result) {
               var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -146,9 +175,9 @@ describe('cli', function () {
         });
 
         it('should list the policies', function (done) {
-          suite.execute('storage table policy create %s %s --permissions %s --start %s --expiry %s --json', tableName, policyName2, permissions, start, expiry, function (result) {
+          suite.execute('storage table policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', tableName, policyName2, permissions, start, expiry, function (result) {
             setTimeout(function() {
-              suite.execute('storage table policy list %s --json', tableName, function (result) {
+              suite.execute('storage table policy list %s --connection-string ' + connectionString + ' --json', tableName, function (result) {
                 var policies = JSON.parse(result.text);
                 Object.keys(policies).length.should.equal(2);
                 done();
@@ -161,7 +190,7 @@ describe('cli', function () {
           var newPermissions = 'raud';
           var newStart = new Date('2015-12-01').toISOString();
           var newExpiry = new Date('2100-12-31').toISOString();
-          suite.execute('storage table policy set %s %s --permissions %s --start %s --expiry %s --json', tableName, policyName1, newPermissions, newStart, newExpiry, function (result) {
+          suite.execute('storage table policy set %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', tableName, policyName1, newPermissions, newStart, newExpiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -182,18 +211,18 @@ describe('cli', function () {
         });
 
         it('should delete the policy', function (done) {
-          suite.execute('storage table policy delete %s %s --json', tableName, policyName1, function (result) {
+          suite.execute('storage table policy delete %s %s --connection-string ' + connectionString + ' --json', tableName, policyName1, function (result) {
             var policies = JSON.parse(result.text);
             Object.keys(policies).length.should.greaterThan(0);
             done();
           });
         });
       });
-      
+
       describe('sas', function () {
         it('should create the container sas', function (done) {
           var expiry = azureCommon.date.minutesFromNow(5).toISOString();
-          suite.execute('storage table sas create %s rau %s --json', tableName, expiry, function (result) {
+          suite.execute('storage table sas create %s rau %s --connection-string ' + connectionString + ' --json', tableName, expiry, function (result) {
             var sas = JSON.parse(result.text);
             sas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
@@ -204,7 +233,7 @@ describe('cli', function () {
 
       describe('delete', function() {
         it('should delete the specified table', function(done) {
-          suite.execute('storage table delete %s -q --json',tableName,function(result) {
+          suite.execute('storage table delete %s -q --connection-string ' + connectionString + ' --json',tableName,function(result) {
             result.errorText.should.be.empty;
             done();
           });

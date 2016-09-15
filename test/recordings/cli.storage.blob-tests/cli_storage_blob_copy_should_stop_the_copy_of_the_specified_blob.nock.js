@@ -6,16 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'a0d901ba-9956-4f7d-830c-2d7974c36666',
-    name: 'Azure Storage DM Dev',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
-    _eventsCount: '1',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -23,30 +22,17 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_STORAGE_CONNECTION_STRING'] = 'DefaultEndpointsProtocol=https;AccountName=xplat;AccountKey=null';
+  process.env['AZURE_STORAGE_TEST_LOCATION'] = 'West Europe';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://xplat.blob.core.windows.net:443')
-  .put('/testblobcopydest/toCopy?copyid=e352103f-f361-4ec2-b10f-b80a33aeec83&comp=copy')
-  .reply(409, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>NoPendingCopyOperation</Code><Message>There is currently no pending copy operation.\nRequestId:cf6f54cc-0001-0029-6765-f4e045000000\nTime:2016-08-12T06:48:37.1384669Z</Message></Error>", { 'content-length': '236',
+nock('https://cliteststorage2874.blob.core.windows.net:443')
+  .put('/testblobcopydest/toCopy?copyid=cf8477a2-1287-48c2-a36b-c309f8d50131&comp=copy')
+  .reply(409, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>NoPendingCopyOperation</Code><Message>There is currently no pending copy operation.\nRequestId:31b450d1-0001-00e3-2aff-08bc4b000000\nTime:2016-09-07T12:03:10.3404141Z</Message></Error>", { 'content-length': '236',
   'content-type': 'application/xml',
   server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'cf6f54cc-0001-0029-6765-f4e045000000',
+  'x-ms-request-id': '31b450d1-0001-00e3-2aff-08bc4b000000',
   'x-ms-version': '2015-04-05',
-  date: 'Fri, 12 Aug 2016 06:48:36 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('https://xplat.blob.core.windows.net:443')
-  .put('/testblobcopydest/toCopy?copyid=e352103f-f361-4ec2-b10f-b80a33aeec83&comp=copy')
-  .reply(409, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>NoPendingCopyOperation</Code><Message>There is currently no pending copy operation.\nRequestId:cf6f54cc-0001-0029-6765-f4e045000000\nTime:2016-08-12T06:48:37.1384669Z</Message></Error>", { 'content-length': '236',
-  'content-type': 'application/xml',
-  server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'cf6f54cc-0001-0029-6765-f4e045000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Fri, 12 Aug 2016 06:48:36 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:03:09 GMT' });
  return result; }]];

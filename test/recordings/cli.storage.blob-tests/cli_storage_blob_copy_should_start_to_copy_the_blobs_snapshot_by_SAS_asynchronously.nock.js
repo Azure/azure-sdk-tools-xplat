@@ -6,16 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'a0d901ba-9956-4f7d-830c-2d7974c36666',
-    name: 'Azure Storage DM Dev',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
     state: 'Enabled',
-    registeredProviders: [],
-    _eventsCount: '1',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -23,34 +22,19 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_STORAGE_CONNECTION_STRING'] = 'DefaultEndpointsProtocol=https;AccountName=xplat;AccountKey=null';
+  process.env['AZURE_STORAGE_TEST_LOCATION'] = 'West Europe';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://xplat.blob.core.windows.net:443')
+nock('https://cliteststorage2874.blob.core.windows.net:443')
   .put('/testblobcopysource/toCopy?comp=snapshot')
   .reply(201, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 12 Aug 2016 06:48:27 GMT',
-  etag: '"0x8D3C27CA9FFA3AD"',
+  'last-modified': 'Wed, 07 Sep 2016 12:03:03 GMT',
+  etag: '"0x8D3D716EB85C35D"',
   server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'd7fb5d94-0001-0002-1f65-f494fd000000',
+  'x-ms-request-id': '467e5f6d-0001-00b8-43ff-08bb37000000',
   'x-ms-version': '2015-04-05',
-  'x-ms-snapshot': '2016-08-12T06:48:33.4761481Z',
-  date: 'Fri, 12 Aug 2016 06:48:33 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('https://xplat.blob.core.windows.net:443')
-  .put('/testblobcopysource/toCopy?comp=snapshot')
-  .reply(201, "", { 'transfer-encoding': 'chunked',
-  'last-modified': 'Fri, 12 Aug 2016 06:48:27 GMT',
-  etag: '"0x8D3C27CA9FFA3AD"',
-  server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'd7fb5d94-0001-0002-1f65-f494fd000000',
-  'x-ms-version': '2015-04-05',
-  'x-ms-snapshot': '2016-08-12T06:48:33.4761481Z',
-  date: 'Fri, 12 Aug 2016 06:48:33 GMT',
-  connection: 'close' });
+  'x-ms-snapshot': '2016-09-07T12:03:07.4117703Z',
+  date: 'Wed, 07 Sep 2016 12:03:07 GMT' });
  return result; }]];

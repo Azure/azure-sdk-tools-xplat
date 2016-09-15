@@ -6,18 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'a0d901ba-9956-4f7d-830c-2d7974c36666',
-    managementCertificate: {
-      key: 'mockedKey',
-      cert: 'mockedCert'
-    },
-    name: 'Azure Storage DM Dev',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
-    registeredProviders: [],
+    state: 'Enabled',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -25,28 +22,28 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_STORAGE_CONNECTION_STRING'] = 'DefaultEndpointsProtocol=http;AccountName=xplat;AccountKey=null';
+  process.env['AZURE_STORAGE_TEST_LOCATION'] = 'West Europe';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://xplat.table.core.windows.net:80')
+nock('https://cliteststorage2026.table.core.windows.net:443')
   .get('/storageclitesttable?comp=acl')
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><SignedIdentifiers><SignedIdentifier><Id>tablepolicy01</Id><AccessPolicy><Start>2015-12-01T00:00:00.0000000Z</Start><Expiry>2100-12-31T00:00:00.0000000Z</Expiry><Permission>raud</Permission></AccessPolicy></SignedIdentifier><SignedIdentifier><Id>tablepolicy02</Id><AccessPolicy><Start>2014-12-01T00:00:00.0000000Z</Start><Expiry>2099-12-31T00:00:00.0000000Z</Expiry><Permission>ad</Permission></AccessPolicy></SignedIdentifier></SignedIdentifiers>", { 'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
   server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '58466419-0002-0038-3162-81d75e000000',
-  'x-ms-version': '2015-02-21',
-  date: 'Tue, 28 Apr 2015 03:22:25 GMT' });
+  'x-ms-request-id': 'ed152ee7-0002-009e-2e00-092083000000',
+  'x-ms-version': '2015-04-05',
+  date: 'Wed, 07 Sep 2016 12:07:54 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('http://xplat.table.core.windows.net:80')
+nock('https://cliteststorage2026.table.core.windows.net:443')
   .filteringRequestBody(function (path) { return '*';})
 .put('/storageclitesttable?comp=acl', '*')
   .reply(204, "", { 'content-length': '0',
   server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '8d82662d-0002-0028-2f62-81e1b8000000',
-  'x-ms-version': '2015-02-21',
-  date: 'Tue, 28 Apr 2015 03:22:26 GMT' });
+  'x-ms-request-id': '3fdf4108-0002-0065-2c00-09e899000000',
+  'x-ms-version': '2015-04-05',
+  date: 'Wed, 07 Sep 2016 12:07:56 GMT' });
  return result; }]];

@@ -22,10 +22,14 @@ var storage = require('azure-storage');
 var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
+var storageTestUtil = require('../util/asmStorageTestUtil');
 
 var suite;
 var aclTimeout;
 var testPrefix = 'cli.storage.file-tests';
+var storageAccountPrefix = 'cliteststorage';
+var storageAccountKey = '';
+connectionString = '';
 var crypto = require('crypto');
 
 function stripAccessKey(connectionString) {
@@ -37,7 +41,7 @@ function fetchAccountName(connectionString) {
 }
 
 var requiredEnvironment = [
-  { name: 'AZURE_STORAGE_CONNECTION_STRING', secure: stripAccessKey }
+  { name: 'AZURE_STORAGE_TEST_LOCATION', defaultValue: 'West Europe' }
 ];
 
 /**
@@ -45,38 +49,63 @@ var requiredEnvironment = [
 */
 describe('cli', function () {
   describe('storage', function () {
-    
+    var storageUtil = new storageTestUtil();
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
       aclTimeout = (suite.isRecording || !suite.isMocked) ? 30000 : 10;
-      
+
       if (suite.isMocked) {
         utils.POLL_REQUEST_INTERVAL = 0;
       }
-      
-      suite.setupSuite(done);
+
+      suite.setupSuite(function() {
+        storageAccountPrefix = suite.generateId(storageAccountPrefix, null);
+        var storageObject = {};
+        storageObject.name = storageAccountPrefix;
+        storageObject.location = process.env.AZURE_STORAGE_TEST_LOCATION;
+        if(!suite.isPlayback()) {
+          storageUtil.createStorageAccount(storageObject, aclTimeout, suite, function() {
+            storageAccountKey = storageObject.key;
+            connectionString =
+              process.env.AZURE_STORAGE_CONNECTION_STRING ||
+              'DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + storageAccountKey;
+            done();
+          });
+        } else {
+          connectionString='DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + new Buffer("Key placeholder").toString('base64');
+          done();
+        }
+      });
     });
-    
+
     after(function (done) {
-      suite.teardownSuite(done);
+      suite.teardownSuite(function() {
+        if(!suite.isPlayback()) {
+          storageUtil.removeStorageAccount(storageAccountPrefix, aclTimeout, suite, function() {
+            done();
+          });
+        } else {
+          done();
+        }
+      });
     });
-    
+
     beforeEach(function (done) {
       suite.setupTest(done);
     });
-    
+
     afterEach(function (done) {
       suite.teardownTest(done);
     });
-  
+
     describe('share', function () {
       var shareName = 'storageclitest3';
       var quota = '10';
       describe('create', function () {
         it('should create a new share', function (done) {
-          suite.execute('storage share create %s --quota %s --json', shareName, quota, function (result) {
-            
+          suite.execute('storage share create %s --quota %s --connection-string ' + connectionString + ' --json', shareName, quota, function (result) {
+
             var share = JSON.parse(result.text);
             share.name.should.equal(shareName);
             share.quota.should.equal(quota);
@@ -84,16 +113,16 @@ describe('cli', function () {
           });
         });
       });
-      
+
       describe('list', function () {
         it('should list all storage shares', function (done) {
-          suite.execute('storage share list --json', function (result) {
+          suite.execute('storage share list --connection-string ' + connectionString + ' --json', function (result) {
             var shares = JSON.parse(result.text);
             shares.length.should.greaterThan(0);
             shares.forEach(function (share) {
               share.name.length.should.greaterThan(0);
             });
-            
+
             done();
           });
         });
@@ -102,7 +131,7 @@ describe('cli', function () {
       describe('set', function () {
         it('should set properties of the specified share', function (done) {
           quota = '20';
-          suite.execute('storage share set %s --quota %s --json', shareName, quota, function (result) {
+          suite.execute('storage share set %s --quota %s --connection-string ' + connectionString + ' --json', shareName, quota, function (result) {
             var share = JSON.parse(result.text);
             share.name.should.equal(shareName);
             share.quota.should.equal(quota);
@@ -110,10 +139,10 @@ describe('cli', function () {
           });
         });
       });
-      
+
       describe('show', function () {
         it('should show details of the specified share', function (done) {
-          suite.execute('storage share show %s --json', shareName, function (result) {
+          suite.execute('storage share show %s --connection-string ' + connectionString + ' --json', shareName, function (result) {
             var share = JSON.parse(result.text);
             var usage = '0';
             share.name.should.equal(shareName);
@@ -123,7 +152,7 @@ describe('cli', function () {
           });
         });
       });
-      
+
       describe('stored access policy', function () {
         var policyName1 = 'sharepolicy01';
         var policyName2 = 'sharepolicy02';
@@ -132,7 +161,7 @@ describe('cli', function () {
         var permissions = 'rl';
 
         it('should create the share policy with read and list permission', function (done) {
-          suite.execute('storage share policy create %s %s --permissions %s --start %s --expiry %s --json', shareName, policyName1, permissions, start, expiry, function (result) {
+          suite.execute('storage share policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', shareName, policyName1, permissions, start, expiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -151,7 +180,7 @@ describe('cli', function () {
 
         it('should show the created policy', function (done) {
           setTimeout(function() {
-            suite.execute('storage share policy show %s %s --json', shareName, policyName1, function (result) {
+            suite.execute('storage share policy show %s %s --connection-string ' + connectionString + ' --json', shareName, policyName1, function (result) {
               var policies = JSON.parse(result.text);
               var names = Object.keys(policies);
               names.length.should.greaterThan(0);
@@ -173,9 +202,9 @@ describe('cli', function () {
         });
 
         it('should list the policies', function (done) {
-          suite.execute('storage share policy create %s %s --permissions %s --start %s --expiry %s --json', shareName, policyName2, permissions, start, expiry, function (result) {
+          suite.execute('storage share policy create %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', shareName, policyName2, permissions, start, expiry, function (result) {
             setTimeout(function() {
-              suite.execute('storage share policy list %s --json', shareName, function (result) {
+              suite.execute('storage share policy list %s --connection-string ' + connectionString + ' --json', shareName, function (result) {
                 var policies = JSON.parse(result.text);
                 Object.keys(policies).length.should.equal(2);
                 done();
@@ -188,7 +217,7 @@ describe('cli', function () {
           var newPermissions = 'rwdl';
           var newStart = new Date('2015-12-01').toISOString();
           var newExpiry = new Date('2100-12-31').toISOString();
-          suite.execute('storage share policy set %s %s --permissions %s --start %s --expiry %s --json', shareName, policyName1, newPermissions, newStart, newExpiry, function (result) {
+          suite.execute('storage share policy set %s %s --permissions %s --start %s --expiry %s --connection-string ' + connectionString + ' --json', shareName, policyName1, newPermissions, newStart, newExpiry, function (result) {
             var policies = JSON.parse(result.text);
             var names = Object.keys(policies);
             names.length.should.greaterThan(0);
@@ -209,7 +238,7 @@ describe('cli', function () {
         });
 
         it('should delete the policy', function (done) {
-          suite.execute('storage share policy delete %s %s --json', shareName, policyName1, function (result) {
+          suite.execute('storage share policy delete %s %s --connection-string ' + connectionString + ' --json', shareName, policyName1, function (result) {
             var policies = JSON.parse(result.text);
             Object.keys(policies).length.should.greaterThan(0);
             done();
@@ -221,14 +250,14 @@ describe('cli', function () {
         it('should create the share sas with list permission and list blobs', function (done) {
           var start = new Date('2014-05-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage share sas create %s rl %s --start %s --json', shareName, expiry, start, function (result) {
+          suite.execute('storage share sas create %s rl %s --start %s --connection-string ' + connectionString + ' --json', shareName, expiry, start, function (result) {
             var sas = JSON.parse(result.text);
             sas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
             if (!suite.isMocked) {
-              var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-              suite.execute('storage file list %s -a %s --sas %s --json', shareName, account, sas.sas, function (listResult) {
+              var account = fetchAccountName(connectionString);
+              suite.execute('storage file list %s -a %s --sas %s --connection-string ' + connectionString + ' --json', shareName, account, sas.sas, function (listResult) {
                 listResult.errorText.should.be.empty;
                 done();
               });
@@ -238,52 +267,52 @@ describe('cli', function () {
           });
         });
       });
-      
+
       describe('delete', function () {
         it('should delete the specified share', function (done) {
-          suite.execute('storage share delete %s -q --json', shareName, function (result) {
+          suite.execute('storage share delete %s -q --connection-string ' + connectionString + ' --json', shareName, function (result) {
             done();
           });
         });
       });
     });
-    
+
     describe('directory', function () {
-      
+
       var shareName = 'directorytestshare';
       var directoryName = 'newdir';
 
       before(function (done) {
-        var fileService = storage.createFileService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+        var fileService = storage.createFileService(connectionString);
         fileService.createShare(shareName, function () { done(); });
       });
-      
+
       after(function (done) {
-        var fileService = storage.createFileService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+        var fileService = storage.createFileService(connectionString);
         fileService.deleteShare(shareName, function () { done(); });
       });
 
       describe('create', function () {
         it('should create a new directory', function (done) {
-          suite.execute('storage directory create %s %s --json', shareName, directoryName, function (result) {
+          suite.execute('storage directory create %s %s --connection-string ' + connectionString + ' --json', shareName, directoryName, function (result) {
             var directory = JSON.parse(result.text);
             directory.name.should.equal('newdir');
             done();
           });
         });
       });
-      
+
       describe('delete', function () {
         it('should delete an existing directory', function (done) {
-          suite.execute('storage directory delete -q %s %s --json', shareName, directoryName, function (result) {
+          suite.execute('storage directory delete -q %s %s --connection-string ' + connectionString + ' --json', shareName, directoryName, function (result) {
             done();
           });
         });
       });
     });
-    
+
     describe('file', function () {
-      
+
       var shareName = 'filetestshare';
       var directoryName = 'newdir';
       var localFile = 'localfile.txt';
@@ -291,9 +320,9 @@ describe('cli', function () {
       var testCount = 3;
       var pushed = 0;
       var testFiles = [];
-      
+
       before(function (done) {
-        var fileService = storage.createFileService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+        var fileService = storage.createFileService(connectionString);
         fileService.createShare(shareName, function () {
           fileService.createDirectory(shareName, directoryName, function () {
             var buf = new Buffer('HelloWord', 'utf8');
@@ -311,13 +340,13 @@ describe('cli', function () {
           });
         });
       });
-      
+
       after(function (done) {
         for (var i = 0; i < testFiles.length; i++) {
           fs.unlinkSync(testFiles[i]);
         }
 
-        var fileService = storage.createFileService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+        var fileService = storage.createFileService(connectionString);
         fileService.deleteShare(shareName, function () {
           fileService.deleteDirectory(shareName, directoryName, function () {
             done();
@@ -327,7 +356,7 @@ describe('cli', function () {
 
       describe('upload', function () {
         it('should upload an existing file', function (done) {
-          suite.execute('storage file upload %s -q %s %s --json', testFiles[0], shareName, remoteFile, function (result) {
+          suite.execute('storage file upload %s -q %s %s --connection-string ' + connectionString + ' --json', testFiles[0], shareName, remoteFile, function (result) {
             result.errorText.should.be.empty;
             done();
           });
@@ -336,26 +365,26 @@ describe('cli', function () {
 
       describe('download', function () {
         it('should download an existing file', function (done) {
-          suite.execute('storage file download -q %s %s %s --json', shareName, remoteFile, localFile, function (result) {
+          suite.execute('storage file download -q %s %s %s --connection-string ' + connectionString + ' --json', shareName, remoteFile, localFile, function (result) {
             result.errorText.should.be.empty;
             try { fs.unlinkSync(localFile); } catch (e) {}
             done();
           });
         });
       });
-      
+
       describe('sas', function () {
         it('should list the files with sas', function (done) {
           var start = new Date('2014-10-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage share sas create %s l %s --start %s --json', shareName, expiry, start, function (result) {
+          suite.execute('storage share sas create %s l %s --start %s --connection-string ' + connectionString + ' --json', shareName, expiry, start, function (result) {
             var sas = JSON.parse(result.text);
             sas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
             if (!suite.isMocked) {
-              var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-              suite.execute('storage file list %s -a %s --sas %s --json', shareName, account, sas.sas, function (listResult) {
+              var account = fetchAccountName(connectionString);
+              suite.execute('storage file list %s -a %s --sas %s --connection-string ' + connectionString + ' --json', shareName, account, sas.sas, function (listResult) {
                 var list = JSON.parse(listResult.text);
                 list.files.length.should.equal(testCount + 1);
                 list.directories.length.should.equal(1);
@@ -371,14 +400,14 @@ describe('cli', function () {
         it('should create the sas of the file and show the file', function (done) {
           var start = new Date('2014-10-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage file sas create %s %s r %s --start %s --json', shareName, remoteFile, expiry, start, function (result) {
+          suite.execute('storage file sas create %s %s r %s --start %s --connection-string ' + connectionString + ' --json', shareName, remoteFile, expiry, start, function (result) {
             var sas = JSON.parse(result.text);
             sas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
             if (!suite.isMocked) {
-              var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-              suite.execute('storage file download %s %s %s -a %s --sas %s --json', shareName, remoteFile, localFile, account, sas.sas, function (result) {
+              var account = fetchAccountName(connectionString);
+              suite.execute('storage file download %s %s %s -a %s --sas %s --connection-string ' + connectionString + ' --json', shareName, remoteFile, localFile, account, sas.sas, function (result) {
                   result.errorText.should.be.empty;
                   try { fs.unlinkSync(localFile); } catch (e) {}
                   done();
@@ -392,7 +421,7 @@ describe('cli', function () {
 
       describe('delete', function () {
         it('should delete an existing file', function (done) {
-          suite.execute('storage file delete -q %s %s --json', shareName, remoteFile, function (result) {
+          suite.execute('storage file delete -q %s %s --connection-string ' + connectionString + ' --json', shareName, remoteFile, function (result) {
             result.errorText.should.be.empty;
             done();
           });
@@ -401,7 +430,7 @@ describe('cli', function () {
 
       describe('list', function () {
         it('should list files and directories', function (done) {
-          suite.execute('storage file list %s --json', shareName, function (result) {
+          suite.execute('storage file list %s --connection-string ' + connectionString + ' --json', shareName, function (result) {
             result.errorText.should.be.empty;
             var listResult = JSON.parse(result.text);
             listResult.should.have.enumerable('files');
@@ -437,8 +466,8 @@ describe('cli', function () {
         var sourceBlobInVDir = destDirectory + '/' + sourceBlob;
 
         it('should prepare the source file and blob', function(done) {
-          fileService = storage.createFileService(process.env.AZURE_STORAGE_CONNECTION_STRING);
-          blobService = storage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+          fileService = storage.createFileService(connectionString);
+          blobService = storage.createBlobService(connectionString);
           fileService.createShareIfNotExists(sourceShare, function () {
             fileService.createShareIfNotExists(destShare, function () {
               var buf = new Buffer('HelloWorld', 'utf8');
@@ -457,7 +486,7 @@ describe('cli', function () {
                          blobService.createBlockBlobFromLocalFile(sourceContainer, sourceBlobInVDir, localFileName, function (error) {
                           assert.equal(error, null);
                           fs.unlinkSync(localFileName);
-                          done();   
+                          done();
                         });
                       });
                     });
@@ -471,19 +500,19 @@ describe('cli', function () {
         it('should start to copy the file specified by SAS asynchronously', function (done) {
           var start = new Date('2014-10-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage share sas create %s r %s --start %s --json', sourceShare, expiry, start, function (result) {
+          suite.execute('storage share sas create %s r %s --start %s --connection-string ' + connectionString + ' --json', sourceShare, expiry, start, function (result) {
             var sourceSas = JSON.parse(result.text);
             sourceSas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
-            suite.execute('storage share sas create %s w %s --json', destShare, expiry, function (result) {
+            suite.execute('storage share sas create %s w %s --connection-string ' + connectionString + ' --json', destShare, expiry, function (result) {
               var destSas = JSON.parse(result.text);
               destSas.sas.should.not.be.empty;
               result.errorText.should.be.empty;
-              
+
               if (!suite.isMocked) {
-                var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-                suite.execute('storage file copy start --source-share %s --source-path %s -a %s --source-sas %s --dest-share %s --dest-path %s --dest-account-name %s --dest-sas %s -q --json', 
+                var account = fetchAccountName(connectionString);
+                suite.execute('storage file copy start --source-share %s --source-path %s -a %s --source-sas %s --dest-share %s --dest-path %s --dest-account-name %s --dest-sas %s -q --connection-string ' + connectionString + ' --json',
                   sourceShare, sourcePath, account, sourceSas.sas, destShare, destPath, account, destSas.sas, function (result) {
                   var copy = JSON.parse(result.text);
                   copy.copy.id.length.should.greaterThan(0);
@@ -496,25 +525,25 @@ describe('cli', function () {
             })
           });
         });
-        
+
         it('should start to copy the file specified by SAS starts with question mark', function (done) {
           var start = new Date('2014-10-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage share sas create %s r %s --start %s --json', sourceShare, expiry, start, function (result) {
+          suite.execute('storage share sas create %s r %s --start %s --connection-string ' + connectionString + ' --json', sourceShare, expiry, start, function (result) {
             var sourceSas = JSON.parse(result.text);
             sourceSas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
-            
-            suite.execute('storage share sas create %s w %s --json', destShare, expiry, function (result) {
+
+            suite.execute('storage share sas create %s w %s --connection-string ' + connectionString + ' --json', destShare, expiry, function (result) {
               var destSas = JSON.parse(result.text);
               destSas.sas.should.not.be.empty;
               result.errorText.should.be.empty;
-              
+
               if (!suite.isMocked) {
-                var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
+                var account = fetchAccountName(connectionString);
                 sourceSas.sas = '?' + sourceSas.sas;
                 destSas.sas = '?' + destSas.sas;
-                suite.execute('storage file copy start --source-share %s --source-path %s -a %s --source-sas %s --dest-share %s --dest-path %s --dest-account-name %s --dest-sas %s -q --json', 
+                suite.execute('storage file copy start --source-share %s --source-path %s -a %s --source-sas %s --dest-share %s --dest-path %s --dest-account-name %s --dest-sas %s -q --connection-string ' + connectionString + ' --json',
                   sourceShare, sourcePath, account, sourceSas.sas, destShare, destPath, account, destSas.sas, function (result) {
                   var copy = JSON.parse(result.text);
                   copy.copy.id.length.should.greaterThan(0);
@@ -531,14 +560,14 @@ describe('cli', function () {
         it('should show the copy status of the specified file with SAS', function (done) {
           var start = new Date('2014-10-01').toISOString();
           var expiry = new Date('2099-12-31').toISOString();
-          suite.execute('storage share sas create %s r %s --start %s --json', destShare, expiry, start, function (result) {
+          suite.execute('storage share sas create %s r %s --start %s --connection-string ' + connectionString + ' --json', destShare, expiry, start, function (result) {
             var destSas = JSON.parse(result.text);
             destSas.sas.should.not.be.empty;
             result.errorText.should.be.empty;
 
             if (!suite.isMocked) {
-              var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
-              suite.execute('storage file copy show --share %s --path %s -a %s --sas %s --json', destShare, destPath, account, destSas.sas, function (result) {
+              var account = fetchAccountName(connectionString);
+              suite.execute('storage file copy show --share %s --path %s -a %s --sas %s --connection-string ' + connectionString + ' --json', destShare, destPath, account, destSas.sas, function (result) {
                 var copy = JSON.parse(result.text);
                 copy.copy.id.length.should.greaterThan(0);
                 result.errorText.should.be.empty;
@@ -552,15 +581,15 @@ describe('cli', function () {
 
         it('should start to copy the file specified by URI asynchronously', function (done) {
           if (!suite.isMocked) {
-            var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
+            var account = fetchAccountName(connectionString);
             var start = new Date('2014-10-01').toISOString();
             var expiry = new Date('2099-12-31').toISOString();
-            suite.execute('storage share sas create %s r %s --start %s --json', sourceShare, expiry, start, function (result) {
+            suite.execute('storage share sas create %s r %s --start %s --connection-string ' + connectionString + ' --json', sourceShare, expiry, start, function (result) {
               var sourceSas = JSON.parse(result.text);
               sourceSas.sas.should.not.be.empty;
 
               var sourceUri = fileService.getUrl(sourceShare, sourceDirectory, remoteFileName, sourceSas.sas);
-              suite.execute('storage file copy start %s --dest-share %s --dest-path %s -q --json', sourceUri, destShare, destPath, function (result) {
+              suite.execute('storage file copy start %s --dest-share %s --dest-path %s -q --connection-string ' + connectionString + ' --json', sourceUri, destShare, destPath, function (result) {
                 var copy = JSON.parse(result.text);
                 copy.copy.id.length.should.greaterThan(0);
                 result.errorText.should.be.empty;
@@ -571,19 +600,19 @@ describe('cli', function () {
             done();
           }
         });
-        
+
         it('should start to copy the file asynchronously, specifying share and directory for both source and destination', function (done) {
-          suite.execute('storage file copy start --source-share %s --source-path %s --dest-share %s --dest-path %s -q --json', sourceShare, sourcePath, destShare, destPath, function (result) {
+          suite.execute('storage file copy start --source-share %s --source-path %s --dest-share %s --dest-path %s -q --connection-string ' + connectionString + ' --json', sourceShare, sourcePath, destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copy.copy.id.length.should.greaterThan(0);
             result.errorText.should.be.empty;
             done();
           });
         });
-        
+
         var copyid;
         it('should show the copy status of the specified file in the destination directory', function (done) {
-          suite.execute('storage file copy show --share %s --path %s --json', destShare, destPath, function (result) {
+          suite.execute('storage file copy show --share %s --path %s --connection-string ' + connectionString + ' --json', destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copyid = copy.copy.id;
             copyid.length.should.greaterThan(0);
@@ -591,16 +620,16 @@ describe('cli', function () {
             done();
           });
         });
-        
+
         it('should stop the copy of the specified file in the destination directory', function (done) {
-          suite.execute('storage file copy stop --share %s --path %s --copyid %s --json', destShare, destPath, copyid, function (result) {
+          suite.execute('storage file copy stop --share %s --path %s --copyid %s --connection-string ' + connectionString + ' --json', destShare, destPath, copyid, function (result) {
             result.errorText.should.startWith('error: There is currently no pending copy operation');
             done();
           });
         });
-        
+
         it('should show the copy status of the specified file', function (done) {
-          suite.execute('storage file copy show --share %s --path %s --json', destShare, destPath, function (result) {
+          suite.execute('storage file copy show --share %s --path %s --connection-string ' + connectionString + ' --json', destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copyid = copy.copy.id;
             copyid.length.should.greaterThan(0);
@@ -608,16 +637,16 @@ describe('cli', function () {
             done();
           });
         });
-        
+
         it('should stop the copy of the specified file', function (done) {
-          suite.execute('storage file copy stop --share %s --path %s --copyid %s --json', destShare, destPath, copyid, function (result) {
+          suite.execute('storage file copy stop --share %s --path %s --copyid %s --connection-string ' + connectionString + ' --json', destShare, destPath, copyid, function (result) {
             result.errorText.should.startWith('error: There is currently no pending copy operation');
             done();
           });
         });
 
         it('should start to copy a blob to the file by specifying the container and blob', function (done) {
-          suite.execute('storage file copy start --source-container %s --source-blob %s --dest-share %s --dest-path %s -q --json', sourceContainer, sourceBlob, destShare, destPath, function (result) {
+          suite.execute('storage file copy start --source-container %s --source-blob %s --dest-share %s --dest-path %s -q --connection-string ' + connectionString + ' --json', sourceContainer, sourceBlob, destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copy.copy.id.length.should.greaterThan(0);
             result.errorText.should.be.empty;
@@ -627,14 +656,14 @@ describe('cli', function () {
 
         it('should start to copy a blob to the file specified by the blob URI', function (done) {
           if (!suite.isMocked) {
-            var account = fetchAccountName(process.env.AZURE_STORAGE_CONNECTION_STRING);
+            var account = fetchAccountName(connectionString);
             var start = new Date('2014-10-01').toISOString();
             var expiry = new Date('2099-12-31').toISOString();
-            suite.execute('storage container sas create %s r %s --start %s --json', sourceContainer, expiry, start, function (result) {
+            suite.execute('storage container sas create %s r %s --start %s --connection-string ' + connectionString + ' --json', sourceContainer, expiry, start, function (result) {
               var sourceSas = JSON.parse(result.text);
               sourceSas.sas.should.not.be.empty;
               var sourceUri = blobService.getUrl(sourceContainer, sourceBlob, sourceSas.sas);
-              suite.execute('storage file copy start %s --dest-share %s --dest-path %s -q --json', sourceUri, destShare, destPath, function (result) {
+              suite.execute('storage file copy start %s --dest-share %s --dest-path %s -q --connection-string ' + connectionString + ' --json', sourceUri, destShare, destPath, function (result) {
                 var copy = JSON.parse(result.text);
                 copy.copy.id.length.should.greaterThan(0);
                 result.errorText.should.be.empty;
@@ -647,7 +676,7 @@ describe('cli', function () {
         });
 
         it('should show the copy status of the specified blob to the file', function (done) {
-          suite.execute('storage file copy show --share %s --path %s --json', destShare, destPath, function (result) {
+          suite.execute('storage file copy show --share %s --path %s --connection-string ' + connectionString + ' --json', destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copyid = copy.copy.id;
             copyid.length.should.greaterThan(0);
@@ -655,16 +684,16 @@ describe('cli', function () {
             done();
           });
         });
-        
+
         it('should stop the copy of the specified blob to the file', function (done) {
-          suite.execute('storage file copy stop --share %s --path %s --copyid %s --json', destShare, destPath, copyid, function (result) {
+          suite.execute('storage file copy stop --share %s --path %s --copyid %s --connection-string ' + connectionString + ' --json', destShare, destPath, copyid, function (result) {
             result.errorText.should.startWith('error: There is currently no pending copy operation');
             done();
           });
         });
 
         it('should start to copy a blob in a virtual directory to the file by specifying the container and blob', function (done) {
-          suite.execute('storage file copy start --source-container %s --source-blob %s --dest-share %s --dest-path %s -q --json', sourceContainer, sourceBlobInVDir, destShare, destPath, function (result) {
+          suite.execute('storage file copy start --source-container %s --source-blob %s --dest-share %s --dest-path %s -q --connection-string ' + connectionString + ' --json', sourceContainer, sourceBlobInVDir, destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copy.copy.id.length.should.greaterThan(0);
             result.errorText.should.be.empty;
@@ -673,7 +702,7 @@ describe('cli', function () {
         });
 
         it('should show the copy status of the specified blob in the virtual directory to the file', function (done) {
-          suite.execute('storage file copy show --share %s --path %s --json', destShare, destPath, function (result) {
+          suite.execute('storage file copy show --share %s --path %s --connection-string ' + connectionString + ' --json', destShare, destPath, function (result) {
             var copy = JSON.parse(result.text);
             copyid = copy.copy.id;
             copyid.length.should.greaterThan(0);

@@ -6,15 +6,15 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: 'c9cbd920-c00c-427c-852b-8aaf38badaeb',
-    name: 'Azure SDK Powershell Test',
+    id: '2c224e7e-3ef5-431d-a57b-e71f4662e3a6',
+    name: 'Node CLI Test',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
-    registeredProviders: ['website'],
-    _eventsCount: '1',
+    state: 'Enabled',
+    registeredProviders: ['mobileservice'],
     isDefault: true
   }, newProfile.environments['AzureCloud']));
 
@@ -22,200 +22,95 @@ exports.getMockedProfile = function () {
 };
 
 exports.setEnvironment = function() {
-  process.env['AZURE_STORAGE_CONNECTION_STRING'] = 'DefaultEndpointsProtocol=https;AccountName=xplat;AccountKey=null';
+  process.env['AZURE_STORAGE_TEST_LOCATION'] = 'West Europe';
 };
 
 exports.scopes = [[function (nock) { 
 var result = 
-nock('http://xplat.blob.core.windows.net:443')
+nock('https://cliteststorage8177.blob.core.windows.net:443')
   .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>false</Delete><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></MinuteMetrics><Cors /><DefaultServiceVersion>2015-04-05</DefaultServiceVersion></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>false</Delete><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
   server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'fb76f0e4-0001-001f-05d2-bf4d17000000',
+  'x-ms-request-id': '0ec85104-0001-00eb-5f00-09a738000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:51 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:52 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.blob.core.windows.net:443')
-  .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>false</Delete><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></MinuteMetrics><Cors /><DefaultServiceVersion>2015-04-05</DefaultServiceVersion></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
-  'content-type': 'application/xml',
-  server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'fb76f0e4-0001-001f-05d2-bf4d17000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:51 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.blob.core.windows.net:443')
+nock('https://cliteststorage8177.blob.core.windows.net:443')
   .filteringRequestBody(function (path) { return '*';})
 .put('/?comp=properties&restype=service', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '245d2fe5-0001-002f-55d2-bf173d000000',
+  'x-ms-request-id': '675e3a29-0001-0021-3300-0934f5000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:51 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:53 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.blob.core.windows.net:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/?comp=properties&restype=service', '*')
-  .reply(202, "", { 'transfer-encoding': 'chunked',
-  server: 'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '245d2fe5-0001-002f-55d2-bf173d000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:51 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.table.core.windows.net:443')
+nock('https://cliteststorage8177.table.core.windows.net:443')
   .get('/?comp=properties&restype=service')
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>false</Write><Delete>true</Delete><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>false</IncludeAPIs><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
   server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '5614c397-0002-003e-14d2-bf2026000000',
+  'x-ms-request-id': '9bb90164-0002-001a-1f00-0976ab000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:52 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:55 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.table.core.windows.net:443')
-  .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>false</Write><Delete>true</Delete><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>false</IncludeAPIs><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
-  'content-type': 'application/xml',
-  server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '5614c397-0002-003e-14d2-bf2026000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:52 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.table.core.windows.net:443')
+nock('https://cliteststorage8177.table.core.windows.net:443')
   .filteringRequestBody(function (path) { return '*';})
 .put('/?comp=properties&restype=service', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '762b4df4-0002-0024-22d2-bf0f49000000',
+  'x-ms-request-id': '742ffdaa-0002-0030-4200-0903ee000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:53 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:54 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.table.core.windows.net:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/?comp=properties&restype=service', '*')
-  .reply(202, "", { 'transfer-encoding': 'chunked',
-  server: 'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '762b4df4-0002-0024-22d2-bf0f49000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:53 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.queue.core.windows.net:443')
+nock('https://cliteststorage8177.queue.core.windows.net:443')
   .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>false</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'cache-control': 'no-cache',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>false</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>7</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'cache-control': 'no-cache',
   'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
   server: 'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '9c4df675-0003-000b-2ed2-bf8e73000000',
+  'x-ms-request-id': '7c4b8465-0003-0097-0e00-093a0d000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:53 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:54 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.queue.core.windows.net:443')
-  .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>false</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'cache-control': 'no-cache',
-  'transfer-encoding': 'chunked',
-  'content-type': 'application/xml',
-  server: 'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '9c4df675-0003-000b-2ed2-bf8e73000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:53 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.queue.core.windows.net:443')
+nock('https://cliteststorage8177.queue.core.windows.net:443')
   .filteringRequestBody(function (path) { return '*';})
 .put('/?comp=properties&restype=service', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'f3bbc3fb-0003-002e-41d2-bf16c0000000',
+  'x-ms-request-id': 'b7b92e85-0003-0052-4700-094436000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:54 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:55 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.queue.core.windows.net:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/?comp=properties&restype=service', '*')
-  .reply(202, "", { 'transfer-encoding': 'chunked',
-  server: 'Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'f3bbc3fb-0003-002e-41d2-bf16c0000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:54 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.file.core.windows.net:443')
+nock('https://cliteststorage8177.file.core.windows.net:443')
   .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>7</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
   'content-type': 'application/xml',
   server: 'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '096ebbba-001a-003d-5bd2-bf2321000000',
+  'x-ms-request-id': 'e9c0fef2-001a-0032-2300-090114000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:55 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:55 GMT' });
  return result; },
 function (nock) { 
 var result = 
-nock('https://xplat.file.core.windows.net:443')
-  .get('/?comp=properties&restype=service')
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><HourMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>false</Enabled></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>false</Enabled><RetentionPolicy><Enabled>true</Enabled><Days>10</Days></RetentionPolicy></MinuteMetrics><Cors /></StorageServiceProperties>", { 'transfer-encoding': 'chunked',
-  'content-type': 'application/xml',
-  server: 'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': '096ebbba-001a-003d-5bd2-bf2321000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:55 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://xplat.file.core.windows.net:443')
+nock('https://cliteststorage8177.file.core.windows.net:443')
   .filteringRequestBody(function (path) { return '*';})
 .put('/?comp=properties&restype=service', '*')
   .reply(202, "", { 'transfer-encoding': 'chunked',
   server: 'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'c4e9e384-001a-004c-46d2-bf5118000000',
+  'x-ms-request-id': 'ff57627a-001a-0007-7b00-09af41000000',
   'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:56 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('https://xplat.file.core.windows.net:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/?comp=properties&restype=service', '*')
-  .reply(202, "", { 'transfer-encoding': 'chunked',
-  server: 'Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0',
-  'x-ms-request-id': 'c4e9e384-001a-004c-46d2-bf5118000000',
-  'x-ms-version': '2015-04-05',
-  date: 'Mon, 06 Jun 2016 09:03:56 GMT',
-  connection: 'close' });
+  date: 'Wed, 07 Sep 2016 12:10:56 GMT' });
  return result; }]];

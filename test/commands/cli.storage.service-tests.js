@@ -19,9 +19,13 @@ var azureCommon = require('azure-common');
 var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
+var storageTestUtil = require('../util/asmStorageTestUtil');
 
 var suite;
+var timeout;
 var testPrefix = 'cli.storage.service-tests';
+var storageAccountPrefix = 'cliteststorage';
+var storageAccountKey = '';
 var crypto = require('crypto');
 
 function stripAccessKey(connectionString) {
@@ -29,7 +33,7 @@ function stripAccessKey(connectionString) {
 }
 
 var requiredEnvironment = [
-  { name: 'AZURE_STORAGE_CONNECTION_STRING', secure: stripAccessKey }
+  { name: 'AZURE_STORAGE_TEST_LOCATION', defaultValue: 'West Europe' }
 ];
 
 /**
@@ -37,20 +41,46 @@ var requiredEnvironment = [
 */
 describe('cli', function () {
   describe('storage', function() {
-
+    var storageUtil = new storageTestUtil();
     before(function (done) {
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
+      timeout = (suite.isRecording || !suite.isMocked) ? 30000 : 10;
 
       if (suite.isMocked) {
         utils.POLL_REQUEST_INTERVAL = 0;
       }
 
-      suite.setupSuite(done);
+      suite.setupSuite(function() {
+        storageAccountPrefix = suite.generateId(storageAccountPrefix, null);
+        var storageObject = {};
+        storageObject.name = storageAccountPrefix;
+        storageObject.location = process.env.AZURE_STORAGE_TEST_LOCATION;
+        if(!suite.isPlayback()) {
+          storageUtil.createStorageAccount(storageObject, timeout, suite, function() {
+            storageAccountKey = storageObject.key;
+            connectionString =
+              process.env.AZURE_STORAGE_CONNECTION_STRING ||
+              'DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + storageAccountKey;
+            done();
+          });
+        } else {
+          connectionString='DefaultEndpointsProtocol=https;AccountName=' + storageAccountPrefix + ';AccountKey=' + new Buffer("Key placeholder").toString('base64');
+          done();
+        }
+      });
     });
 
     after(function (done) {
-      suite.teardownSuite(done);
+      suite.teardownSuite(function() {
+        if(!suite.isPlayback()) {
+          storageUtil.removeStorageAccount(storageAccountPrefix, timeout, suite, function() {
+            done();
+          });
+        } else {
+          done();
+        }
+      });
     });
 
     beforeEach(function (done) {
@@ -64,7 +94,7 @@ describe('cli', function () {
     describe('logging', function() {
       describe('show', function() {
         it('should show logging properties for all services', function(done) {
-          suite.execute('storage logging show --json', function(result) {
+          suite.execute('storage logging show --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(3);
@@ -75,13 +105,13 @@ describe('cli', function () {
               property.Write.should.be.a.Boolean;
               property.Delete.should.be.a.Boolean;
               property.RetentionPolicy.should.be.an.Object;
-            });            
+            });
             done();
           });
         });
 
         it('should show logging properties for blob service', function(done) {
-          suite.execute('storage logging show --blob --json', function(result) {
+          suite.execute('storage logging show --blob --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -92,13 +122,13 @@ describe('cli', function () {
               property.Write.should.be.a.Boolean;
               property.Delete.should.be.a.Boolean;
               property.RetentionPolicy.should.be.an.Object;
-            });            
+            });
             done();
           });
         });
 
         it('should show logging properties for table service', function(done) {
-          suite.execute('storage logging show --table --json', function(result) {
+          suite.execute('storage logging show --table --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -109,13 +139,13 @@ describe('cli', function () {
               property.Write.should.be.a.Boolean;
               property.Delete.should.be.a.Boolean;
               property.RetentionPolicy.should.be.an.Object;
-              });            
+              });
             done();
           });
         });
 
         it('should show logging properties for queue service', function(done) {
-          suite.execute('storage logging show --queue --json', function(result) {
+          suite.execute('storage logging show --queue --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -126,7 +156,7 @@ describe('cli', function () {
               property.Write.should.be.a.Boolean;
               property.Delete.should.be.a.Boolean;
               property.RetentionPolicy.should.be.an.Object;
-            });            
+            });
             done();
           });
         });
@@ -135,7 +165,7 @@ describe('cli', function () {
       describe('set', function() {
         it('should set logging properties for blob service', function(done) {
           var retention = 10;
-          suite.execute('storage logging set --blob --retention %s --read --write --delete-off --json', retention, function(result) {
+          suite.execute('storage logging set --blob --retention %s --read --write --delete-off --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -153,7 +183,7 @@ describe('cli', function () {
 
         it('should set logging properties for table service', function(done) {
           var retention = '0';
-          suite.execute('storage logging set --table --retention %s --read --write-off --delete --json', retention, function(result) {
+          suite.execute('storage logging set --table --retention %s --read --write-off --delete --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -170,7 +200,7 @@ describe('cli', function () {
 
         it('should set logging properties for queue service', function(done) {
           var retention = 5;
-          suite.execute('storage logging set --queue --retention %s --read-off --write --delete --json', retention, function(result) {
+          suite.execute('storage logging set --queue --retention %s --read-off --write --delete --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -191,7 +221,7 @@ describe('cli', function () {
     describe('metrics', function() {
       describe('show', function() {
         it('should show metrics properties for all services', function(done) {
-          suite.execute('storage metrics show --json', function(result) {
+          suite.execute('storage metrics show --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(4);
@@ -213,7 +243,7 @@ describe('cli', function () {
         });
 
         it('should show metrics properties for blob service', function(done) {
-          suite.execute('storage metrics show --blob --json', function(result) {
+          suite.execute('storage metrics show --blob --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -235,7 +265,7 @@ describe('cli', function () {
         });
 
         it('should show metrics properties for table service', function(done) {
-          suite.execute('storage metrics show --table --json', function(result) {
+          suite.execute('storage metrics show --table --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -257,7 +287,7 @@ describe('cli', function () {
         });
 
         it('should show metrics properties for queue service', function(done) {
-          suite.execute('storage metrics show --queue --json', function(result) {
+          suite.execute('storage metrics show --queue --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -279,7 +309,7 @@ describe('cli', function () {
         });
 
         it('should show metrics properties for file service', function(done) {
-          suite.execute('storage metrics show --file --json', function(result) {
+          suite.execute('storage metrics show --file --connection-string ' + connectionString + ' --json', function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.greaterThan(0);
@@ -304,7 +334,7 @@ describe('cli', function () {
       describe('set', function() {
         it('should set hourly metrics properties for blob service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --blob --retention %s --hour --api --json', retention, function(result) {
+          suite.execute('storage metrics set --blob --retention %s --hour --api --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -318,7 +348,7 @@ describe('cli', function () {
             property.HourMetrics[0].RetentionPolicy.should.be.an.Object;
             property.HourMetrics[0].RetentionPolicy.Enabled.should.be.true;
             property.HourMetrics[0].RetentionPolicy.Days.should.equal(retention);
-            
+
             property.MinuteMetrics.length.should.equal(1);
             property.MinuteMetrics[0].should.be.an.Object;
             property.MinuteMetrics[0].Version.should.equal('1.0');
@@ -329,7 +359,7 @@ describe('cli', function () {
 
         it('should set hourly metrics properties and turn off minute metrics for table service', function(done) {
           var retention = '0';
-          suite.execute('storage metrics set --table --retention %s --hour --api-off --minute-off --json', retention, function(result) {
+          suite.execute('storage metrics set --table --retention %s --hour --api-off --minute-off --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -350,10 +380,10 @@ describe('cli', function () {
             done();
           });
         });
-    
+
         it('should set minute metrics properties and turn off hourly metrics for queue service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --queue --retention %s --hour-off --minute --api --json', retention, function(result) {
+          suite.execute('storage metrics set --queue --retention %s --hour-off --minute --api --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -380,7 +410,7 @@ describe('cli', function () {
 
         it('should turn off both minute and hourly metrics for queue service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --queue --retention %s --hour-off --minute-off --json', retention, function(result) {
+          suite.execute('storage metrics set --queue --retention %s --hour-off --minute-off --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -402,10 +432,10 @@ describe('cli', function () {
             done();
           });
         });
-    
+
         it('should set minute metrics and hourly metrics properties for file service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --file --retention %s --hour-off --minute --api --json', retention, function(result) {
+          suite.execute('storage metrics set --file --retention %s --hour-off --minute --api --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -429,10 +459,10 @@ describe('cli', function () {
             done();
           });
         });
-    
+
         it('should set minute metrics properties and turn off hourly metrics for file service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --file --retention %s --hour-off --minute --api --json', retention, function(result) {
+          suite.execute('storage metrics set --file --retention %s --hour-off --minute --api --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -459,7 +489,7 @@ describe('cli', function () {
 
         it('should turn off both minute and hourly metrics for file service', function(done) {
           var retention = 10;
-          suite.execute('storage metrics set --file --retention %s --hour-off --minute-off --json', retention, function(result) {
+          suite.execute('storage metrics set --file --retention %s --hour-off --minute-off --connection-string ' + connectionString + ' --json', retention, function(result) {
             result.errorText.should.be.empty;
             var properties = JSON.parse(result.text);
             properties.length.should.equal(1);
@@ -498,7 +528,7 @@ describe('cli', function () {
         if (serviceIndex >=  services.length) {
           return done();
         } else {
-          suite.execute('storage cors delete %s -q --json', '--' + services[serviceIndex], function(result) {
+          suite.execute('storage cors delete %s -q --connection-string ' + connectionString + ' --json', '--' + services[serviceIndex], function(result) {
             result.errorText.should.be.empty;
 
             serviceIndex++;
@@ -533,7 +563,7 @@ describe('cli', function () {
                 rules.push(rule);
               }
 
-              suite.execute('storage cors set %s --cors %s --json', '--' + services[serviceIndex], JSON.stringify(rules), function(result) {
+              suite.execute('storage cors set %s --cors %s --connection-string ' + connectionString + ' --json', '--' + services[serviceIndex], JSON.stringify(rules), function(result) {
                 result.errorText.should.be.empty;
                 var corsRules = JSON.parse(result.text);
                 corsRules.length.should.equal(ruleCount);
@@ -561,7 +591,7 @@ describe('cli', function () {
             if (serviceIndex >=  services.length) {
               return done();
             } else {
-              suite.execute('storage cors show %s --json', '--' + services[serviceIndex], function(result) {
+              suite.execute('storage cors show %s --connection-string ' + connectionString + ' --json', '--' + services[serviceIndex], function(result) {
                 result.errorText.should.be.empty;
                 var corsRules = JSON.parse(result.text);
                 corsRules.length.should.equal(serviceIndex+1);
