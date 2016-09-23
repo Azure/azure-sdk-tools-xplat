@@ -1,0 +1,9 @@
+﻿// This file defines visual studio specific test settings for mocha
+// and should not impact tests run on the command line.
+// See https://github.com/Microsoft/nodejstools/wiki/Test-Explorer#configuring-mocha-for-vs
+
+{
+  "ui": "tdd",
+  "timeout": 0, // disable timeouts for debugging, see https://mochajs.org/#timeouts
+  "reporter": "tap"
+}
