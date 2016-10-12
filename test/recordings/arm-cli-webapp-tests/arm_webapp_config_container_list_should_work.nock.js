@@ -29,39 +29,39 @@ exports.scopes = [[function (nock) {
 var result = 
 nock('http://management.azure.com:443')
   .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings/list?api-version=2015-08-01')
-  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings\",\"name\":\"appsettings\",\"type\":\"Microsoft.Web/sites/config\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"WEBSITE_NODE_DEFAULT_VERSION\":\"4.4.7\",\"testkey12618\":\"testval17141\"}}", { 'cache-control': 'no-cache',
+  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings\",\"name\":\"appsettings\",\"type\":\"Microsoft.Web/sites/config\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"WEBSITE_NODE_DEFAULT_VERSION\":\"4.4.7\",\"DOCKER_REGISTRY_SERVER_USERNAME\":\"MyUsername\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
-  'content-length': '329',
+  'content-length': '346',
   'content-type': 'application/json',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '6e501d5c-b9e4-44d7-a86d-5a8c2b9e407c',
+  'x-ms-request-id': '8b78d3f7-4be0-4c5c-9a44-d45a8415e4ed',
   server: 'Microsoft-IIS/8.0',
   'x-aspnet-version': '4.0.30319',
   'x-powered-by': 'ASP.NET',
   'x-ms-ratelimit-remaining-subscription-resource-requests': '11999',
-  'x-ms-correlation-request-id': 'b1e5a900-5f11-4387-8e1b-8558ef2065db',
-  'x-ms-routing-request-id': 'WESTUS2:20161012T185447Z:b1e5a900-5f11-4387-8e1b-8558ef2065db',
-  date: 'Wed, 12 Oct 2016 18:54:47 GMT',
+  'x-ms-correlation-request-id': '10af7801-77de-4e1a-9fbd-a0d04ff3c1f5',
+  'x-ms-routing-request-id': 'WESTUS2:20161012T185453Z:10af7801-77de-4e1a-9fbd-a0d04ff3c1f5',
+  date: 'Wed, 12 Oct 2016 18:54:52 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
   .post('/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings/list?api-version=2015-08-01')
-  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings\",\"name\":\"appsettings\",\"type\":\"Microsoft.Web/sites/config\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"WEBSITE_NODE_DEFAULT_VERSION\":\"4.4.7\",\"testkey12618\":\"testval17141\"}}", { 'cache-control': 'no-cache',
+  .reply(200, "{\"id\":\"/subscriptions/8d57ddbd-c779-40ea-b660-1015f4bf027d/resourceGroups/testrg16322/providers/Microsoft.Web/sites/webappclitests3886/config/appsettings\",\"name\":\"appsettings\",\"type\":\"Microsoft.Web/sites/config\",\"location\":\"West US\",\"tags\":null,\"properties\":{\"WEBSITE_NODE_DEFAULT_VERSION\":\"4.4.7\",\"DOCKER_REGISTRY_SERVER_USERNAME\":\"MyUsername\"}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
-  'content-length': '329',
+  'content-length': '346',
   'content-type': 'application/json',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '6e501d5c-b9e4-44d7-a86d-5a8c2b9e407c',
+  'x-ms-request-id': '8b78d3f7-4be0-4c5c-9a44-d45a8415e4ed',
   server: 'Microsoft-IIS/8.0',
   'x-aspnet-version': '4.0.30319',
   'x-powered-by': 'ASP.NET',
   'x-ms-ratelimit-remaining-subscription-resource-requests': '11999',
-  'x-ms-correlation-request-id': 'b1e5a900-5f11-4387-8e1b-8558ef2065db',
-  'x-ms-routing-request-id': 'WESTUS2:20161012T185447Z:b1e5a900-5f11-4387-8e1b-8558ef2065db',
-  date: 'Wed, 12 Oct 2016 18:54:47 GMT',
+  'x-ms-correlation-request-id': '10af7801-77de-4e1a-9fbd-a0d04ff3c1f5',
+  'x-ms-routing-request-id': 'WESTUS2:20161012T185453Z:10af7801-77de-4e1a-9fbd-a0d04ff3c1f5',
+  date: 'Wed, 12 Oct 2016 18:54:52 GMT',
   connection: 'close' });
  return result; }]];
