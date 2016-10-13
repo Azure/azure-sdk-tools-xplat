@@ -81050,12 +81050,12 @@
                       "description": "the container registry server password"
                     },
                     {
-                      "flags": "-c --customimagename <customimagename>",
-                      "required": -22,
+                      "flags": "-c --custom-image-name <customimagename>",
+                      "required": -24,
                       "optional": 0,
                       "bool": true,
                       "short": "-c",
-                      "long": "--customimagename",
+                      "long": "--custom-image-name",
                       "description": "the container custom image name and optionally the tag name"
                     },
                     {
