@@ -81050,7 +81050,7 @@
                       "description": "the container registry server password"
                     },
                     {
-                      "flags": "-c --custom-image-name <customimagename>",
+                      "flags": "-c --custom-image-name <custom-image-name>",
                       "required": -24,
                       "optional": 0,
                       "bool": true,
