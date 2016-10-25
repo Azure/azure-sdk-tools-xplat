@@ -147,6 +147,8 @@ describe('arm', function () {
 
     it('config set should work', function (done) {
       suite.execute('webapp config set %s %s --phpversion %s --json', groupName, sitename, updatedPHPValue, function (result) {
+        var output = JSON.parse(result.text);
+        (output.phpVersion).should.equal(updatedPHPValue);
         result.exitStatus.should.equal(0);
         done();
       });
