@@ -61,7 +61,7 @@ describe('arm', function () {
       });
 
       describe('list', function () {
-        it('should work', function(done) {
+        it.skip('should work', function(done) {
           suite.execute('insights usage list %s -b %s -e %s --json', resourceId, '2015-04-02T11:06:00', '2015-04-02T12:06:00', function(result) {
             result.exitStatus.should.equal(0);
               
@@ -84,7 +84,7 @@ describe('arm', function () {
           });
         });
         
-        it('should work with api parameter', function (done) {
+        it.skip('should work with api parameter', function (done) {
           suite.execute('insights usage list %s -b %s -e %s -p %s --json', resourceId, '2015-04-02T11:06:00', '2015-04-02T12:06:00', insightsUtils.defaultApiVersion, function (result) {
             result.exitStatus.should.equal(0);
             
@@ -107,7 +107,7 @@ describe('arm', function () {
           });
         });
 
-        it('should fail if the start date is later than Now', function(done) {
+        it.skip('should fail if the start date is later than Now', function(done) {
           suite.execute('insights usage list %s -b %s --json', resourceId, '2100-01-01T01:00:00', function(result) {
             result.exitStatus.should.equal(1);
             var expectedError = util.format('Start date is later than Now');

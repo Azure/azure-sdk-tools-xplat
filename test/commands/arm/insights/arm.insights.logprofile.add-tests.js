@@ -49,7 +49,7 @@ describe('arm', function () {
 
       beforeEach(function(done) {
         suite.setupTest(function() {
-          storageId = '/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/fixtest2/providers/Microsoft.Storage/storageAccounts/stofixtest2';
+          storageId = '/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162';
           serviceBusRuleId = '/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/testshoeboxeastus/authorizationrules/RootManageSharedAccessKey';
           done();
         });
@@ -61,14 +61,13 @@ describe('arm', function () {
 
       describe('add', function() {
         it('should work add log profile', function (done) {
-          suite.execute('insights logprofile add -n default -a %s -b %s -l global,eastus -c Action,Delete -t 10 --json', storageId, serviceBusRuleId, function(result) {
+          suite.execute('insights logprofile add default %s global -c Action,Delete -t 10 -s df602c9c-7aa0-407d-a6fb-eb20c8bd1192 --json', storageId, function(result) {
             var properties = JSON.parse(result.text);
 
             properties.storageAccountId.should.equal(storageId);
-            properties.serviceBusRuleId.should.equal(serviceBusRuleId);
-            properties.locations.length.should.equal(2);
+            //properties.serviceBusRuleId.should.equal(serviceBusRuleId);
+            properties.locations.length.should.equal(1);
             properties.locations[0].should.equal('global');
-            properties.locations[1].should.equal('eastus');
             properties.categories.length.should.equal(2);
             properties.categories[0].should.equal('Action');
             properties.categories[1].should.equal('Delete');
@@ -81,14 +80,13 @@ describe('arm', function () {
         });
 
         it('should work add log profile with default categories', function (done) {
-          suite.execute('insights logprofile add -n default -a %s -b %s -l global,eastus -t 10 --json', storageId, serviceBusRuleId, function(result) {
+          suite.execute('insights logprofile add default %s global -t 10 --json', storageId, function(result) {
             var properties = JSON.parse(result.text);
 
             properties.storageAccountId.should.equal(storageId);
-            properties.serviceBusRuleId.should.equal(serviceBusRuleId);
-            properties.locations.length.should.equal(2);
+            //properties.serviceBusRuleId.should.equal(serviceBusRuleId);
+            properties.locations.length.should.equal(1);
             properties.locations[0].should.equal('global');
-            properties.locations[1].should.equal('eastus');
             properties.categories.length.should.equal(3);
             properties.categories[0].should.equal('Action');
             properties.categories[1].should.equal('Delete');
@@ -102,14 +100,13 @@ describe('arm', function () {
         });
 
         it('should work add log profile with default categories and no retention', function (done) {
-          suite.execute('insights logprofile add -n default -a %s -b %s -l global,eastus --json', storageId, serviceBusRuleId, function(result) {
+          suite.execute('insights logprofile add default %s global --json', storageId, function(result) {
             var properties = JSON.parse(result.text);
 
             properties.storageAccountId.should.equal(storageId);
-            properties.serviceBusRuleId.should.equal(serviceBusRuleId);
-            properties.locations.length.should.equal(2);
+            //properties.serviceBusRuleId.should.equal(serviceBusRuleId);
+            properties.locations.length.should.equal(1);
             properties.locations[0].should.equal('global');
-            properties.locations[1].should.equal('eastus');
             properties.categories.length.should.equal(3);
             properties.categories[0].should.equal('Action');
             properties.categories[1].should.equal('Delete');

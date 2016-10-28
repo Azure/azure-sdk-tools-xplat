@@ -47625,7 +47625,7 @@
                       "name": "create",
                       "description": "Creates an alert rule webhook action.",
                       "fullName": "insights alerts actions webhook create",
-                      "usage": "[options] <serviceUri>",
+                      "usage": "<serviceUri> [options]",
                       "filePath": "commands/arm/insights/insights.alerts.actions.js",
                       "options": [
                         {
@@ -47759,7 +47759,7 @@
                   "name": "delete",
                   "description": "Deletes an alert rule.",
                   "fullName": "insights alerts rule delete",
-                  "usage": "[options] <resourceGroup> <ruleName>",
+                  "usage": "<resourceGroup> <ruleName> [options]",
                   "filePath": "commands/arm/insights/insights.alerts.rule._js",
                   "options": [
                     {
@@ -47829,7 +47829,7 @@
                       "name": "set",
                       "description": "Create or set an event-based alert rule.",
                       "fullName": "insights alerts rule log set",
-                      "usage": "[options] <ruleName> <location> <resourceGroup> <operationName>",
+                      "usage": "<ruleName> <location> <resourceGroup> <operationName> [options]",
                       "filePath": "commands/arm/insights/insights.alerts.rule.log._js",
                       "options": [
                         {
@@ -48496,7 +48496,7 @@
                       "name": "create",
                       "description": "Creates an autoscale webhook notification.",
                       "fullName": "insights autoscale notifications webhook create",
-                      "usage": "[options] <serviceUri>",
+                      "usage": "<serviceUri> [options] ",
                       "filePath": "commands/arm/insights/insights.autoscale.notifications.js",
                       "options": [
                         {
@@ -48560,7 +48560,7 @@
                   "name": "create",
                   "description": "Create or set an autoscale profile.",
                   "fullName": "insights autoscale profile create",
-                  "usage": "[options] <profileType> <profileName> <defaultCapacity> <maximumCapacity> <minimumCapacity> <rules>",
+                  "usage": "<profileType> <profileName> <defaultCapacity> <maximumCapacity> <minimumCapacity> <rules> [options]",
                   "filePath": "commands/arm/insights/insights.autoscale.profile.js",
                   "options": [
                     {
@@ -48730,7 +48730,7 @@
                   "name": "create",
                   "description": "Create or set an autoscale rule.",
                   "fullName": "insights autoscale rule create",
-                  "usage": "[options] <metricName> <metricResourceId> <conditionOperatorType> <metricStatisticType> <threshold> <timeGrain> <actionCooldown> <actionDirection> <actionType> <scaleValue>",
+                  "usage": "<metricName> <metricResourceId> <conditionOperatorType> <metricStatisticType> <threshold> <timeGrain> <actionCooldown> <actionDirection> <actionType> <scaleValue> [options]",
                   "filePath": "commands/arm/insights/insights.autoscale.rule.js",
                   "options": [
                     {
@@ -48837,7 +48837,7 @@
                       "bool": true,
                       "short": "-y",
                       "long": "--actionType",
-                      "description": "The scale action type name: ChangeSize, ChangeCount, PercentChangeCount, ExactCount. The value is case insensitive."
+                      "description": "The scale action type name. This argument is ignored since only ChangeCount is supported. The argument remains for backwards compatibility only."
                     },
                     {
                       "flags": "-l --scaleValue <scaleValue>",
@@ -48882,7 +48882,7 @@
                   "name": "list",
                   "description": "List autoscale settings for a resource.",
                   "fullName": "insights autoscale setting list",
-                  "usage": "[options] <resourceGroup>",
+                  "usage": "<resourceGroup> [options]",
                   "filePath": "commands/arm/insights/insights.autoscale.setting._js",
                   "options": [
                     {
@@ -48927,6 +48927,15 @@
                       "short": "-n",
                       "long": "--settingName",
                       "description": "The name of the setting."
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "The subscription identifier."
                     }
                   ]
                 },
@@ -48934,7 +48943,7 @@
                   "name": "delete",
                   "description": "Deletes an autoscale setting.",
                   "fullName": "insights autoscale setting delete",
-                  "usage": "[options] <resourceGroup> <settingName>",
+                  "usage": "<resourceGroup> <settingName> [options]",
                   "filePath": "commands/arm/insights/insights.autoscale.setting._js",
                   "options": [
                     {
@@ -48979,6 +48988,15 @@
                       "short": "-n",
                       "long": "--settingName",
                       "description": "The name of the setting."
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "The subscription identifier."
                     }
                   ]
                 },
@@ -48986,7 +49004,7 @@
                   "name": "set",
                   "description": "Create or set an autoscale setting.",
                   "fullName": "insights autoscale setting set",
-                  "usage": "[options] <settingName> <location> <resourceGroup>",
+                  "usage": "<settingName> <location> <resourceGroup> [options]",
                   "filePath": "commands/arm/insights/insights.autoscale.setting._js",
                   "options": [
                     {
@@ -49085,6 +49103,15 @@
                       "short": "-w",
                       "long": "--notifications",
                       "description": "The list object autoscale notifications in escaped-jsson format."
+                    },
+                    {
+                      "flags": "-s --subscription <subscription>",
+                      "required": -19,
+                      "optional": 0,
+                      "bool": true,
+                      "short": "-s",
+                      "long": "--subscription",
+                      "description": "The subscription identifier."
                     }
                   ]
                 }
@@ -49104,7 +49131,7 @@
               "name": "get",
               "description": "Get the diagnostics for the resource.",
               "fullName": "insights diagnostic get",
-              "usage": "[options]",
+              "usage": "<resourceId> [options]",
               "filePath": "commands/arm/insights/insights.diagnostic.get._js",
               "options": [
                 {
@@ -49140,6 +49167,15 @@
                   "short": "-i",
                   "long": "--resourceId",
                   "description": "resource Id."
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             },
@@ -49147,7 +49183,7 @@
               "name": "set",
               "description": "Set the diagnostics for the resource.",
               "fullName": "insights diagnostic set",
-              "usage": "[options]",
+              "usage": "<resourceId> [options]",
               "filePath": "commands/arm/insights/insights.diagnostic.set._js",
               "options": [
                 {
@@ -49185,6 +49221,15 @@
                   "description": "resource Id."
                 },
                 {
+                  "flags": "-e, --enabled <enabled>",
+                  "required": -15,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--enabled",
+                  "description": "Mandatory flag to signal whether the configuration is enabled or disabled."
+                },
+                {
                   "flags": "-a, --storageId <storageId>",
                   "required": -17,
                   "optional": 0,
@@ -49203,15 +49248,6 @@
                   "description": "service bus authorization rule Id."
                 },
                 {
-                  "flags": "-e, --enabled <enabled>",
-                  "required": -15,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-e",
-                  "long": "--enabled",
-                  "description": "whether the configuration is enabled or disabled."
-                },
-                {
                   "flags": "-c, --categories <categories>",
                   "required": -18,
                   "optional": 0,
@@ -49228,6 +49264,42 @@
                   "short": "-t",
                   "long": "--timegrains",
                   "description": "comma separated list of timegrains to be affected in ISO 8601 format. Example: 'PT1M' for 1 minute."
+                },
+                {
+                  "flags": "-r, --retentionEnabled",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-r",
+                  "long": "--retentionEnabled",
+                  "description": "flag to enable the retention policy."
+                },
+                {
+                  "flags": "-w, --workspaceId <workspaceId>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-w",
+                  "long": "--workspaceId",
+                  "description": "The workspace id."
+                },
+                {
+                  "flags": "-d, --retentionInDays <retentionInDays>",
+                  "required": -23,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-d",
+                  "long": "--retentionInDays",
+                  "description": "The number of days of the retention policy."
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             }
@@ -49245,7 +49317,7 @@
               "name": "add",
               "description": "Add a new log profile.",
               "fullName": "insights logprofile add",
-              "usage": "[options]",
+              "usage": "<logProfileName> <storageId> <locations> [options]",
               "filePath": "commands/arm/insights/insights.logprofiles.add._js",
               "options": [
                 {
@@ -49274,7 +49346,7 @@
                   "description": "use json output"
                 },
                 {
-                  "flags": "-n, --name <name>",
+                  "flags": "-n, --name <logProfileName>",
                   "required": -12,
                   "optional": 0,
                   "bool": true,
@@ -49290,6 +49362,15 @@
                   "short": "-a",
                   "long": "--storageId",
                   "description": "storage account Id."
+                },
+                {
+                  "flags": "-l, --locations <locations>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-l",
+                  "long": "--locations",
+                  "description": "comma separated list of locations of the resources to be included in the log profile."
                 },
                 {
                   "flags": "-b, --serviceBusRuleId <servicesBusRuleId>",
@@ -49310,15 +49391,6 @@
                   "description": "comma separated list of categories to be included in the captured logs."
                 },
                 {
-                  "flags": "-l, --locations <locations>",
-                  "required": -17,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-l",
-                  "long": "--locations",
-                  "description": "comma separated list of locations of the resources to be included in the log profile."
-                },
-                {
                   "flags": "-t, --retentionInDays <retentionInDays>",
                   "required": -23,
                   "optional": 0,
@@ -49326,6 +49398,15 @@
                   "short": "-t",
                   "long": "--retentionInDays",
                   "description": "the number of days the logs will be kept before being delete."
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             },
@@ -49333,7 +49414,7 @@
               "name": "delete",
               "description": "Delete the log profile.",
               "fullName": "insights logprofile delete",
-              "usage": "[options]",
+              "usage": "<logProfileName> [options]",
               "filePath": "commands/arm/insights/insights.logprofiles.delete._js",
               "options": [
                 {
@@ -49362,13 +49443,22 @@
                   "description": "use json output"
                 },
                 {
-                  "flags": "-n, --name <name>",
+                  "flags": "-n, --name <logProfileName>",
                   "required": -12,
                   "optional": 0,
                   "bool": true,
                   "short": "-n",
                   "long": "--name",
                   "description": "name of the log profile."
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             },
@@ -49376,7 +49466,7 @@
               "name": "get",
               "description": "Get the log profile.",
               "fullName": "insights logprofile get",
-              "usage": "[options]",
+              "usage": "<logProfileName> [options]",
               "filePath": "commands/arm/insights/insights.logprofiles.get._js",
               "options": [
                 {
@@ -49405,13 +49495,22 @@
                   "description": "use json output"
                 },
                 {
-                  "flags": "-n, --name <name>",
+                  "flags": "-n, --name <logProfileName>",
                   "required": -12,
                   "optional": 0,
                   "bool": true,
                   "short": "-n",
                   "long": "--name",
                   "description": "name of the log profile."
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             },
@@ -49446,6 +49545,15 @@
                   "bool": true,
                   "long": "--json",
                   "description": "use json output"
+                },
+                {
+                  "flags": "-s --subscription <subscription>",
+                  "required": -19,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "The subscription identifier."
                 }
               ]
             }
@@ -49463,7 +49571,7 @@
               "name": "list",
               "description": "List metric values for a resource.",
               "fullName": "insights metrics list",
-              "usage": "[options] <resourceId> <timeGrain>",
+              "usage": "<resourceId> [options]",
               "filePath": "commands/arm/insights/insights.metrics._js",
               "options": [
                 {
@@ -49501,6 +49609,15 @@
                   "description": "The resource Id."
                 },
                 {
+                  "flags": "-n --metricNames <metricNames>",
+                  "required": -18,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-n",
+                  "long": "--metricNames",
+                  "description": "The list of metric names."
+                },
+                {
                   "flags": "-t --timeGrain <timeGrain>",
                   "required": -16,
                   "optional": 0,
@@ -49508,6 +49625,15 @@
                   "short": "-t",
                   "long": "--timeGrain",
                   "description": "The time grain. Expected format hh:mm:ss."
+                },
+                {
+                  "flags": "-a --aggregationType <aggregationType>",
+                  "required": -22,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--aggregationType",
+                  "description": "The aggregation type, e.g. None, Average, Count, Minimum, Maximum, Total"
                 },
                 {
                   "flags": "-b --startTime <startTime>",
@@ -49526,15 +49652,6 @@
                   "short": "-e",
                   "long": "--endTime",
                   "description": "The end time of the query. In ISO format with explicit indication of timezone: 1970-01-01T00:00:00Z, 1970-01-01T00:00:00-0500"
-                },
-                {
-                  "flags": "-n --metricNames <metricNames>",
-                  "required": -18,
-                  "optional": 0,
-                  "bool": true,
-                  "short": "-n",
-                  "long": "--metricNames",
-                  "description": "The list of metric names."
                 },
                 {
                   "flags": "-s --subscription <subscription>",

@@ -6,15 +6,14 @@ exports.getMockedProfile = function () {
   var newProfile = new profile.Profile();
 
   newProfile.addSubscription(new profile.Subscription({
-    id: '1a66ce04-b633-4a0b-b2bc-a912ec8986a6',
-    name: 'Monitoring vNext Test Environment Services 03',
+    id: 'b67f7fec-69fc-4974-9099-a26bd6ffeda3',
+    name: 'Monitoring vNext Test Environment Services 02',
     user: {
       name: 'user@domain.example',
       type: 'user'
     },
     tenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47',
-    state: 'Enabled',
-    registeredProviders: [],
+    registeredProviders: ['website'],
     _eventsCount: '1',
     isDefault: true
   }, newProfile.environments['AzureCloud']));
@@ -29,37 +28,37 @@ exports.scopes = [[function (nock) {
 var result = 
 nock('http://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/providers/microsoft.insights/logprofiles/default?api-version=2016-03-01', '*')
-  .reply(200, "{\"id\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/logprofiles/default\",\"name\":\"default\",\"location\":null,\"tags\":null,\"properties\":{\"storageAccountId\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/fixtest2/providers/Microsoft.Storage/storageAccounts/stofixtest2\",\"serviceBusRuleId\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/testshoeboxeastus/authorizationrules/RootManageSharedAccessKey\",\"locations\":[\"global\",\"eastus\"],\"categories\":[\"Action\",\"Delete\",\"Write\"],\"retentionPolicy\":{\"enabled\":false,\"days\":0}}}", { 'cache-control': 'no-cache',
+.put('/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/default?api-version=2016-03-01', '*')
+  .reply(200, "{\"id\":\"/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/default\",\"type\":null,\"name\":\"default\",\"location\":\"\",\"kind\":null,\"tags\":null,\"properties\":{\"storageAccountId\":\"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162\",\"serviceBusRuleId\":null,\"locations\":[\"global\"],\"categories\":[\"Action\",\"Delete\",\"Write\"],\"retentionPolicy\":{\"enabled\":false,\"days\":0}}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
-  'content-length': '630',
+  'content-length': '484',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '7f4ae1e4-3eaa-45e1-b143-a8909ed80edc',
+  'x-ms-request-id': 'cafd8b98-05a1-44f7-8c71-30ab52a8506b',
   server: 'Microsoft-IIS/8.5',
-  'x-ms-ratelimit-remaining-subscription-writes': '1198',
-  'x-ms-correlation-request-id': '9a1cceda-64c2-4d53-a2d3-bfde3e1c6791',
-  'x-ms-routing-request-id': 'WESTUS:20160323T194618Z:9a1cceda-64c2-4d53-a2d3-bfde3e1c6791',
-  date: 'Wed, 23 Mar 2016 19:46:18 GMT',
+  'x-ms-ratelimit-remaining-subscription-writes': '1199',
+  'x-ms-correlation-request-id': '85d91145-e0ea-48bb-ab11-c602dcacfb39',
+  'x-ms-routing-request-id': 'WESTUS2:20161024T235448Z:85d91145-e0ea-48bb-ab11-c602dcacfb39',
+  date: 'Mon, 24 Oct 2016 23:54:48 GMT',
   connection: 'close' });
  return result; },
 function (nock) { 
 var result = 
 nock('https://management.azure.com:443')
   .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/providers/microsoft.insights/logprofiles/default?api-version=2016-03-01', '*')
-  .reply(200, "{\"id\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/logprofiles/default\",\"name\":\"default\",\"location\":null,\"tags\":null,\"properties\":{\"storageAccountId\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/fixtest2/providers/Microsoft.Storage/storageAccounts/stofixtest2\",\"serviceBusRuleId\":\"/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/testshoeboxeastus/authorizationrules/RootManageSharedAccessKey\",\"locations\":[\"global\",\"eastus\"],\"categories\":[\"Action\",\"Delete\",\"Write\"],\"retentionPolicy\":{\"enabled\":false,\"days\":0}}}", { 'cache-control': 'no-cache',
+.put('/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/default?api-version=2016-03-01', '*')
+  .reply(200, "{\"id\":\"/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/providers/microsoft.insights/logprofiles/default\",\"type\":null,\"name\":\"default\",\"location\":\"\",\"kind\":null,\"tags\":null,\"properties\":{\"storageAccountId\":\"/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162\",\"serviceBusRuleId\":null,\"locations\":[\"global\"],\"categories\":[\"Action\",\"Delete\",\"Write\"],\"retentionPolicy\":{\"enabled\":false,\"days\":0}}}", { 'cache-control': 'no-cache',
   pragma: 'no-cache',
-  'content-length': '630',
+  'content-length': '484',
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  'x-ms-request-id': '7f4ae1e4-3eaa-45e1-b143-a8909ed80edc',
+  'x-ms-request-id': 'cafd8b98-05a1-44f7-8c71-30ab52a8506b',
   server: 'Microsoft-IIS/8.5',
-  'x-ms-ratelimit-remaining-subscription-writes': '1198',
-  'x-ms-correlation-request-id': '9a1cceda-64c2-4d53-a2d3-bfde3e1c6791',
-  'x-ms-routing-request-id': 'WESTUS:20160323T194618Z:9a1cceda-64c2-4d53-a2d3-bfde3e1c6791',
-  date: 'Wed, 23 Mar 2016 19:46:18 GMT',
+  'x-ms-ratelimit-remaining-subscription-writes': '1199',
+  'x-ms-correlation-request-id': '85d91145-e0ea-48bb-ab11-c602dcacfb39',
+  'x-ms-routing-request-id': 'WESTUS2:20161024T235448Z:85d91145-e0ea-48bb-ab11-c602dcacfb39',
+  date: 'Mon, 24 Oct 2016 23:54:48 GMT',
   connection: 'close' });
  return result; }]];

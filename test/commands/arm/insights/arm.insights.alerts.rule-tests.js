@@ -63,7 +63,7 @@ describe('arm', function () {
             description = 'Pura vida';
             windowSize = '00:05:00';
             operationName = 'microsoft.web/sites/delete';
-            actions = '[{\"customEmails\":[\"gu@ms.com\"],\"type\":\"Microsoft.Azure.Management.Insights.Models.RuleEmailAction\"}, {\"serviceUri\":\"http://foo.com\",\"properties\":{\"key1\":\"value1\"},\"type\":\"Microsoft.Azure.Management.Insights.Models.RuleWebhookAction\"}]';
+            actions = '[{\"customEmails\":[\"gu@ms.com\"],\"odata.type\":\"Microsoft.Azure.Management.Insights.Models.RuleEmailAction\"}, {\"serviceUri\":\"http://foo.com\",\"properties\":{\"key1\":\"value1\"},\"odata.type\":\"Microsoft.Azure.Management.Insights.Models.RuleWebhookAction\"}]';
             done();
           });
         });
@@ -85,18 +85,18 @@ describe('arm', function () {
               }
 
               __.each(response, function(record) {
-                record.should.have.property('properties');
+                //record.should.have.property('properties');
                 record.should.have.property('tags');
 
-                record.properties.should.have.property('actions');
-                record.properties.should.have.property('condition');
+                record.should.have.property('actions');
+                record.should.have.property('condition');
               });
 
               done();
             });
           });
       
-          it('should work with target resource id', function (done) {
+          it.skip('should work with target resource id', function (done) {
             suite.execute('insights alerts rule list %s -i %s --json', 'Default-Web-WestUS', resourceId, function (result) {
               result.exitStatus.should.equal(0);
               
@@ -109,18 +109,18 @@ describe('arm', function () {
               }
               
               __.each(response, function (record) {
-                record.should.have.property('properties');
+                //record.should.have.property('properties');
                 record.should.have.property('tags');
                 
-                record.properties.should.have.property('actions');
-                record.properties.should.have.property('condition');
+                record.should.have.property('actions');
+                record.should.have.property('condition');
               });
 
               done();
             });
           });
       
-          it('should work with target rule name', function (done) {
+          it.skip('should work with target rule name', function (done) {
             suite.execute('insights alerts rule list %s -n %s --json', 'Default-Web-WestUS', 'requestignhas', function (result) {
               result.exitStatus.should.equal(0);
 
@@ -129,10 +129,10 @@ describe('arm', function () {
                       response.length.should.equal(1);
                    
                       response[0].name.should.equal('requestignhas');
-                      response[0].should.have.property('properties');
+                      //response[0].should.have.property('properties');
                       // response[0].should.have.property('tags');
-                      response[0].properties.should.have.property('actions');
-                      response[0].properties.should.have.property('condition');
+                      response[0].should.have.property('actions');
+                      response[0].should.have.property('condition');
               }
 
               done();
@@ -180,7 +180,7 @@ describe('arm', function () {
               response.should.have.property('statusCode');
               response.should.have.property('requestId');
               
-              response.statusCode.should.equal(201);
+              response.statusCode.should.equal(200);
               
               done();
             });

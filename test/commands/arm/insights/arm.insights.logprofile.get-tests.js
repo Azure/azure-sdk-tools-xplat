@@ -61,7 +61,7 @@ describe('arm', function () {
 
       describe('get', function() {
         it('should work', function (done) {
-          suite.execute('insights logprofile get -n default --json', function(result) {
+          suite.execute('insights logprofile get default --json', function(result) {
             var properties = JSON.parse(result.text);
 
             properties.storageAccountId.should.equal(storageId);
