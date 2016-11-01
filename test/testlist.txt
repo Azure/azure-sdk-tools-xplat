@@ -28,7 +28,7 @@ commands/cli.telemetry-test.js
 #commands/cli.mobile.script-tests.js
 #commands/cli.mobile.table-tests.js
 #commands/cli.mobilerecover-tests.js
-commands/cli.sb-tests.js
+#commands/cli.sb-tests.js
 commands/cli.service-tests.js
 commands/cli.service.cert-tests.js
 commands/cli.site.deployment-tests.js
@@ -58,10 +58,10 @@ include:./testlist-vm.txt
 commands/cli.vm.create_loc_vnet_vm-tests.js
 # TODO: The test should be able to create a vm and delete it. It expects a vm is already there.
 # The number of tests can be reduced by creating a vm and then doing different disk list and show test.
-commands/cli.vm.disk-tests.js
+#commands/cli.vm.disk-tests.js
 commands/cli.vm.endpoint-tests.js
 commands/cli.vm.shutdown_restart-tests.js
-commands/cli.vm.image-tests.js
+#commands/cli.vm.image-tests.js
 commands/cli.vm.create_staticvm_neg-tests.js
 commands/cli.vm.extension-tests.js
 commands/cli.vm.extension_get-tests.js
@@ -78,7 +78,7 @@ commands/cli.vm.create_docker-tests.js
 commands/cli.sql-tests.js
 commands/cli.storage.account-tests.js
 commands/cli.storage.blob-tests.js
-commands/cli.storage.file-tests.js
+#commands/cli.storage.file-tests.js
 commands/cli.storage.table-tests.js
 commands/cli.storage.queue-tests.js
 commands/cli.storage.service-tests.js
