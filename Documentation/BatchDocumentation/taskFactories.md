@@ -124,19 +124,19 @@ An example of a task factory with a two-dimensional sweep with zero-padding:
   "taskFactory": {
     "type": "parametricSweep",
     "parameterSets": [
-        {
-          "start": 1,
-          "end": 500,
-          "step": 1
-        },
-        {
-          "start": 500,
-          "end": 1000,
-          "step": 500
-        }
+      {
+        "start": 1,
+        "end": 500,
+        "step": 1
+      },
+      {
+        "start": 500,
+        "end": 1000,
+        "step": 500
+      }
     ],
     "repeatTask": {
-        "commandLine": "ffmpeg -i sampleVideo_{0:3}.mkv -vcodec copy -acodec copy scale={1}:{1} output_x{1}_{0:3}.mp4 -y",
+      "commandLine": "ffmpeg -i sampleVideo_{0:3}.mkv -vcodec copy -acodec copy scale={1}:{1} output_x{1}_{0:3}.mp4 -y",
     }
   }
 }
@@ -171,6 +171,112 @@ Where the following tasks would be created:
   {
     "id" : "999",
     "commandLine": "ffmpeg -i sampleVideo500.mkv -vcodec copy -acodec copy scale=1000:1000 output_x1000_500.mp4 -y",
+  }
+]
+```
+
+## Task per file
+
+The task per file task factory creates a set of tasks by substituting the list of file name inside a Azure Storage container into a template. Substitutions can be made in most attributes of the task, but are most commonly
+made in the commandLine attribute or resourceFile collection or taskOutput attribute.
+
+Currently the following task attributes are not supported in a task per file task factory:
+- `id`: The ID of a task will be automatically generated.
+- `dependsOn`: Dependencies between tasks within a factory, or tasks created by other means are not yet supported. 
+
+An example:
+```json
+"job": {
+  "id": "my-ffmpeg-job",
+  "poolInfo": {
+    "poolId": "my-ffmpeg-pool"
+  },
+  "taskFactory": {
+    "type": "taskPerFile",
+    "source": {
+    	"fileGroup": "raw-images"
+	  },    
+    "repeatTask": {
+      "commandLine": "ffmpeg -i {fileName} -vcodec copy -acodec copy {fileNameWithoutExtension}.mp4 -y",
+      "resourceFiles": [
+        {
+          "blobSource": "{url}",
+          "filePath" : "{fileName}" 
+        }
+      ]
+    }
+  }
+}
+```
+
+The list of files used to create the tasks are set in `source`. Similar to new `ResourceFiles` property, there are two ways to specify the file container in Azure Storage. 
+1. Specify the data stored at in linked storage under a file group can be simply referenced by file group name.
+2. Specify the full container URL include the SAS key which has to have List and Read permission. For example:
+```json
+"source": {
+	"container": "https://storage.blob.core.windows.net/container?sv=2015-04-05sig=tAp0r3I3SV5PbjpZ5CIjvuo1jdUs5xW"
+}    
+```
+The files can be further filtered by including a prefix. This prefix can be a partial filename, or a subdirectory. If prefix is not specified, all the files in the container will be used for creating task. An example using prefix:
+```json
+"source": {
+	"fileGroup": "raw-images",
+	"prefix": "first_pass/img_"
+}    
+```
+
+The task template into which the file URL/name will be substituted is defined in `repeatTask`. Substitutions are achieved
+through the use of placeholders. A placeholder for name substitutions is represented by `{keyword}`. The keyword here represents
+which part of file URL to be substituted. The supported keyword are:
+
+Keyword|Note|Example
+---|---|---
+`{url}`|The full URL of file location|http://account.blob.azure.com/container/path/blob.ext?sasToken
+`{filePath}`|The file name including the path (virtual directory)|path/blob.ext
+`{fileName}`|The file name only, without path|blob.ext
+`{fileNameWithoutExtension}`|The file name without last extension|blob
+
+Where a literal `{` or `}` character is required, it can be escaped by duplicating it: `{{` or `}}`.
+
+For example, if the files in file group are:
+```
+raw-images/first_pass/mov_processing/1.mkv
+raw-images/first_pass/mov_processing/2.mkv
+raw-images/first_pass/alpha.mkv
+```
+The above task factory would be expanded into the following tasks:
+
+```json
+"tasks": [
+  {
+    "id" : "0",
+    "commandLine": "ffmpeg -i 1.mkv -vcodec copy -acodec copy 1.mp4 -y",
+    "resourceFiles": [
+      {
+        "blobSource": "http://account.blob.azure.com/raw-images/first_pass/mov_processing/1.mkv?sasToken",
+        "filePath" : "1.mkv" 
+      }
+    ]
+  },
+  {
+    "id" : "1",
+    "commandLine": "ffmpeg -i 2.mkv -vcodec copy -acodec copy 2.mp4 -y",
+    "resourceFiles": [
+      {
+        "blobSource": "http://account.blob.azure.com/raw-images/first_pass/mov_processing/2.mkv?sasToken",
+        "filePath" : "2.mkv" 
+      }
+    ]
+  },
+  {
+    "id" : "2",
+    "commandLine": "ffmpeg -i alpha.mkv -vcodec copy -acodec copy alpha.mp4 -y",
+    "resourceFiles": [
+      {
+        "blobSource": "http://account.blob.azure.com/raw-images/first_pass/alpha.mkv?sasToken",
+        "filePath" : "alpha.mkv" 
+      }
+    ]
   }
 ]
 ```

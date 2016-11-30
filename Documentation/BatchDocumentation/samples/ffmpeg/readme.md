@@ -25,8 +25,18 @@ Edit the `job.parameters.json` file to supply parameters to the template. If you
 5. `taskStart` must match the first WAV file you uploaded earlier (specify `1` to reference `sample1.pdf`).
 6. `taskEnd` must match the last WAV file you uploaded earlier (specify `10` to reference `sample10.pdf`).
 
-## Run the job
+## Run the job with parametric sweep tasks
 Run `azure batch job create --template job.json --parameters job.parameters.json` to create your job and tasks.
+
+## Create a job with task per file
+Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.perFile.json` parameters section to see what options are available.
+
+1. `poolId` must match the pool you created earlier.
+2. `inputFileGroup` must match the name of the group used in the `azure batch file upload` command earlier.
+3. `outputFileStorageUrl` must be a writable SAS to an Azure Storage container.
+4. `jobId` is the id of job, which must not exist in current Batch account.
+## Run the job with task per file
+Run `azure batch job create --template job.perFile.json --parameters job.parameters.json` to create your job and tasks.
 
 ## Monitor the job
 You can use the `azure batch task list --job-id <jobid>` to monitor the tasks in the job and their progress.
