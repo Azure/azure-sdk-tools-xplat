@@ -60,7 +60,7 @@ describe('cli', function () {
 
     it('should expand template with parameter file', function (_) {
       this.interaction = new Interactor(this);
-      var templateFile = path.resolve(__dirname, '../../../Documentation/BatchDocumentation/samples/ffmpeg/job.json');
+      var templateFile = path.resolve(__dirname, '../../data/batch.job.parametricsweep.json');
       var parameterFile = path.resolve(__dirname, '../../data/batch.job.parameters.json');
       var full = templateUtils.expandTemplate(this, templateFile, parameterFile, _);
       should.exist(full);
@@ -96,7 +96,7 @@ describe('cli', function () {
       done();
     });
 
-    it('should correct replace file iternation command', function (done) {
+    it('should correctly replace file iteration command', function (done) {
       var file = {
         url : 'http://someurl/container/path/blob.ext',
         filePath : 'path/blob.ext',
