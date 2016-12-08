@@ -33,7 +33,7 @@ Run `azure batch job create --template job.json --parameters job.parameters.json
 ## "Task per file" task factory
 
 ### Upload files
-Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) , there is no restriction on the file name beside all the files have same extension.
+Run command `azure batch file upload <path> <group>` on a folder containing media files (`*.wav`) , there is no restriction on the file name beside all the files have same extension (`*.wav`).
 
 ### Create a job with a task generated per input file
 Edit the `job.parameters.json` file to supply parameters to the template. If you want to configure other options of the job, such as the the pool id, you can look in the `job.perFile.json` parameters section to see what options are available.
