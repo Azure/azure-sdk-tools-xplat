@@ -293,8 +293,18 @@ _.extend(CLITest.prototype, {
   *
   * @param {function} callback  A hook to provide the steps to execute before the test starts execution
   */
-  setupTest: function (callback) {
-    this.currentTest = this.mochaSuiteObject.currentTest.fullTitle();
+  setupTest: function (ctx, callback) {
+    if (typeof ctx === 'function') {
+      callback = ctx;
+      ctx = null;
+    }
+    var currentTestName;
+    if (!this.mochaSuiteObject.currentTest && ctx) {
+      currentTestName = ctx.currentTest.fullTitle();
+    } else {
+      currentTestName = this.mochaSuiteObject.currentTest.fullTitle();
+    }
+    this.currentTest = currentTestName;
     this.numberOfRandomTestIdGenerated = 0;
     this.currentUuid = 0;
     this.currentRandomString = 0;
