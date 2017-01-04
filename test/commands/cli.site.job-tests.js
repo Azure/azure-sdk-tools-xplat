@@ -54,10 +54,11 @@ describe('cli', function () {
       suite.teardownSuite(done);
     });
 
+    beforeEach(function (done) {
+      suite.setupTest(done);
+    });
+
     describe('upload', function () {
-      beforeEach(function (done) {
-        suite.setupTest(done);
-      });
 
       afterEach(function (done) {
         suite.forEachName(createdSites, deleteSite, function () {
@@ -124,9 +125,6 @@ describe('cli', function () {
     });
 
     describe('site slot', function () {
-      beforeEach(function (done) {
-        suite.setupTest(done);
-      });
 
       afterEach(function (done) {
         suite.forEachName(createdSites, deleteSite, function () {
