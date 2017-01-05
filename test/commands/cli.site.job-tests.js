@@ -59,6 +59,9 @@ describe('cli', function () {
         suite.setupTest(done);
       });
 
+
+
+
       afterEach(function (done) {
         suite.forEachName(createdSites, deleteSite, function () {
           createdSites = [];
