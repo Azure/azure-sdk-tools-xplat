@@ -116,7 +116,7 @@
   },
   "devDependencies": {
     "istanbul": "0.3.19",
-    "mocha": "2.4.5",
+    "mocha": "1.16.0",
     "jshint": "<= 2.6.0",
     "sinon": "*",
     "should": "3.3.2",
