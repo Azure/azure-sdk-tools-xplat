@@ -34,7 +34,7 @@
           },
           "openSUSE":{
             "publisher":"SUSE",
-            "offer":"openSUSE",
+            "offer":"openSUSE-Leap",
             "sku":"42.1",
             "version":"latest"
           },
