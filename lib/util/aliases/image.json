@@ -35,7 +35,7 @@
           "openSUSE":{
             "publisher":"SUSE",
             "offer":"openSUSE-Leap",
-            "sku":"42.1",
+            "sku":"42.2",
             "version":"latest"
           },
           "RHEL":{
