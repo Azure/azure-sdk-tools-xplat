@@ -45938,6 +45938,158 @@
         }
       }
     },
+    "documentdb": {
+      "name": "documentdb",
+      "description": "Commands to manage your DocumentDB Account",
+      "fullName": "documentdb",
+      "usage": "[options] [command]",
+      "options": [],
+      "commands": [
+        {
+          "name": "create",
+          "description": "Create a DocumentDB Collection",
+          "fullName": "documentdb create",
+          "usage": "[options] [documentdbCollectionName]",
+          "filePath": "commands/arm/documentdb/documentdb._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "--documentdbCollectionName <documentdbCollectionName>",
+              "required": -28,
+              "optional": 0,
+              "bool": true,
+              "long": "--documentdbCollectionName",
+              "description": "the name of the new documentdb collection"
+            },
+            {
+              "flags": "--subscription <subscription>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "description": "Delete a DocumentDB Collection",
+          "fullName": "documentdb delete",
+          "usage": "[options] [documentdbName]",
+          "filePath": "commands/arm/documentdb/documentdb._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "--documentdbCollectionName <documentdbCollectionName>",
+              "required": -28,
+              "optional": 0,
+              "bool": true,
+              "long": "--documentdbCollectionName",
+              "description": "the name of the documentdb collection to delete"
+            },
+            {
+              "flags": "--subscription <subscription>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "description": "Get all available collections in the account",
+          "fullName": "documentdb list",
+          "usage": "[options]",
+          "filePath": "commands/arm/documentdb/documentdb._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "--subscription <subscription>",
+              "required": -16,
+              "optional": 0,
+              "bool": true,
+              "long": "--subscription",
+              "description": "the subscription identifier"
+            }
+          ]
+        }
+      ],
+      "categories": {}
+    },
     "feature": {
       "name": "feature",
       "description": "Commands to manage your features",
