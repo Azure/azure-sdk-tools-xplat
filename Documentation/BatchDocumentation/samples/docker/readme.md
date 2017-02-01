@@ -18,7 +18,7 @@ The `pool.docker.caffe.json` file contains the following parameters. You may opt
 
 | Parameter | Required  | Description                                                                                         |
 | --------- | --------- | --------------------------------------------------------------------------------------------------- |
-| poolId    | Mandatory | Unique id of the Azure Batch pool to create. Defaults to `docker-caffe` if not otherwise specified. |
+| poolId    | Optional  | Unique id of the Azure Batch pool to create. Defaults to `docker-caffe` if not otherwise specified. |
 
 When you are ready to create the pool, use this command:
 
@@ -34,8 +34,8 @@ The `job.docker.caffe.json` file contains the following parameters. You may opti
 
 | Parameter | Required  | Description                                                                                                                                                                      |
 | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| jobId     | Mandatory | Unique id of the Azure Batch job to create. Defaults to `docker-caffe-job` if not otherwise specified.                                                                           |
-| poolId    | Mandatory | Unique id of the Azure Batch pool which runs the job. Must match the `poolId` used when you created the pool (see above). Defaults to `docker-caffe` if not otherwise specified. |
+| jobId     | Optional  | Unique id of the Azure Batch job to create. Defaults to `docker-caffe-job` if not otherwise specified.                                                                           |
+| poolId    | Optional  | Unique id of the Azure Batch pool which runs the job. Must match the `poolId` used when you created the pool (see above). Defaults to `docker-caffe` if not otherwise specified. |
 
 When you are ready to create the job, use this command:
 
