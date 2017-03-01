@@ -35,11 +35,11 @@ nock('http://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'x-ms-failure-cause': 'gateway',
-  'x-ms-request-id': '45394283-e8e6-424f-97a4-c5171737649a',
-  'x-ms-correlation-request-id': '45394283-e8e6-424f-97a4-c5171737649a',
-  'x-ms-routing-request-id': 'WESTEUROPE:20161207T105116Z:45394283-e8e6-424f-97a4-c5171737649a',
+  'x-ms-request-id': 'ff2d950d-141b-4da4-9080-1f861c5e25de',
+  'x-ms-correlation-request-id': 'ff2d950d-141b-4da4-9080-1f861c5e25de',
+  'x-ms-routing-request-id': 'WESTEUROPE:20170301T105240Z:ff2d950d-141b-4da4-9080-1f861c5e25de',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  date: 'Wed, 07 Dec 2016 10:51:15 GMT',
+  date: 'Wed, 01 Mar 2017 10:52:39 GMT',
   connection: 'close',
   'content-length': '178' });
  return result; },
@@ -52,49 +52,11 @@ nock('https://management.azure.com:443')
   'content-type': 'application/json; charset=utf-8',
   expires: '-1',
   'x-ms-failure-cause': 'gateway',
-  'x-ms-request-id': '45394283-e8e6-424f-97a4-c5171737649a',
-  'x-ms-correlation-request-id': '45394283-e8e6-424f-97a4-c5171737649a',
-  'x-ms-routing-request-id': 'WESTEUROPE:20161207T105116Z:45394283-e8e6-424f-97a4-c5171737649a',
+  'x-ms-request-id': 'ff2d950d-141b-4da4-9080-1f861c5e25de',
+  'x-ms-correlation-request-id': 'ff2d950d-141b-4da4-9080-1f861c5e25de',
+  'x-ms-routing-request-id': 'WESTEUROPE:20170301T105240Z:ff2d950d-141b-4da4-9080-1f861c5e25de',
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  date: 'Wed, 07 Dec 2016 10:51:15 GMT',
+  date: 'Wed, 01 Mar 2017 10:52:39 GMT',
   connection: 'close',
   'content-length': '178' });
- return result; },
-function (nock) { 
-var result = 
-nock('http://management.azure.com:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-local-gateway/providers/Microsoft.Network/localNetworkGateways/zeroASNName?api-version=2016-09-01', '*')
-  .reply(400, "{\r\n  \"error\": {\r\n    \"code\": \"LocalNetworkGatewayCannotHaveZeroAsn\",\r\n    \"message\": \"The local network gateway /subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-local-gateway/providers/Microsoft.Network/localNetworkGateways/zeroASNName cannot have an ASN of zero\",\r\n    \"details\": []\r\n  }\r\n}", { 'cache-control': 'no-cache',
-  pragma: 'no-cache',
-  'content-length': '320',
-  'content-type': 'application/json; charset=utf-8',
-  expires: '-1',
-  'x-ms-request-id': '5c97f0e5-5f86-46b7-ae40-5a33ec239746',
-  'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-writes': '1198',
-  'x-ms-correlation-request-id': '44e4f2fd-f3d5-4b2d-83f9-b54e6a1fa3f2',
-  'x-ms-routing-request-id': 'WESTEUROPE:20161207T105119Z:44e4f2fd-f3d5-4b2d-83f9-b54e6a1fa3f2',
-  date: 'Wed, 07 Dec 2016 10:51:18 GMT',
-  connection: 'close' });
- return result; },
-function (nock) { 
-var result = 
-nock('https://management.azure.com:443')
-  .filteringRequestBody(function (path) { return '*';})
-.put('/subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-local-gateway/providers/Microsoft.Network/localNetworkGateways/zeroASNName?api-version=2016-09-01', '*')
-  .reply(400, "{\r\n  \"error\": {\r\n    \"code\": \"LocalNetworkGatewayCannotHaveZeroAsn\",\r\n    \"message\": \"The local network gateway /subscriptions/2c224e7e-3ef5-431d-a57b-e71f4662e3a6/resourceGroups/xplat-test-local-gateway/providers/Microsoft.Network/localNetworkGateways/zeroASNName cannot have an ASN of zero\",\r\n    \"details\": []\r\n  }\r\n}", { 'cache-control': 'no-cache',
-  pragma: 'no-cache',
-  'content-length': '320',
-  'content-type': 'application/json; charset=utf-8',
-  expires: '-1',
-  'x-ms-request-id': '5c97f0e5-5f86-46b7-ae40-5a33ec239746',
-  'strict-transport-security': 'max-age=31536000; includeSubDomains',
-  server: 'Microsoft-HTTPAPI/2.0, Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-writes': '1198',
-  'x-ms-correlation-request-id': '44e4f2fd-f3d5-4b2d-83f9-b54e6a1fa3f2',
-  'x-ms-routing-request-id': 'WESTEUROPE:20161207T105119Z:44e4f2fd-f3d5-4b2d-83f9-b54e6a1fa3f2',
-  date: 'Wed, 07 Dec 2016 10:51:18 GMT',
-  connection: 'close' });
  return result; }]];
