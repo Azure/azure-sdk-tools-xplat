@@ -57,7 +57,7 @@ describe('arm', function () {
 
       describe('delete', function() {
         it('should work', function (done) {
-          suite.execute('insights logprofile delete -n default', function(result) {
+          suite.execute('insights logprofile delete default', function(result) {
             done();
           });
         });

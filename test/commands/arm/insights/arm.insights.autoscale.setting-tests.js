@@ -66,13 +66,13 @@ describe('arm', function () {
         });
 
         describe('list', function() {
-          it('should work with rg only', function(done) {
+          it.skip('should work with rg only', function(done) {
             suite.execute('insights autoscale setting list %s --json', resourceGroup, function(result) {
             result.exitStatus.should.equal(0);
 
             var response = JSON.parse(result.text);
             if (suite.isPlayback()) {
-            response.length.should.equal(1);
+              response.length.should.equal(1);
             }
 
             var record = response[0];
@@ -82,7 +82,7 @@ describe('arm', function () {
             });
           });
       
-          it('should work with setting name', function (done) {
+          it.skip('should work with setting name', function (done) {
             suite.execute('insights autoscale setting list %s -n %s --json', resourceGroup, settingName, function (result) {
               result.exitStatus.should.equal(0);
               
@@ -100,7 +100,7 @@ describe('arm', function () {
         });
 
         describe('set', function() {
-          it('should create a setting', function(done) {
+          it.skip('should create a setting', function(done) {
             // Assume profile is created
             suite.execute('insights autoscale setting set %s %s %s -i %s -a %s --json', 'MySetting', 'West US', 'Default-Web-WestUS', resourceId, profiles, function(result) {
               result.exitStatus.should.equal(0);

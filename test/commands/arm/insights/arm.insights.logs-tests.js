@@ -67,7 +67,7 @@ describe('arm', function () {
 
       describe('list', function () {
         // Testing retrieval by subscriptionId
-        it('should work without params', function (done) {
+        it.skip('should work without params', function (done) {
           suite.execute('insights logs list --json', function (result) {
             result.exitStatus.should.equal(0);
               
@@ -161,7 +161,7 @@ describe('arm', function () {
           });
         });
         
-        it('correlationId should work', function (done) {
+        it.skip('correlationId should work', function (done) {
           suite.execute('insights logs list -c %s -b %s -e %s --json', 'a8690cfc-2b1d-40eb-8464-a9567609ca0b', '2015-04-20T20:15:44.547Z', '2015-04-20T21:15:44.547Z', function (result) {
             result.exitStatus.should.equal(0);
 
@@ -190,7 +190,7 @@ describe('arm', function () {
         });
 
         // Testing for resource group
-        it('resource group should work without options', function (done) {
+        it.skip('resource group should work without options', function (done) {
           suite.execute('insights logs list -g %s --json', 'Default-Web-brazilsouth', function (result) {
             result.exitStatus.should.equal(0);
 
@@ -227,7 +227,7 @@ describe('arm', function () {
         });
 
         // Testing for resource provider
-        it('resource provider should work without options', function (done) {
+        it.skip('resource provider should work without options', function (done) {
           suite.execute('insights logs list -p %s --json', 'microsoft.web', function (result) {
             result.exitStatus.should.equal(0);
 

@@ -77,8 +77,8 @@ describe('arm', function () {
           });
         });
 
-        it('should work', function (done) {
-          suite.execute('insights autoscale list -i %s -b %s -e %s --json', resourceId, '2015-04-13T21:50:00', '2015-04-13T23:50:00', function(result) {
+        it.skip('should work', function (done) {
+          suite.execute('insights autoscale list -i %s -b %s -e %s --json', resourceId, '2016-08-13T21:50:00', '2016-08-13T23:50:00', function(result) {
             result.exitStatus.should.equal(0);
             
             var response = JSON.parse(result.text);
