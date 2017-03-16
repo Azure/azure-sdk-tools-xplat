@@ -144,9 +144,9 @@ describe('arm', function () {
     });
     after(function (done) {
       this.timeout(hour);
-      networkUtil.deleteGroup(groupName, suite, function () {
+       networkUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
-      });
+       });
     });
     beforeEach(function (done) {
       suite.setupTest(done);
@@ -215,7 +215,7 @@ describe('arm', function () {
             });
           });
         });
-      });
+       });
 
       it('set should modify application gateway', function (done) {
         var cmd = 'network application-gateway set {group} {name} -z {newCapacity} -t {newTags} --json'.formatArgs(gatewayProp);
