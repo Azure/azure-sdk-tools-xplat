@@ -28,6 +28,7 @@ var utils = require('../../../../lib/util/utils');
 var location, groupName = 'xplatTestGroupCreateAppGw3',
   gatewayProp = {
     name: 'xplatTestAppGw',
+    newName: 'xplatTestAppGw2',
     vnetName: 'xplatTestVnet',
     vnetAddress: '10.0.0.0/8',
     subnetName: 'xplatTestSubnet',
@@ -54,7 +55,7 @@ var location, groupName = 'xplatTestGroupCreateAppGw3',
     portAddress: 123,
     poolName: 'xplatTestPoolName',
     poolServers: '4.4.4.4,3.3.3.3',
-    poolServersNew: '1.2.3.4,4.4.4.4,3.3.3.3',
+    poolServersNew: '1.2.3.4,3.4.3.3',
     httpSettingsName: 'xplatTestHttpSettings',
     defHttpSettingsName: constants.appGateway.settings.name,
     httpSettingsPort: 234,
@@ -65,7 +66,7 @@ var location, groupName = 'xplatTestGroupCreateAppGw3',
     httpProtocol: 'Http',
     httpsProtocol: 'Https',
     httpListenerName: 'xplatTestListener',
-    listenerHostName: 'fabricam11.com',
+    listenerHostName: 'fabrica.com',
     defHttpListenerName: constants.appGateway.httpListener.name,
     ruleName: 'xplatTestRule',
     probeName: 'xplatTestProbe',
@@ -103,6 +104,9 @@ var location, groupName = 'xplatTestGroupCreateAppGw3',
     certificateFileNew: 'test/data/auth-cert-2.pfx',
     firewallMode: "Prevention",
     firewallEnabled: true,
+    ruleSetType: 'OWASP',
+    ruleSetVersion: '2.2.9',
+    newRuleSetVersion: '2.3.0',
     wafSkuName: constants.appGateway.sku.name[3],
     wafSkuTier: constants.appGateway.sku.tier[1],
     createConfigName: 'config02'
@@ -240,7 +244,7 @@ describe('arm', function () {
           appGateway.location.should.equal(gatewayProp.location);
           appGateway.sku.name.should.equal(gatewayProp.skuName);
           appGateway.sku.tier.should.equal(gatewayProp.skuTier);
-          appGateway.sku.capacity.should.equal(gatewayProp.capacity);
+          appGateway.sku.capacity.should.equal(gatewayProp.newCapacity);
 
           var ipConfigs = appGateway.gatewayIPConfigurations;
           _.some(ipConfigs, function (ipConfig) {
@@ -934,6 +938,7 @@ describe('arm', function () {
         });
       });
 
+
       it('url-path-map delete should remove url path map from application gateway', function (done) {
         var cmd = 'network application-gateway url-path-map delete {group} {name} {urlPathMapName} -q --json'
           .formatArgs(gatewayProp);
@@ -949,6 +954,7 @@ describe('arm', function () {
           done();
         });
       });
+
 
       it('probe delete should remove probe from application gateway', function (done) {
         var cmd = 'network application-gateway probe delete {group} {name} {probeName} -q --json'.formatArgs(gatewayProp);
@@ -1154,10 +1160,13 @@ describe('arm', function () {
       });
 
       it('waf-config create should create application gateway waf config', function (done) {
-        var cmd = 'network application-gateway set -g {group} --sku-name {wafSkuName} --sku-tier {wafSkuTier} --name {name} --json'.formatArgs(gatewayProp);
+        var cmd = util.format('network application-gateway set -g {group} --sku-name {wafSkuName} --sku-tier {wafSkuTier} ' +
+          '--name {name} --json').formatArgs(gatewayProp);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
-          var cmd = 'network application-gateway waf-config create -g {group} --waf-mode {firewallMode} --enable {firewallEnabled} --gateway-name {name} --json'.formatArgs(gatewayProp);
+          var cmd = util.format('network application-gateway waf-config create -g {group} --waf-mode {firewallMode} '+
+            '--enable {firewallEnabled} --gateway-name {name} --json')
+            .formatArgs(gatewayProp);
           testUtils.executeCommand(suite, retry, cmd, function (result) {
             result.exitStatus.should.equal(0);
             var output = JSON.parse(result.text);
@@ -1201,71 +1210,71 @@ describe('arm', function () {
         });
       });
 
-      it('delete should delete application gateway', function (done) {
-        var cmd = 'network application-gateway delete {group} {name} -q --json'.formatArgs(gatewayProp);
-        testUtils.executeCommand(suite, retry, cmd, function (result) {
-          result.exitStatus.should.equal(0);
-          done();
-        });
-      });
+      // it('delete should delete application gateway', function (done) {
+      //   var cmd = 'network application-gateway delete {group} {name} -q --json'.formatArgs(gatewayProp);
+      //   testUtils.executeCommand(suite, retry, cmd, function (result) {
+      //     result.exitStatus.should.equal(0);
+      //     done();
+      //   });
+      // });
 
-      it('create again should pass', function (done) {
-        var cmd = util.format('network application-gateway create {group} {name} -l {location} -e {vnetName} -m {subnetName} ' +
-          '-r {servers} -y {defaultSslCertPath} -x {sslPassword} -i {httpSettingsProtocol} -o {httpSettingsPortAddress} ' +
-          '-f {cookieBasedAffinity} -j {portValue} -b {httpListenerProtocol} -w {ruleType} -a {skuName} -u {skuTier} ' +
-          '-z {capacity} -t {tags} -O {httpSettingsName} -L {httpListenerName} -J {portName} -F {frontendIpName} ' +
-          '-A {poolName} -G {createConfigName} -R {ruleName} --json').formatArgs(gatewayProp);
-        testUtils.executeCommand(suite, retry, cmd, function (result) {
-          result.exitStatus.should.equal(0);
-          var appGateway = JSON.parse(result.text);
-          appGateway.name.should.equal(gatewayProp.name);
-          appGateway.location.should.equal(gatewayProp.location);
-          appGateway.sku.name.should.equal(gatewayProp.skuName);
-          appGateway.sku.tier.should.equal(gatewayProp.skuTier);
-          appGateway.sku.capacity.should.equal(gatewayProp.capacity);
-
-          var addressPool = appGateway.backendAddressPools[0];
-          addressPool.name.should.equal(gatewayProp.poolName);
-
-          var frontendIp = appGateway.frontendIPConfigurations[0];
-          frontendIp.name.should.equal(gatewayProp.frontendIpName);
-
-          var frontendPort = appGateway.frontendPorts[0];
-          frontendPort.name.should.equal(gatewayProp.portName);
-
-          var gatewayIp = appGateway.gatewayIPConfigurations[0];
-          gatewayIp.name.should.equal(gatewayProp.createConfigName);
-
-          var backendHttpSettings = appGateway.backendHttpSettingsCollection[0];
-          backendHttpSettings.name.should.equal(gatewayProp.httpSettingsName);
-          backendHttpSettings.port.should.equal(gatewayProp.httpSettingsPortAddress);
-          backendHttpSettings.protocol.toLowerCase().should.equal(gatewayProp.httpSettingsProtocol.toLowerCase());
-          backendHttpSettings.cookieBasedAffinity.should.equal(gatewayProp.cookieBasedAffinity);
-
-          var httpListener = appGateway.httpListeners[0];
-          httpListener.name.toLowerCase().should.equal(gatewayProp.httpListenerName.toLowerCase());
-          httpListener.protocol.toLowerCase().should.equal(gatewayProp.httpListenerProtocol.toLowerCase());
-
-          networkUtil.shouldHaveTags(appGateway);
-          networkUtil.shouldBeSucceeded(appGateway);
-          done();
-        });
-      });
-
-      it('delete should delete application gateway without waiting', function (done) {
-        var cmd = 'network application-gateway delete {group} {name} -q --nowait --json'.formatArgs(gatewayProp);
-        testUtils.executeCommand(suite, retry, cmd, function (deleteResult) {
-          deleteResult.exitStatus.should.equal(0);
-          var cmd = 'network application-gateway show {group} {name} --json'.formatArgs(gatewayProp);
-          testUtils.executeCommand(suite, retry, cmd, function (result) {
-            result.exitStatus.should.equal(0);
-            var appGateway = JSON.parse(result.text);
-            appGateway.name.should.equal(gatewayProp.name);
-            networkUtil.shouldBeDeleted(appGateway);
-            done();
-          });
-        });
-      });
+      // it('create again should pass', function (done) {
+      //   var cmd = util.format('network application-gateway create {group} {newName} -l {location} -e {vnetName} -m {subnetName} ' +
+      //     '-r {servers} -y {defaultSslCertPath} -x {sslPassword} -i {httpSettingsProtocol} -o {httpSettingsPortAddress} ' +
+      //     '-f {cookieBasedAffinity} -j {portValue} -b {httpListenerProtocol} -w {ruleType} -a {skuName} -u {skuTier} ' +
+      //     '-z {capacity} -t {tags} -O {httpSettingsName} -L {httpListenerName} -J {portName} -F {frontendIpName} ' +
+      //     '-A {poolName} -G {createConfigName} -R {ruleName} --json').formatArgs(gatewayProp);
+      //   testUtils.executeCommand(suite, retry, cmd, function (result) {
+      //     result.exitStatus.should.equal(0);
+      //     var appGateway = JSON.parse(result.text);
+      //     appGateway.name.should.equal(gatewayProp.newName);
+      //     appGateway.location.should.equal(gatewayProp.location);
+      //     appGateway.sku.name.should.equal(gatewayProp.skuName);
+      //     appGateway.sku.tier.should.equal(gatewayProp.skuTier);
+      //     appGateway.sku.capacity.should.equal(gatewayProp.capacity);
+      //
+      //     var addressPool = appGateway.backendAddressPools[0];
+      //     addressPool.name.should.equal(gatewayProp.poolName);
+      //
+      //     var frontendIp = appGateway.frontendIPConfigurations[0];
+      //     frontendIp.name.should.equal(gatewayProp.frontendIpName);
+      //
+      //     var frontendPort = appGateway.frontendPorts[0];
+      //     frontendPort.name.should.equal(gatewayProp.portName);
+      //
+      //     var gatewayIp = appGateway.gatewayIPConfigurations[0];
+      //     gatewayIp.name.should.equal(gatewayProp.createConfigName);
+      //
+      //     var backendHttpSettings = appGateway.backendHttpSettingsCollection[0];
+      //     backendHttpSettings.name.should.equal(gatewayProp.httpSettingsName);
+      //     backendHttpSettings.port.should.equal(gatewayProp.httpSettingsPortAddress);
+      //     backendHttpSettings.protocol.toLowerCase().should.equal(gatewayProp.httpSettingsProtocol.toLowerCase());
+      //     backendHttpSettings.cookieBasedAffinity.should.equal(gatewayProp.cookieBasedAffinity);
+      //
+      //     var httpListener = appGateway.httpListeners[0];
+      //     httpListener.name.toLowerCase().should.equal(gatewayProp.httpListenerName.toLowerCase());
+      //     httpListener.protocol.toLowerCase().should.equal(gatewayProp.httpListenerProtocol.toLowerCase());
+      //
+      //     networkUtil.shouldHaveTags(appGateway);
+      //     networkUtil.shouldBeSucceeded(appGateway);
+      //     done();
+      //   });
+      // });
+      //
+      // it('delete should delete application gateway without waiting', function (done) {
+      //   var cmd = 'network application-gateway delete {group} {name} -q --nowait --json'.formatArgs(gatewayProp);
+      //   testUtils.executeCommand(suite, retry, cmd, function (deleteResult) {
+      //     deleteResult.exitStatus.should.equal(0);
+      //     var cmd = 'network application-gateway show {group} {name} --json'.formatArgs(gatewayProp);
+      //     testUtils.executeCommand(suite, retry, cmd, function (result) {
+      //       result.exitStatus.should.equal(0);
+      //       var appGateway = JSON.parse(result.text);
+      //       appGateway.name.should.equal(gatewayProp.name);
+      //       networkUtil.shouldBeDeleted(appGateway);
+      //       done();
+      //     });
+      //   });
+      // });
     });
   });
 });
