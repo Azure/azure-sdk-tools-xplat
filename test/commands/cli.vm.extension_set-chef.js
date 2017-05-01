@@ -88,7 +88,7 @@ describe('cli', function() {
         });
       });
 
-      it('Set Chef extension should pass', function(done) {
+      it.skip('Set Chef extension should pass', function(done) {
         vmUtil.createWindowsVM(vmName, username, password, location, timeout, suite, function() {
           var cmd = util.format('vm extension set-chef %s -V %s -c %s -O %s --json',
             vmName, chefversion, clientconfig, validationpem).split(' ');
@@ -99,7 +99,7 @@ describe('cli', function() {
         });
       });
 
-      it('Set Chef extensions with json attributes', function(done) {
+      it.skip('Set Chef extensions with json attributes', function(done) {
         var cmd = util.format('vm extension set-chef %s -V %s -c %s -O %s -j %s --json', vmName, chefversion, clientconfig, validationpem, '{"chef_node_name":"mynode"}').split(' ');
         testUtils.executeCommand(suite, retry, cmd, function(result) {
           result.exitStatus.should.equal(0);

@@ -54,11 +54,11 @@ describe('cli', function () {
       suite.teardownSuite(done);
     });
 
-    describe('upload', function () {
-      beforeEach(function (done) {
-        suite.setupTest(done);
-      });
+    beforeEach(function (done) {
+      suite.setupTest(done);
+    });
 
+    describe('upload', function () {
       afterEach(function (done) {
         suite.forEachName(createdSites, deleteSite, function () {
           createdSites = [];
@@ -124,9 +124,6 @@ describe('cli', function () {
     });
 
     describe('site slot', function () {
-      beforeEach(function (done) {
-        suite.setupTest(done);
-      });
 
       afterEach(function (done) {
         suite.forEachName(createdSites, deleteSite, function () {
@@ -159,7 +156,7 @@ describe('cli', function () {
       });
     });
 
-    describe('list, show and delete a continuous web job for a site', function () {
+    describe.skip('list, show and delete a continuous web job for a site', function () {
       var siteName;
 
       beforeEach(function (done) {

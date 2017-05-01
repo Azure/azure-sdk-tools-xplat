@@ -84,7 +84,7 @@ describe('cli', function () {
         createSite(siteName, done);
       });
 
-      it('should allow setting everything with output as file', function (done) {
+      it.skip('should allow setting everything with output as file', function (done) {
         suite.execute('site log set %s --application -o file -l error --web-server-logging --detailed-error-messages --failed-request-tracing --json',
           siteName,
           function (result) {

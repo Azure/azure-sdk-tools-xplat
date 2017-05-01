@@ -60,7 +60,7 @@ describe('cli', function () {
       suite.teardownTest(done);
     });
 
-    it('should be able to set the scale mode', function(done) {
+    it.skip('should be able to set the scale mode', function(done) {
       var siteName = suite.generateId(createdSitesPrefix, createdSites);
 
       suite.execute('site create %s --json --location %s', siteName, location, function (result) {
