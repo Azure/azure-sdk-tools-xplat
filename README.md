@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/azure-cli.png)](http://badge.fury.io/js/azure-cli) [![Build Status](https://travis-ci.org/Azure/azure-xplat-cli.png?branch=master)](https://travis-ci.org/Azure/azure-xplat-cli)
 
-This project provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications.
+This project provides a cross-platform command line interface for developers and IT administrators to develop, deploy and manage Microsoft Azure applications .
 
 ## Features
 
