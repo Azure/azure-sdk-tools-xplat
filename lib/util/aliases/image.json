@@ -17,7 +17,7 @@
           "CentOS":{
             "publisher":"OpenLogic",
             "offer":"CentOS",
-            "sku":"7.2",
+            "sku":"7.3",
             "version":"latest"
           },
           "CoreOS":{
@@ -34,26 +34,26 @@
           },
           "openSUSE":{
             "publisher":"SUSE",
-            "offer":"openSUSE",
-            "sku":"13.2",
+            "offer":"openSUSE-Leap",
+            "sku":"42.2",
             "version":"latest"
           },
           "RHEL":{
             "publisher":"RedHat",
             "offer":"RHEL",
-            "sku":"7.2",
+            "sku":"7.3",
             "version":"latest"
           },
           "SLES":{
             "publisher":"SUSE",
             "offer":"SLES",
-            "sku":"12-SP1",
+            "sku":"12-SP2",
             "version":"latest"
           },
           "UbuntuLTS":{
             "publisher":"Canonical",
             "offer":"UbuntuServer",
-            "sku":"14.04.4-LTS",
+            "sku":"16.04-LTS",
             "version":"latest"
           }
         },
