@@ -61,7 +61,7 @@ commands/arm/network/arm.network.dns-zone-record-set-tests.js
 commands/arm/network/arm.network.dns-zone-tests.js
 commands/arm/network/arm.network.local-gateway-tests.js
 commands/arm/network/arm.network.nic-tests.js
-commands/arm/network/arm.network.publicip-tests.js
+commands/arm/network/arm.network.public-ip-tests.js
 commands/arm/network/arm.network.subnet-tests.js
 commands/arm/network/arm.network.usage-tests.js
 commands/arm/network/arm.network.vpn-connection-tests.js
