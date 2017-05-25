@@ -294,7 +294,7 @@ _.extend(CLITest.prototype, {
   * @param {function} callback  A hook to provide the steps to execute before the test starts execution
   */
   setupTest: function (callback) {
-    this.currentTest = this.mochaSuiteObject.currentTest.fullTitle();
+    this.currentTest = this.mochaSuiteObject.test.fullTitle();
     this.numberOfRandomTestIdGenerated = 0;
     this.currentUuid = 0;
     this.currentRandomString = 0;

@@ -115,8 +115,8 @@
     "read": "^1.0.7"
   },
   "devDependencies": {
-    "istanbul": "0.3.19",
-    "mocha": "1.16.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.2.0",
     "jshint": "<= 2.6.0",
     "sinon": "^2.1.0",
     "should": "3.3.2",

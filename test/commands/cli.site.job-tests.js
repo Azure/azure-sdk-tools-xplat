@@ -54,6 +54,7 @@ describe('cli', function () {
       suite.teardownSuite(done);
     });
 
+
     describe('upload', function () {
       beforeEach(function (done) {
         suite.setupTest(done);
