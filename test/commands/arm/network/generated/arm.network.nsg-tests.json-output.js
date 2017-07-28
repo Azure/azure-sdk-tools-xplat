@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-nsg-tests',
+var testPrefix = 'arm-network-nsg-tests-generated',
   groupName = 'xplat-test-nsg',
   location;
 var index = 0;
@@ -54,28 +54,28 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
         location = networkSecurityGroups.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         networkSecurityGroups.location = location;
-        networkSecurityGroups.group = groupName;
         networkSecurityGroups.name = suite.isMocked ? networkSecurityGroups.name : suite.generateId(networkSecurityGroups.name, null);
+        networkSecurityGroups.group = groupName;
         if (!suite.isPlayback()) {
           networkTestUtil.createGroup(groupName, location, suite, function () {
             done();
           });
         } else {
-          var subscriptionId = profile.current.getSubscription().id;
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
@@ -88,7 +88,7 @@ describe('arm', function () {
     });
 
     describe('network security groups', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create network security groups', function (done) {
         var cmd = 'network nsg create -g {group} -n {name} --location {location} --json'.formatArgs(networkSecurityGroups);
         testUtils.executeCommand(suite, retry, cmd, function (result) {

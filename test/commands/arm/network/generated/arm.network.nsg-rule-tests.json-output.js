@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-nsg-rule-tests',
+var testPrefix = 'arm-network-nsg-rule-tests-generated',
   groupName = 'xplat-test-rule',
   location;
 var index = 0;
@@ -65,11 +65,12 @@ var securityRules = {
 securityRules.networkSecurityGroupName = 'networkSecurityGroupName';
 
 var networkSecurityGroup = {
-  location: 'westus'
+  location: 'westus',
+  name: 'networkSecurityGroupName'
 };
+
 var securityRulesDefault = {
   priority: '1500',
-  priorityNew: '1542',
   protocol: '*',
   sourcePortRange: '*',
   destinationPortRange: '80',
@@ -81,73 +82,73 @@ var securityRulesDefault = {
   name: 'securityRulesDefaultName',
   group: groupName
 };
+
 var tooLongDescription = {
   description: 'qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'tooLongDescriptionName',
-  group: groupName
+  name: 'tooLongDescriptionName'
 };
+
 var protocolOutOfRange = {
   protocol: 'Http',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'protocolOutOfRangeName',
-  group: groupName
+  name: 'protocolOutOfRangeName'
 };
+
 var sourcePortOutOfRange = {
   sourcePortRange: '66600',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'sourcePortOutOfRangeName',
-  group: groupName
+  name: 'sourcePortOutOfRangeName'
 };
+
 var destinationPortOutOfRange = {
   destinationPortRange: '66600',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'destinationPortOutOfRangeName',
-  group: groupName
+  name: 'destinationPortOutOfRangeName'
 };
+
 var invalidSourceAddressPrefix = {
   sourceAddressPrefix: '10.0.0.0/42',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'invalidSourceAddressPrefixName',
-  group: groupName
+  name: 'invalidSourceAddressPrefixName'
 };
+
 var invalidDestinationAddressPrefix = {
   destinationAddressPrefix: '10.0.0.0/42',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'invalidDestinationAddressPrefixName',
-  group: groupName
+  name: 'invalidDestinationAddressPrefixName'
 };
+
 var accessOutOfRange = {
   access: 'Access',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'accessOutOfRangeName',
-  group: groupName
+  name: 'accessOutOfRangeName'
 };
+
 var rulePriorityUnderRange = {
   priority: '99',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'rulePriorityUnderRangeName',
-  group: groupName
+  name: 'rulePriorityUnderRangeName'
 };
+
 var rulePriorityOverRange = {
   priority: '4097',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'rulePriorityOverRangeName',
-  group: groupName
+  name: 'rulePriorityOverRangeName'
 };
+
 var directionOutOfRange = {
   direction: 'Direction',
   priority: '1470',
   networkSecurityGroupName: 'networkSecurityGroupName',
-  name: 'directionOutOfRangeName',
-  group: groupName
+  name: 'directionOutOfRangeName'
 };
 
 var requiredEnvironment = [{
@@ -159,53 +160,44 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
         location = securityRules.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         securityRules.location = location;
-        securityRules.group = groupName;
         securityRules.name = suite.isMocked ? securityRules.name : suite.generateId(securityRules.name, null);
+
+        securityRules.group = groupName;
+        tooLongDescription.group = groupName;
+        protocolOutOfRange.group = groupName;
+        sourcePortOutOfRange.group = groupName;
+        destinationPortOutOfRange.group = groupName;
+        invalidSourceAddressPrefix.group = groupName;
+        invalidDestinationAddressPrefix.group = groupName;
+        accessOutOfRange.group = groupName;
+        rulePriorityUnderRange.group = groupName;
+        rulePriorityOverRange.group = groupName;
+        directionOutOfRange.group = groupName;
+
         if (!suite.isPlayback()) {
           networkTestUtil.createGroup(groupName, location, suite, function () {
-            var cmd = 'network nsg create -g {1} -n networkSecurityGroupName --location {location} --json'.formatArgs(networkSecurityGroup, groupName);
+            var cmd = 'network nsg create -g {1} -n {name} --location {location} --json'.formatArgs(networkSecurityGroup, groupName);
             testUtils.executeCommand(suite, retry, cmd, function (result) {
               result.exitStatus.should.equal(0);
-              var output = JSON.parse(result.text);
-              tooLongDescription.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(tooLongDescription.networkSecurityGroupId, null);
-              protocolOutOfRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(protocolOutOfRange.networkSecurityGroupId, null);
-              sourcePortOutOfRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(sourcePortOutOfRange.networkSecurityGroupId, null);
-              destinationPortOutOfRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(destinationPortOutOfRange.networkSecurityGroupId, null);
-              invalidSourceAddressPrefix.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(invalidSourceAddressPrefix.networkSecurityGroupId, null);
-              invalidDestinationAddressPrefix.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(invalidDestinationAddressPrefix.networkSecurityGroupId, null);
-              accessOutOfRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(accessOutOfRange.networkSecurityGroupId, null);
-              rulePriorityUnderRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(rulePriorityUnderRange.networkSecurityGroupId, null);
-              rulePriorityOverRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(rulePriorityOverRange.networkSecurityGroupId, null);
-              directionOutOfRange.networkSecurityGroupId = suite.isMocked ? output.id : suite.generateId(directionOutOfRange.networkSecurityGroupId, null);
               done();
             });
           });
         } else {
-          var subscriptionId = profile.current.getSubscription().id;
-          tooLongDescription.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', tooLongDescription.networkSecurityGroupName) : suite.generateId(tooLongDescription.networkSecurityGroupId, null)
-          protocolOutOfRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', protocolOutOfRange.networkSecurityGroupName) : suite.generateId(protocolOutOfRange.networkSecurityGroupId, null)
-          sourcePortOutOfRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', sourcePortOutOfRange.networkSecurityGroupName) : suite.generateId(sourcePortOutOfRange.networkSecurityGroupId, null)
-          destinationPortOutOfRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', destinationPortOutOfRange.networkSecurityGroupName) : suite.generateId(destinationPortOutOfRange.networkSecurityGroupId, null)
-          invalidSourceAddressPrefix.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', invalidSourceAddressPrefix.networkSecurityGroupName) : suite.generateId(invalidSourceAddressPrefix.networkSecurityGroupId, null)
-          invalidDestinationAddressPrefix.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', invalidDestinationAddressPrefix.networkSecurityGroupName) : suite.generateId(invalidDestinationAddressPrefix.networkSecurityGroupId, null)
-          accessOutOfRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', accessOutOfRange.networkSecurityGroupName) : suite.generateId(accessOutOfRange.networkSecurityGroupId, null)
-          rulePriorityUnderRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', rulePriorityUnderRange.networkSecurityGroupName) : suite.generateId(rulePriorityUnderRange.networkSecurityGroupId, null)
-          rulePriorityOverRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', rulePriorityOverRange.networkSecurityGroupName) : suite.generateId(rulePriorityOverRange.networkSecurityGroupId, null)
-          directionOutOfRange.networkSecurityGroupId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'networkSecurityGroups', directionOutOfRange.networkSecurityGroupName) : suite.generateId(directionOutOfRange.networkSecurityGroupId, null)
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
@@ -218,7 +210,7 @@ describe('arm', function () {
     });
 
     describe('security rules', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create security rules', function (done) {
         var cmd = 'network nsg rule create -g {group} -n {name} --description {description} --protocol {protocol} --source-port-range {sourcePortRange} --destination-port-range {destinationPortRange} --source-address-prefix {sourceAddressPrefix} --destination-address-prefix {destinationAddressPrefix} --access {access} --priority {priority} --direction {direction} --nsg-name {networkSecurityGroupName} --json'.formatArgs(securityRules);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
@@ -285,7 +277,7 @@ describe('arm', function () {
         });
       });
       it('delete should delete security rules', function (done) {
-        var cmd = 'network nsg rule delete -g {group} -n {name} --quiet --nsg-name {networkSecurityGroupName} --json'.formatArgs(securityRules);
+        var cmd = 'network nsg rule delete -g {group} -n {name} --nsg-name {networkSecurityGroupName} --quiet --json'.formatArgs(securityRules);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
 
@@ -304,15 +296,15 @@ describe('arm', function () {
           result.exitStatus.should.equal(0);
           var output = JSON.parse(result.text);
           output.name.should.equal(securityRulesDefault.name);
-          output.protocol.toLowerCase().should.equal(securityRulesDefault.protocol.toLowerCase());;
-          output.sourcePortRange.toLowerCase().should.equal(securityRulesDefault.sourcePortRange.toLowerCase());;
-          output.destinationPortRange.toLowerCase().should.equal(securityRulesDefault.destinationPortRange.toLowerCase());;
-          output.sourceAddressPrefix.toLowerCase().should.equal(securityRulesDefault.sourceAddressPrefix.toLowerCase());;
-          output.destinationAddressPrefix.toLowerCase().should.equal(securityRulesDefault.destinationAddressPrefix.toLowerCase());;
-          output.access.toLowerCase().should.equal(securityRulesDefault.access.toLowerCase());;
-          output.direction.toLowerCase().should.equal(securityRulesDefault.direction.toLowerCase());
+          output.protocol.toLowerCase().should.equal(securityRulesDefault.protocol.toLowerCase());
+          output.sourcePortRange.toLowerCase().should.equal(securityRulesDefault.sourcePortRange.toLowerCase());
+          output.destinationPortRange.toLowerCase().should.equal(securityRulesDefault.destinationPortRange.toLowerCase());
+          output.sourceAddressPrefix.toLowerCase().should.equal(securityRulesDefault.sourceAddressPrefix.toLowerCase());
+          output.destinationAddressPrefix.toLowerCase().should.equal(securityRulesDefault.destinationAddressPrefix.toLowerCase());
+          output.access.toLowerCase().should.equal(securityRulesDefault.access.toLowerCase());
+          output.direction.toLowerCase().should.equal(securityRulesDefault.direction.toLowerCase())
 
-          cmd = 'network nsg rule delete -g {group} -n {name} --quiet --nsg-name {networkSecurityGroupName} --json'.formatArgs(securityRulesDefault);
+          cmd = 'network nsg rule delete -g {group} -n {name} --nsg-name {networkSecurityGroupName} --quiet --json'.formatArgs(securityRulesDefault);
           testUtils.executeCommand(suite, retry, cmd, function (result) {
             result.exitStatus.should.equal(0);
             done();

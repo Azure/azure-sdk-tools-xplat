@@ -54,8 +54,10 @@ commands/arm/network/generated/arm.network.lb-tests.text-output.js
 commands/arm/network/generated/arm.network.local-gateway-tests.json-output.js
 commands/arm/network/generated/arm.network.local-gateway-tests.text-output.js
 # Network Security Groups
-commands/arm/network/arm.network.nsg-tests.js
-commands/arm/network/arm.network.nsg-rule-tests.js
+commands/arm/network/generated/arm.network.nsg-rule-tests.json-output.js
+commands/arm/network/generated/arm.network.nsg-rule-tests.text-output.js
+commands/arm/network/generated/arm.network.nsg-tests.json-output.js
+commands/arm/network/generated/arm.network.nsg-tests.text-output.js
 # Network Watcher
 commands/arm/network/arm.network.watcher-tests.js
 commands/arm/network/arm.network.watcher-packet-capture-tests.js
