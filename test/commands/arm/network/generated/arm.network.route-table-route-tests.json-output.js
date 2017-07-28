@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-route-table-route-tests',
+var testPrefix = 'arm-network-route-table-route-tests-generated',
   groupName = 'xplat-test-route',
   location;
 var index = 0;
@@ -51,30 +51,31 @@ var routes = {
 routes.routeTableName = 'routeTableName';
 
 var routeTable = {
-  location: 'westus'
+  location: 'westus',
+  name: 'routeTableName'
 };
+
 var invalidPrefixes = {
   addressPrefix: '10.11.12.13/8',
   nextHopType: 'Internet',
   routeTableName: 'routeTableName',
-  name: 'invalidPrefixesName',
-  group: groupName
+  name: 'invalidPrefixesName'
 };
+
 var nextHopTypeOutOfRange = {
   nextHopType: 'NextHop',
   addressPrefix: '10.0.0.0/16',
   routeTableName: 'routeTableName',
-  name: 'nextHopTypeOutOfRangeName',
-  group: groupName
+  name: 'nextHopTypeOutOfRangeName'
 };
+
 var updateNextHopTypeFromVirtualApplianceToAny = {
   nextHopType: 'VirtualAppliance',
   nextHopTypeNew: 'VnetLocal',
   addressPrefix: '10.0.0.0/16',
   nextHopIpAddress: '10.0.0.42',
   routeTableName: 'routeTableName',
-  name: 'updateNextHopTypeFromVirtualApplianceToAnyName',
-  group: groupName
+  name: 'updateNextHopTypeFromVirtualApplianceToAnyName'
 };
 
 var requiredEnvironment = [{
@@ -86,39 +87,37 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
         location = routes.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         routes.location = location;
-        routes.group = groupName;
         routes.name = suite.isMocked ? routes.name : suite.generateId(routes.name, null);
+
+        routes.group = groupName;
+        invalidPrefixes.group = groupName;
+        nextHopTypeOutOfRange.group = groupName;
+        updateNextHopTypeFromVirtualApplianceToAny.group = groupName;
+
         if (!suite.isPlayback()) {
           networkTestUtil.createGroup(groupName, location, suite, function () {
-            var cmd = 'network route-table create -g {1} -n routeTableName --location {location} --json'.formatArgs(routeTable, groupName);
+            var cmd = 'network route-table create -g {1} -n {name} --location {location} --json'.formatArgs(routeTable, groupName);
             testUtils.executeCommand(suite, retry, cmd, function (result) {
               result.exitStatus.should.equal(0);
-              var output = JSON.parse(result.text);
-              invalidPrefixes.routeTableId = suite.isMocked ? output.id : suite.generateId(invalidPrefixes.routeTableId, null);
-              nextHopTypeOutOfRange.routeTableId = suite.isMocked ? output.id : suite.generateId(nextHopTypeOutOfRange.routeTableId, null);
-              updateNextHopTypeFromVirtualApplianceToAny.routeTableId = suite.isMocked ? output.id : suite.generateId(updateNextHopTypeFromVirtualApplianceToAny.routeTableId, null);
               done();
             });
           });
         } else {
-          var subscriptionId = profile.current.getSubscription().id;
-          invalidPrefixes.routeTableId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'routeTables', invalidPrefixes.routeTableName) : suite.generateId(invalidPrefixes.routeTableId, null)
-          nextHopTypeOutOfRange.routeTableId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'routeTables', nextHopTypeOutOfRange.routeTableName) : suite.generateId(nextHopTypeOutOfRange.routeTableId, null)
-          updateNextHopTypeFromVirtualApplianceToAny.routeTableId = suite.isMocked ? generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'routeTables', updateNextHopTypeFromVirtualApplianceToAny.routeTableName) : suite.generateId(updateNextHopTypeFromVirtualApplianceToAny.routeTableId, null)
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
@@ -131,7 +130,7 @@ describe('arm', function () {
     });
 
     describe('routes', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create routes', function (done) {
         var cmd = 'network route-table route create -g {group} -n {name} --address-prefix {addressPrefix} --next-hop-type {nextHopType} --route-table-name {routeTableName} --json'.formatArgs(routes);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
@@ -177,7 +176,7 @@ describe('arm', function () {
         });
       });
       it('delete should delete routes', function (done) {
-        var cmd = 'network route-table route delete -g {group} -n {name} --quiet --route-table-name {routeTableName} --json'.formatArgs(routes);
+        var cmd = 'network route-table route delete -g {group} -n {name} --route-table-name {routeTableName} --quiet --json'.formatArgs(routes);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
 

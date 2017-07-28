@@ -72,8 +72,10 @@ commands/arm/network/arm.network.public-ip-tests.js
 commands/arm/network/generated/arm.network.public-ip-tests.json-output.js
 commands/arm/network/generated/arm.network.public-ip-tests.text-output.js
 # Route Table
-commands/arm/network/arm.network.route-table-tests.js
-commands/arm/network/arm.network.route-table-route-tests.js
+commands/arm/network/generated/arm.network.route-table-route-tests.json-output.js
+commands/arm/network/generated/arm.network.route-table-route-tests.text-output.js
+commands/arm/network/generated/arm.network.route-table-tests.json-output.js
+commands/arm/network/generated/arm.network.route-table-tests.text-output.js
 # Traffic Manager
 commands/arm/network/generated/arm.network.traffic-manager-endpoint-tests.json-output.js
 commands/arm/network/generated/arm.network.traffic-manager-endpoint-tests.text-output.js
