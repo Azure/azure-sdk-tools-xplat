@@ -88,7 +88,8 @@ commands/arm/network/generated/arm.network.traffic-manager-endpoint-tests.text-o
 commands/arm/network/generated/arm.network.traffic-manager-profile-tests.json-output.js
 commands/arm/network/generated/arm.network.traffic-manager-profile-tests.text-output.js
 # Usage
-commands/arm/network/arm.network.usage-tests.js
+commands/arm/network/generated/arm.network.usage-tests.json-output.js
+commands/arm/network/generated/arm.network.usage-tests.text-output.js
 # Virtual Network Gateways
 commands/arm/network/arm.network.vpn-connection-tests.js
 commands/arm/network/arm.network.vpn-gateway-tests.js
