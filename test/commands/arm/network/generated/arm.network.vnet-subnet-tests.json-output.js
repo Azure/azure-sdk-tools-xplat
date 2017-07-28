@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-vnet-subnet-tests',
+var testPrefix = 'arm-network-vnet-subnet-tests-generated',
   groupName = 'xplat-test-subnet',
   location;
 var index = 0;

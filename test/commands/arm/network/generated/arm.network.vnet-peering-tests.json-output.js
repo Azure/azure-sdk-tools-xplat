@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-vnet-peering-tests',
+var testPrefix = 'arm-network-vnet-peering-tests-generated',
   groupName = 'xplat-test-peering',
   location;
 var index = 0;
@@ -54,11 +54,14 @@ var virtualNetworkPeerings = {
 virtualNetworkPeerings.virtualNetworkName = 'virtualNetworkName';
 virtualNetworkPeerings.remoteNetworkName = 'remoteNetworkName';
 
-var virtualNetwork = {
-  location: 'westus'
-};
 var remoteNetwork = {
-  location: 'westus'
+  location: 'westus',
+  name: 'remoteNetworkName'
+};
+
+var virtualNetwork = {
+  location: 'westus',
+  name: 'virtualNetworkName'
 };
 
 var requiredEnvironment = [{
@@ -70,23 +73,23 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
         location = virtualNetworkPeerings.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         virtualNetworkPeerings.location = location;
-        virtualNetworkPeerings.group = groupName;
         virtualNetworkPeerings.name = suite.isMocked ? virtualNetworkPeerings.name : suite.generateId(virtualNetworkPeerings.name, null);
+        virtualNetworkPeerings.group = groupName;
         if (!suite.isPlayback()) {
           networkTestUtil.createGroup(groupName, location, suite, function () {
-            var cmd = 'network vnet create -g {1} -n virtualNetworkName --location {location} --json'.formatArgs(virtualNetwork, groupName);
+            var cmd = 'network vnet create -g {1} -n {name} --location {location} --json'.formatArgs(virtualNetwork, groupName);
             testUtils.executeCommand(suite, retry, cmd, function (result) {
               result.exitStatus.should.equal(0);
-              var output = JSON.parse(result.text);
-              var cmd = 'network vnet create -g {1} -n remoteNetworkName --location {location} --address-prefixes 11.0.0.0/8 --json'.formatArgs(remoteNetwork, groupName);
+              var cmd = 'network vnet create -g {1} -n {name} --location {location} --address-prefixes 11.0.0.0/8 --json'.formatArgs(remoteNetwork, groupName);
               testUtils.executeCommand(suite, retry, cmd, function (result) {
                 result.exitStatus.should.equal(0);
                 var output = JSON.parse(result.text);
@@ -97,12 +100,13 @@ describe('arm', function () {
           });
         } else {
           var subscriptionId = profile.current.getSubscription().id;
+          virtualNetworkPeerings.remoteNetworkId = generatorUtils.generateResourceIdCommon(subscriptionId, groupName, 'remoteNetworks', virtualNetworkPeerings.remoteNetworkName);
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
@@ -115,7 +119,7 @@ describe('arm', function () {
     });
 
     describe('virtual network peerings', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create virtual network peerings', function (done) {
         var cmd = 'network vnet peering create -g {group} -n {name} --allow-vnet-access {allowVirtualNetworkAccess} --allow-forwarded-traffic {allowForwardedTraffic} --allow-gateway-transit {allowGatewayTransit} --use-remote-gateways {useRemoteGateways} --vnet-name {virtualNetworkName} --remote-vnet-id {remoteNetworkId} --json'.formatArgs(virtualNetworkPeerings);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
@@ -166,7 +170,7 @@ describe('arm', function () {
         });
       });
       it('delete should delete virtual network peerings', function (done) {
-        var cmd = 'network vnet peering delete -g {group} -n {name} --quiet --vnet-name {virtualNetworkName} --json'.formatArgs(virtualNetworkPeerings);
+        var cmd = 'network vnet peering delete -g {group} -n {name} --vnet-name {virtualNetworkName} --quiet --json'.formatArgs(virtualNetworkPeerings);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
 
