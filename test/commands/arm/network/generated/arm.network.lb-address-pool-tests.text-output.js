@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var testUtils = require('../../../util/util');
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var networkTestUtil = new (require('../../../util/networkTestUtil'))();
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-lb-address-pool-tests',
+var testPrefix = 'arm-network-lb-address-pool-tests-generated',
   groupName = 'xplat-test-address-pool',
   location;
 var index = 0;
@@ -49,12 +49,20 @@ backendAddressPools.publicIPAddressName = 'publicIPAddressName';
 backendAddressPools.frontendIPConfigurationName = 'frontendIPConfigurationName';
 
 var publicIPAddress = {
-  location: 'westus'
+  location: 'westus',
+  name: 'publicIPAddressName'
 };
+
 var loadBalancer = {
-  location: 'westus'
+  location: 'westus',
+  name: 'loadBalancerName'
 };
-var frontendIPConfiguration = {};
+
+var frontendIPConfiguration = {
+  loadBalancerName: 'loadBalancerName',
+  publicIPAddressName: 'publicIPAddressName',
+  name: 'frontendIPConfigurationName'
+};
 
 var requiredEnvironment = [{
   name: 'AZURE_VM_TEST_LOCATION',
@@ -65,43 +73,41 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
-      suite = new CLITest(this, testPrefix, requiredEnvironment);
+      this.timeout(testTimeout);
+      suite = new CLITest(this, testPrefix, requiredEnvironment, true);
+      suite.isRecording = false;
       suite.setupSuite(function () {
         location = backendAddressPools.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         backendAddressPools.location = location;
-        backendAddressPools.group = groupName;
         backendAddressPools.name = suite.isMocked ? backendAddressPools.name : suite.generateId(backendAddressPools.name, null);
+        backendAddressPools.group = groupName;
         if (!suite.isPlayback()) {
           networkTestUtil.createGroup(groupName, location, suite, function () {
-            var cmd = 'network lb create -g {1} -n loadBalancerName --location {location} --json'.formatArgs(loadBalancer, groupName);
+            var cmd = 'network lb create -g {1} -n {name} --location {location} --json'.formatArgs(loadBalancer, groupName);
             testUtils.executeCommand(suite, retry, cmd, function (result) {
               result.exitStatus.should.equal(0);
-              var output = JSON.parse(result.text);
-              var cmd = 'network public-ip create -g {1} -n publicIPAddressName --location {location} --json'.formatArgs(publicIPAddress, groupName);
+              var cmd = 'network public-ip create -g {1} -n {name} --location {location} --json'.formatArgs(publicIPAddress, groupName);
               testUtils.executeCommand(suite, retry, cmd, function (result) {
                 result.exitStatus.should.equal(0);
-                var output = JSON.parse(result.text);
-                var cmd = 'network lb frontend-ip create -g {1} -n frontendIPConfigurationName --lb-name loadBalancerName --public-ip-name publicIPAddressName --json'.formatArgs(frontendIPConfiguration, groupName);
+                var cmd = 'network lb frontend-ip create -g {1} -n {name} --lb-name {loadBalancerName} --public-ip-name {publicIPAddressName} --json'.formatArgs(frontendIPConfiguration, groupName);
                 testUtils.executeCommand(suite, retry, cmd, function (result) {
                   result.exitStatus.should.equal(0);
-                  var output = JSON.parse(result.text);
                   done();
                 });
               });
             });
           });
         } else {
-          var subscriptionId = profile.current.getSubscription().id;
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
@@ -114,46 +120,36 @@ describe('arm', function () {
     });
 
     describe('backend address pools', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create backend address pools', function (done) {
-        var cmd = 'network lb address-pool create -g {group} -n {name} --lb-name {loadBalancerName} --json'.formatArgs(backendAddressPools);
+        var cmd = 'network lb address-pool create -g {group} -n {name} --lb-name {loadBalancerName}'.formatArgs(backendAddressPools);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
-          var output = JSON.parse(result.text);
-          output.name.should.equal(backendAddressPools.name);
           done();
         });
       });
       it('show should display backend address pools details', function (done) {
-        var cmd = 'network lb address-pool show -g {group} -n {name} --lb-name {loadBalancerName} --json'.formatArgs(backendAddressPools);
+        var cmd = 'network lb address-pool show -g {group} -n {name} --lb-name {loadBalancerName}'.formatArgs(backendAddressPools);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
-          var output = JSON.parse(result.text);
-          output.name.should.equal(backendAddressPools.name);
           done();
         });
       });
       it('list should display all backend address pools in resource group', function (done) {
-        var cmd = 'network lb address-pool list -g {group} --lb-name {loadBalancerName} --json'.formatArgs(backendAddressPools);
+        var cmd = 'network lb address-pool list -g {group} --lb-name {loadBalancerName}'.formatArgs(backendAddressPools);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
-          var outputs = JSON.parse(result.text);
-          _.some(outputs, function (output) {
-            return output.name === backendAddressPools.name;
-          }).should.be.true;
           done();
         });
       });
       it('delete should delete backend address pools', function (done) {
-        var cmd = 'network lb address-pool delete -g {group} -n {name} --quiet --lb-name {loadBalancerName} --json'.formatArgs(backendAddressPools);
+        var cmd = 'network lb address-pool delete -g {group} -n {name} --lb-name {loadBalancerName} --quiet'.formatArgs(backendAddressPools);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
 
-          cmd = 'network lb address-pool show -g {group} -n {name} --lb-name {loadBalancerName} --json'.formatArgs(backendAddressPools);
+          cmd = 'network lb address-pool show -g {group} -n {name} --lb-name {loadBalancerName}'.formatArgs(backendAddressPools);
           testUtils.executeCommand(suite, retry, cmd, function (result) {
             result.exitStatus.should.equal(0);
-            var output = JSON.parse(result.text || '{}');
-            output.should.be.empty;
             done();
           });
         });
