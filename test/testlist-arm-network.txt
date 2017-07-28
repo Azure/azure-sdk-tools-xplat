@@ -62,9 +62,11 @@ commands/arm/network/generated/arm.network.nsg-tests.text-output.js
 commands/arm/network/arm.network.watcher-tests.js
 commands/arm/network/arm.network.watcher-packet-capture-tests.js
 # Network Interfaces
-commands/arm/network/arm.network.nic-custom-tests.js
 commands/arm/network/arm.network.nic-tests.js
-commands/arm/network/arm.network.nic-ip-config-tests.js
+commands/arm/network/generated/arm.network.nic-ip-config-tests.json-output.js
+commands/arm/network/generated/arm.network.nic-ip-config-tests.text-output.js
+commands/arm/network/generated/arm.network.nic-tests.json-output.js
+commands/arm/network/generated/arm.network.nic-tests.text-output.js
 # Public IP Addresses
 commands/arm/network/arm.network.public-ip-custom-tests.js
 commands/arm/network/arm.network.public-ip-tests.js

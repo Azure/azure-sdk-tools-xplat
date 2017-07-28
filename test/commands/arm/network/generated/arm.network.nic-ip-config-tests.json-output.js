@@ -24,18 +24,18 @@ var should = require('should');
 var util = require('util');
 var _ = require('underscore');
 
-var testUtils = require('../../../util/util');
-var CLITest = require('../../../framework/arm-cli-test');
-var utils = require('../../../../lib/util/utils');
-var NetworkTestUtil = require('../../../util/networkTestUtil');
-var tagUtils = require('../../../../lib/commands/arm/tag/tagUtils');
-var networkUtil = new NetworkTestUtil();
+var CLITest = require('../../../../framework/arm-cli-test');
+var utils = require('../../../../../lib/util/utils');
+var tagUtils = require('../../../../../lib/commands/arm/tag/tagUtils');
+var testUtils = require('../../../../util/util');
 
-var generatorUtils = require('../../../../lib/util/generatorUtils');
-var profile = require('../../../../lib/util/profile');
+var networkTestUtil = new (require('../../../../util/networkTestUtil'))();
+
+var generatorUtils = require('../../../../../lib/util/generatorUtils');
+var profile = require('../../../../../lib/util/profile');
 var $ = utils.getLocaleString;
 
-var testPrefix = 'arm-network-nic-ip-config-tests',
+var testPrefix = 'arm-network-nic-ip-config-tests-generated',
   groupName = 'xplat-test-ip-config',
   location;
 var index = 0;
@@ -54,16 +54,25 @@ ipConfigurations.networkInterfaceName = 'networkInterfaceName';
 
 var subnet = {
   addressPrefix: '10.0.0.0/16',
-  addressPrefixNew: '10.0.0.0/24'
+  virtualNetworkName: 'virtualNetworkName',
+  name: 'subnetName'
 };
+
 var virtualNetwork = {
-  location: 'westus'
+  location: 'westus',
+  name: 'virtualNetworkName'
 };
+
 var networkInterface = {
-  location: 'westus'
+  location: 'westus',
+  virtualNetworkName: 'virtualNetworkName',
+  subnetName: 'subnetName',
+  name: 'networkInterfaceName'
 };
+
 var publicIPAddress = {
-  location: 'westus'
+  location: 'westus',
+  name: 'publicIPAddressName'
 };
 
 var requiredEnvironment = [{
@@ -75,34 +84,31 @@ describe('arm', function () {
   describe('network', function () {
     var suite, retry = 5;
     var hour = 60 * 60000;
+    var testTimeout = hour;
 
     before(function (done) {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.setupSuite(function () {
         location = ipConfigurations.location || process.env.AZURE_VM_TEST_LOCATION;
         groupName = suite.isMocked ? groupName : suite.generateId(groupName, null);
         ipConfigurations.location = location;
-        ipConfigurations.group = groupName;
         ipConfigurations.name = suite.isMocked ? ipConfigurations.name : suite.generateId(ipConfigurations.name, null);
+        ipConfigurations.group = groupName;
         if (!suite.isPlayback()) {
-          networkUtil.createGroup(groupName, location, suite, function () {
-            var cmd = 'network vnet create -g {1} -n virtualNetworkName --location {location} --json'.formatArgs(virtualNetwork, groupName);
+          networkTestUtil.createGroup(groupName, location, suite, function () {
+            var cmd = 'network vnet create -g {1} -n {name} --location {location} --json'.formatArgs(virtualNetwork, groupName);
             testUtils.executeCommand(suite, retry, cmd, function (result) {
               result.exitStatus.should.equal(0);
-              var output = JSON.parse(result.text);
-              var cmd = 'network vnet subnet create -g {1} -n subnetName --address-prefix {addressPrefix} --vnet-name virtualNetworkName --json'.formatArgs(subnet, groupName);
+              var cmd = 'network vnet subnet create -g {1} -n {name} --address-prefix {addressPrefix} --vnet-name {virtualNetworkName} --json'.formatArgs(subnet, groupName);
               testUtils.executeCommand(suite, retry, cmd, function (result) {
                 result.exitStatus.should.equal(0);
-                var output = JSON.parse(result.text);
-                var cmd = 'network public-ip create -g {1} -n publicIPAddressName --location {location} --json'.formatArgs(publicIPAddress, groupName);
+                var cmd = 'network public-ip create -g {1} -n {name} --location {location} --json'.formatArgs(publicIPAddress, groupName);
                 testUtils.executeCommand(suite, retry, cmd, function (result) {
                   result.exitStatus.should.equal(0);
-                  var output = JSON.parse(result.text);
-                  var cmd = 'network nic create -g {1} -n networkInterfaceName --location {location} --subnet-vnet-name virtualNetworkName --subnet-name subnetName --ip-config-name defaultConfig --json'.formatArgs(networkInterface, groupName);
+                  var cmd = 'network nic create -g {1} -n {name} --location {location} --subnet-vnet-name {virtualNetworkName} --subnet-name {subnetName} --ip-config-name defaultConfig --json'.formatArgs(networkInterface, groupName);
                   testUtils.executeCommand(suite, retry, cmd, function (result) {
                     result.exitStatus.should.equal(0);
-                    var output = JSON.parse(result.text);
                     done();
                   });
                 });
@@ -110,14 +116,13 @@ describe('arm', function () {
             });
           });
         } else {
-          var subscriptionId = profile.current.getSubscription().id;
           done();
         }
       });
     });
     after(function (done) {
-      this.timeout(hour);
-      networkUtil.deleteGroup(groupName, suite, function () {
+      this.timeout(testTimeout);
+      networkTestUtil.deleteGroup(groupName, suite, function () {
         suite.teardownSuite(done);
       });
     });
@@ -129,7 +134,7 @@ describe('arm', function () {
     });
 
     describe('ip configurations', function () {
-      this.timeout(hour);
+      this.timeout(testTimeout);
       it('create should create ip configurations', function (done) {
         var cmd = 'network nic ip-config create -g {group} -n {name} --private-ip-address {privateIPAddress} --private-ip-version {privateIPAddressVersion} --nic-name {networkInterfaceName} --json'.formatArgs(ipConfigurations);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
@@ -178,7 +183,7 @@ describe('arm', function () {
         });
       });
       it('delete should delete ip configurations', function (done) {
-        var cmd = 'network nic ip-config delete -g {group} -n {name} --quiet --nic-name {networkInterfaceName} --json'.formatArgs(ipConfigurations);
+        var cmd = 'network nic ip-config delete -g {group} -n {name} --nic-name {networkInterfaceName} --quiet --json'.formatArgs(ipConfigurations);
         testUtils.executeCommand(suite, retry, cmd, function (result) {
           result.exitStatus.should.equal(0);
 
