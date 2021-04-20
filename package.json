@@ -91,7 +91,7 @@
     "moment": "^2.8.0",
     "ms-rest": "^2.3.7",
     "ms-rest-azure": "^2.5.9",
-    "node-forge": "0.6.23",
+    "node-forge": "0.10.0",
     "omelette": "0.3.2",
     "openssl-wrapper": "^0.3.4",
     "progress": "^1.1.8",
