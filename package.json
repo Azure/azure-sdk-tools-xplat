@@ -105,7 +105,7 @@
     "sync-request": "3.0.0",
     "through": "2.3.4",
     "tunnel": "0.0.2",
-    "underscore": "1.4.x",
+    "underscore": "1.12.x",
     "user-home": "^2.0.0",
     "uuid": "^3.0.0",
     "validator": "5.2.0",
